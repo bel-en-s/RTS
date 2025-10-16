@@ -1,58 +1,60 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useEffect } from "react";
+// App.jsx
+import { Canvas } from "@react-three/fiber";
+import { useEffect, useState } from "react";
 import Lenis from "@studio-freight/lenis";
-
-function Box() {
-  const ref = useRef();
-
-  useFrame((state) => {
-    ref.current.rotation.y += 0.01;
-  });
-
-  return (
-    <mesh ref={ref} position={[0, 0, 0]}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="#ff6f61" />
-    </mesh>
-  );
-}
+import Scene from "./Components/Scene.jsx";
+import Navbar from "./Components/Navbar/Navbar.jsx"; // 🔹 Importamos la nueva navbar
 
 export default function App() {
+  const [scroll, setScroll] = useState(0);
+
   useEffect(() => {
-    const lenis = new Lenis({ smooth: true });
+    const lenis = new Lenis({
+      smooth: true,
+      lerp: 0.1,
+    });
 
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
+
+    lenis.on("scroll", ({ scroll }) => setScroll(scroll));
     requestAnimationFrame(raf);
 
     return () => lenis.destroy();
   }, []);
 
   return (
-    <div style={{ width: "100vw", height: "400vh", background: "black" }}>
-      <Canvas
-        camera={{ position: [0, 0, 4] }}
-        style={{ position: "fixed", top: 0, left: 0 }}
-      >
-        <color attach="background" args={["#111111"]} />
-        <ambientLight intensity={1} />
-        <directionalLight position={[3, 3, 3]} />
-        <Box />
-      </Canvas>
+    <div className="App">
+      {/* 🔹 Navbar fija y transparente con glassmorphism */}
+      <Navbar />
 
-      {/* Sección scrollable */}
-      <section
+      {/* 🔹 Canvas 3D en background */}
+      <Canvas
+        camera={{ position: [0, 0, 8], fov: 50 }}
         style={{
-          height: "400vh",
-          color: "white",
-          padding: "20px",
-          fontFamily: "sans-serif",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 0, // el canvas va detrás de todo
         }}
       >
-        <h1>Scroll suave con Lenis</h1>
-        <p>Esto es contenido de ejemplo para scrollear.</p>
+        <Scene scroll={scroll} />
+      </Canvas>
+
+      {/* 🔹 Contenido scrollable por encima del canvas */}
+      <section className="scroll-section">
+        <div className="hero-text">
+          <h1>AUTOMATION & CONTROLS</h1>
+          <p>
+            We specialize in developing, integrating, building, and analyzing
+            end-to-end systems to meet the automation needs of our clients.
+          </p>
+          <button className="cta-btn">Our approach</button>
+        </div>
       </section>
     </div>
   );

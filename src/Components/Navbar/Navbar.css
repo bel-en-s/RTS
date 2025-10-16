@@ -1,0 +1,94 @@
+/* Navbar container */
+.navbar {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  border-radius: 16px;
+  backdrop-filter: blur(12px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: white;
+  z-index: 1000;
+
+  font-family: "Geist", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 160000px;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+/* Left side: logo + links */
+.navbar-left {
+  display: flex;
+  align-items: center; /* vertical alignment */
+  gap: 24px;           /* space between logo and links */
+}
+
+/* Logo SVG */
+.logo {
+  width: 44px;          /* Figma width */
+  height: 21px;         /* Figma height */
+  display: block;
+  align-self: center;
+  filter: brightness(0) invert(1); /* white logo */
+  opacity: 1;
+}
+
+/* Navigation links container */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;           /* space between links */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 140%;
+}
+
+/* Individual link */
+.nav-links li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 37.41px;     /* match navbar height */
+  transition: opacity 0.3s ease;
+}
+
+.nav-links li:hover {
+  opacity: 0.7;
+}
+
+/* Button: Book a meeting */
+.nav-button {
+  background: #F2F2F233;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8.71px 13.06px;
+  border-radius: 8px 2px 8px 8px; /* top-right 2px */
+  font-family: "Geist", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 37.41px;
+  gap: 20.68px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
