@@ -1,3 +1,6 @@
+/* =======================
+   TIPOGRAFÍAS
+======================= */
 @font-face {
   font-family: "Geist";
   src: url("/fonts/Geist-Regular.ttf") format("truetype");
@@ -6,12 +9,21 @@
   font-display: swap;
 }
 
-/* Usa la fuente globalmente */
+@font-face {
+  font-family: "Neue Power Ultra";
+  src: url("/fonts/Neue-Power.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =======================
+   FUENTE GLOBAL
+======================= */
 html, body {
   font-family: "Geist", "Poppins", sans-serif;
 }
 
-/* Fuente global */
 :root {
   font-family: "Geist", sans-serif;
   color: white;
@@ -23,14 +35,16 @@ body {
   color: white;
   margin: 0;
   padding: 0;
-  background-color: #000; /* opcional, si tenés fondo oscuro */
+  background-color: #000; /* opcional */
 }
 
 code, pre {
   font-family: "Geist Mono", monospace;
 }
 
-
+/* =======================
+   REGLAS GENERALES
+======================= */
 body, html {
   margin: 0;
   padding: 0;
@@ -40,6 +54,18 @@ body, html {
   color: white;
 }
 
+/* =======================
+   ESTILOS DE TEXTO
+======================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Neue Power Ultra", sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* =======================
+   SECCIÓN PRINCIPAL
+======================= */
 .scroll-section {
   position: relative;
   z-index: 10; /* por encima del canvas */
@@ -49,15 +75,11 @@ body, html {
   justify-content: center;
 }
 
-.hero-text {
-  text-align: center;
-  max-width: 700px;
-  padding: 2rem;
-}
+
 
 .hero-text h1 {
   font-size: 3rem;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   margin-bottom: 1rem;
 }
 
@@ -65,21 +87,4 @@ body, html {
   font-size: 1rem;
   line-height: 1.6;
   opacity: 0.8;
-}
-
-.cta-btn {
-  margin-top: 2rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 10px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
-}
-
-.cta-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-3px);
 }

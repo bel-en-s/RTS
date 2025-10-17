@@ -1,0 +1,39 @@
+.home {
+  position: relative;
+  z-index: 10; /* encima del canvas */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  text-align: left;
+  color: white;
+  padding: 0 2rem;
+}
+
+.hero-text {
+  padding: 2rem;
+}
+
+.hero-text h1 {
+  font-family: "Neue Power Ultra", sans-serif;
+  font-weight: 700;
+transform: scaleY(1);
+  font-style: normal;
+  text-transform: uppercase;
+  font-size: 94px;
+  line-height: 120%;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.hero-text p {
+  font-family: "Geist", sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+  line-height: 1.6;
+  opacity: 0.8;
+  margin-top: 1.5rem;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
