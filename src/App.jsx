@@ -5,6 +5,10 @@ import Scene from "./Components/Scene.jsx";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Home from "./Pages/Home.jsx"; 
 
+// Postprocessing
+import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
+import { BlendFunction } from "postprocessing";
+
 export default function App() {
   const [scroll, setScroll] = useState(0);
 
@@ -30,7 +34,6 @@ export default function App() {
       {/* 🔹 Navbar fija con glassmorphism */}
       <Navbar />
 
-  
       <Canvas
         camera={{ position: [0, 0, 8], fov: 50 }}
         style={{
@@ -39,10 +42,34 @@ export default function App() {
           left: 0,
           width: "100%",
           height: "100%",
-          zIndex: 0, // siempre detrás del contenido
+          zIndex: 100, // detrás del contenido
         }}
       >
         <Scene scroll={scroll} />
+
+        <EffectComposer>
+   
+          <Bloom
+            mipmapBlur
+            intensity={0.04}
+            luminanceThreshold={0.1}
+            luminanceSmoothing={0.9}
+          /> 
+
+     
+          <Noise
+            premultiply // mejora la integración con el fondo
+            opacity={0.2} // 0.1–0.25 según el gusto
+          />
+
+        
+          <Vignette
+            offset={0.4}
+            darkness={0.8}
+            eskil={false}
+            blendFunction={BlendFunction.NORMAL}
+          />
+        </EffectComposer>
       </Canvas>
 
       {/* 🔹 Contenido principal (Home) */}

@@ -1,13 +1,15 @@
 .home {
-  position: relative;
-  z-index: 10; /* encima del canvas */
-  min-height: 100vh;
+  height: 200vh; /* espacio para scroll */
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: left;
-  text-align: left;
-  color: white;
-  padding: 0 2rem;
+  position: relative;
+  /* z-index: 200; sobre el canvas */
+}
+.hero-text:first-child {
+  opacity: 1;
+  transform: none;
 }
 
 .hero-text {
