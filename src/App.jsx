@@ -51,15 +51,15 @@ export default function App() {
    
           <Bloom
             mipmapBlur
-            intensity={0.04}
-            luminanceThreshold={0.1}
-            luminanceSmoothing={0.9}
+            intensity={0.005}
+            luminanceThreshold={0.01}
+            luminanceSmoothing={0.1}
           /> 
 
      
           <Noise
             premultiply // mejora la integración con el fondo
-            opacity={0.2} // 0.1–0.25 según el gusto
+            opacity={1} // 0.1–0.25 según el gusto
           />
 
         

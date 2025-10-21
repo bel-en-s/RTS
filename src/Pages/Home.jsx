@@ -1,56 +1,30 @@
-import "./Home.css";
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// App.jsx
+import { useEffect, useState } from "react";
+import Lenis from "@studio-freight/lenis";
+import Navbar from "./Components/Navbar/Navbar.jsx";
+import Home from "./Pages/Home.jsx";
 
-gsap.registerPlugin(ScrollTrigger);
-
-export default function Home() {
-  const sectionRef = useRef();
+export default function App() {
+  const [scroll, setScroll] = useState(0);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const texts = gsap.utils.toArray(".hero-text");
+    const lenis = new Lenis({ smooth: true, lerp: 0.1 });
 
-      texts.forEach((text, i) => {
-        if (i === 0) return;
-        gsap.fromTo(
-          text,
-          { opacity: i === 0 ? 1 : 0, y: i === 0 ? 0 : 50 },
-          {
-            opacity: 1,
-            y: 0,
-            scrollTrigger: {
-              trigger: text,
-              start: `${i * 100}% center`,
-              end: `${(i + 1) * 100}% center`,
-              scrub: true,
-              toggleActions: "play reverse play reverse",
-            },
-          }
-        );
-      });
-    }, sectionRef);
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
 
-    return () => ctx.revert();
+    lenis.on("scroll", ({ scroll }) => setScroll(scroll));
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
   }, []);
 
   return (
-    <section className="home" ref={sectionRef}>
-      <div className="hero-text">
-        <h1>SPARK INDUSTRIAL</h1>
-        <h1>BRILLIANCE</h1>
-      </div>
-
-      <div className="hero-text">
-        <h1>EVERY PROJECT BEGINS INSIDE</h1>
-        <h1>A LIVING ECOSYSTEM</h1>
-      </div>
-
-      <div className="hero-text">
-        <h1>DIGITAL SKILLS</h1>
-        <h1>AND CONTROL SYSTEMS</h1>
-      </div>
-    </section>
+    <div className="App">
+      <Navbar />
+      <Home scroll={scroll} />
+    </div>
   );
 }
