@@ -10,7 +10,7 @@ export default function Scene({ scroll }) {
 
   const mouse = useRef({ x: 0.5, y: 0.5 });
 
-  // 🎯 Posiciones por fase (modular: índice 0=phase1, 1=phase2, 2=phase3)
+  // 
   const positionsPerPhase = [
     // Phase1
     [
@@ -31,7 +31,7 @@ export default function Scene({ scroll }) {
       [-2, 0, -1],
       [0, 0, -1],
       [2, 0, -1],
-      [0, 0, -1], // se separan de nuevo
+      [0, 3, -1], // se separan de nuevo
     ],
   ];
 
@@ -131,12 +131,12 @@ export default function Scene({ scroll }) {
         mesh.position.x += (target[0] - mesh.position.x) * 0.05;
         mesh.position.y += (target[1] - mesh.position.y) * 0.05;
         mesh.material.uniforms.uColorA.value.lerpColors(
-          new THREE.Color("#ffffff"),
+          new THREE.Color("#024151"),
           new THREE.Color(planes[focusIndex].color1),
           0.8
         );
         mesh.material.uniforms.uColorB.value.lerpColors(
-          new THREE.Color("#ffffff"),
+          new THREE.Color("#024151"),
           new THREE.Color(planes[focusIndex].color2),
           0.8
         );
@@ -170,7 +170,7 @@ export default function Scene({ scroll }) {
 
 
 // === Shaders ===
-const vertexShader = /* glsl */ `
+const vertexShader =  `
   varying vec2 vUv;
   void main() {
     vUv = uv;
@@ -178,7 +178,7 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-const fragmentShader = /* glsl */ `
+const fragmentShader = `
 varying vec2 vUv;
 uniform float uTime;
 uniform float uScroll;
@@ -193,11 +193,20 @@ float noise(vec2 p, float freq) {
 
 void main() {
   vec2 uv = vUv;
+  // posicion
   vec2 centeredUV = uv * 2.0 - 1.0;
+
+
+  // Suaviza entre fase 1 y 2:
+float f12 = smoothstep(0.0, 1.0, uPhase);
+
+// Suaviza entre fase 2 y 3:
+float f23 = smoothstep(1.0, 2.0, uPhase);
+
   float r = length(centeredUV);
 
- // Sigma por fase
-float sigmaMin = mix(mix(0.06, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.04, smoothstep(1.9, 2.1, uPhase)); 
+ // Apertura por fase. Hace suve la transicion entre ellas
+float sigmaMin = mix(mix(0.06, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.54, smoothstep(1.9, 2.1, uPhase)); 
 float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smoothstep(1.9, 2.1, uPhase));
 
   float sigma = mix(sigmaMin, sigmaMax, smoothstep(0.02, 0.6, uScroll));
@@ -215,9 +224,18 @@ float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smooths
   float n = noise(centeredUV, noiseFreq) * noiseAmp;
   falloff += n * 0.2;
 
-  float idlePulse = 1.0 + 0.05 * sin(uTime * 0.5);
-  float idleFactor = smoothstep(0.0, 0.1, 1.0 - uScroll);
-  falloff *= mix(1.0, idlePulse, idleFactor);
+
+  // acá en la segunda fase, donde estan todas juntas, subir bastante
+float phase1Factor = smoothstep(0.0, 0.5, uPhase);
+float phase3Factor = smoothstep(1.5, 2.0, uPhase);
+
+// Pulse diferente por fase
+float idlePulsePhase1 = 1.0 + 0.05 * sin(uTime * 0.5);
+float idlePulsePhase3 = 10.0 + 0.05 * sin(uTime * 0.5);
+float idlePulse = mix(idlePulsePhase1, idlePulsePhase3, phase3Factor);
+
+float idleFactor = smoothstep(0.0, 0.1, 1.0 - uScroll);
+falloff *= mix(1.0, idlePulse, idleFactor);
 
   vec2 centerDistUV = centeredUV;
   float rd = length(centerDistUV);
@@ -227,17 +245,14 @@ float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smooths
   float colorMix = smoothstep(0.0, colorMixRange, rd + n * 0.1);
   vec3 color = mix(uColorA, uColorB, colorMix);
 
-  // Iridescencia en phase2 y 3
-  float irid = sin(rd * 10.0 + uTime * 0.1) * 0.1 * phase23Factor;
-  color = mix(color, color + vec3(0.1, -0.05, 0.05), irid);
 
   // EdgeFade por fase
-  float edgeStart = mix(mix(5.0, 0.5, smoothstep(0.9, 1.1, uPhase)), 0.5, smoothstep(1.9, 2.1, uPhase));
+  float edgeStart = mix(mix(50.0, 0.5, smoothstep(0.9, 1.1, uPhase)), 0.5, smoothstep(1.9, 2.1, uPhase));
   float edgeEnd = 0.3;
   float edgeFade = smoothstep(edgeStart, edgeEnd, max(abs(centeredUV.x), abs(centeredUV.y)));
 
   // Alpha por fase
-  float alphaMult = mix(mix(1.5, 1.0, smoothstep(0.9, 1.1, uPhase)), 1.0, smoothstep(1.9, 2.1, uPhase));
+  float alphaMult = mix(mix(1.5, 1.0, smoothstep(0.9, 10.1, uPhase)), 1.0, smoothstep(1.9, 2.1, uPhase));
   float alpha = falloff * edgeFade * alphaMult;
   alpha = clamp(alpha, 0.0, 1.0);
 

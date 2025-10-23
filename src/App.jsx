@@ -31,7 +31,7 @@ export default function App() {
 
   return (
     <div className="App">
-      {/* 🔹 Navbar fija con glassmorphism */}
+
       <Navbar />
 
       <Canvas
@@ -47,29 +47,25 @@ export default function App() {
       >
         <Scene scroll={scroll} />
 
-        <EffectComposer>
-   
-          {/* <Bloom
+       <EffectComposer>
+          <Bloom
             mipmapBlur
-            intensity={0.005}
-            luminanceThreshold={1}
-            luminanceSmoothing={1}
-          />  */}
-
-     
-          {/* <Noise
-            premultiply 
-            opacity={0.3} // 0.1–0.25 según el gusto
-          /> */}
-
-        
+            intensity={0.515} 
+            luminanceThreshold={0.2}
+            luminanceSmoothing={0.9}
+          />
+          <Noise
+            premultiply
+            opacity={1} 
+          />
           <Vignette
             offset={0.4}
             darkness={0.8}
             eskil={false}
             blendFunction={BlendFunction.NORMAL}
           />
-        </EffectComposer>
+      </EffectComposer>
+
       </Canvas>
 
    
