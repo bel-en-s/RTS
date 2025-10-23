@@ -24,38 +24,40 @@ export default function Scene({ scroll }) {
       [2, 0, -1],
       [2, 0, 0],
       [2, 0, -1],
-      [2, 0, -1], // todas unidas
+      [8, 0, -1], // todas unidas
     ],
     // Phase3
     [
-      [-1.5, 0, -1],
+      [-2, 0, -1],
       [0, 0, -1],
-      [1.5, 0, -1],
-      [0, 0, -1], // foco al centro
+      [2, 0, -1],
+      [0, 0, -1], // se separan de nuevo
     ],
   ];
 
+
+  // efecto parallax con mouse
   const parallaxIntensities = [0.1, 0.2, 0.3, 0.0];
 
-  // 🎨 Colores base (fijos, pero puedes hacer modulares si quieres)
+  // colores 
   const planes = [
-    { color1: "#0c92ca", color2: "#8A38F5" },
+    { color1: "rgba(12, 146, 202, 1)", color2: "#8A38F5" },
     { color1: "#5334aa", color2: "#3f40cc" },
     { color1: "#6a19ca", color2: "#3f40cc" },
-    { color1: "#5334aa", color2: "#5334aa" }, // foco
+    { color1: "#03303a", color2: "#03303a" }, // foco
   ];
 
-  // 📊 Valores por fase (ajusta aquí para cambios rápidos: índice 0=phase1, 1=phase2, 2=phase3)
-  const phaseValues = {
-    sigmaMin: [0.06, 0.04, 0.06], // Phase2: bajo para condensado/perla
-    sigmaMax: [0.1, 0.08, 0.1],
-    noiseFreq: [3.5, 5.0, 3.5], // Phase2: alta para textura fina
-    noiseAmp: [0.03, 0.05, 0.03],
-    colorMixRange: [0.2, 0.4, 0.2], // Phase2: amplio para gradiente suave, menos quemado
-    alphaMultiplier: [1.5, 1.0, 1.5], // Phase2: bajo para no quemar
-    edgeFadeStart: [5.0, 0.5, 5.0], // Phase2: bajo para bordes definidos
-    edgeFadeEnd: [0.3, 0.3, 0.3],
-  };
+  // 
+  // const phaseValues = {
+  //   sigmaMin: [0.06, 0.04, 0.06], // Phase2: bajo para condensado/perla
+  //   sigmaMax: [0.1, 0.08, 0.1],
+  //   noiseFreq: [3.5, 5.0, 3.5], // Phase2: alta para textura fina
+  //   noiseAmp: [0.03, 0.05, 0.03],
+  //   colorMixRange: [0.2, 0.4, 0.2], // Phase2: amplio para gradiente suave, menos quemado
+  //   alphaMultiplier: [1.5, 1.0, 1.5], // Phase2: bajo para no quemar
+  //   edgeFadeStart: [5.0, 0.5, 5.0], // Phase2: bajo para bordes definidos
+  //   edgeFadeEnd: [0.3, 0.3, 0.3],
+  // };
 
   const shaderUniforms = useMemo(
     () => ({
@@ -69,21 +71,28 @@ export default function Scene({ scroll }) {
     []
   );
 
+  //animacion
+
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    const s = Math.min(scroll / 1000, 1);
+    const s = Math.min(scroll / 1000, 1); // scroll normalizado de 0 a 1
     const { pointer } = state;
 
+    // captura mouse position para el efecto parallax
     mouse.current.x = (pointer.x + 1) / 2;
     mouse.current.y = (1 - pointer.y) / 2;
 
     // Transiciones
     const phase1to2 = THREE.MathUtils.smoothstep(s, 0.0, 0.63);
-    const phase2to3 = THREE.MathUtils.smoothstep(s, 0.33, 2.66);
+    const phase2to3 = THREE.MathUtils.smoothstep(s, 0.6, 1.0);
     const focusScroll = THREE.MathUtils.clamp((s - 0.66) / 0.34, 0, 1);
 
     // Fase actual (0-2, lerp suave)
-    const currentPhase = THREE.MathUtils.lerp(THREE.MathUtils.lerp(0, 1, phase1to2), 2, phase2to3);
+    const currentPhase = THREE.MathUtils.lerp(
+      THREE.MathUtils.lerp(0, 1, phase1to2),
+      2,
+      phase2to3
+    );
 
     const focusIndex = Math.floor(focusScroll * 3);
 
@@ -135,7 +144,7 @@ export default function Scene({ scroll }) {
     });
   });
 
-  return (
+   return (
     <>
       <ambientLight intensity={0.3} />
       {planes.map((props, i) => (
@@ -158,6 +167,7 @@ export default function Scene({ scroll }) {
     </>
   );
 }
+
 
 // === Shaders ===
 const vertexShader = /* glsl */ `
@@ -186,9 +196,10 @@ void main() {
   vec2 centeredUV = uv * 2.0 - 1.0;
   float r = length(centeredUV);
 
-  // Sigma por fase
-  float sigmaMin = mix(mix(0.06, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.04, smoothstep(1.9, 2.1, uPhase)); // Extendido a phase3
-  float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smoothstep(1.9, 2.1, uPhase));
+ // Sigma por fase
+float sigmaMin = mix(mix(0.06, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.04, smoothstep(1.9, 2.1, uPhase)); 
+float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smoothstep(1.9, 2.1, uPhase));
+
   float sigma = mix(sigmaMin, sigmaMax, smoothstep(0.02, 0.6, uScroll));
 
   float falloff = exp(- (r * r) / (1.0 * sigma * sigma));
@@ -196,7 +207,7 @@ void main() {
   // Para definición circular (brusco en phase2/3)
   float phase23Factor = smoothstep(0.9, 1.1, uPhase) + smoothstep(1.9, 2.1, uPhase) - smoothstep(2.9, 3.0, uPhase); // 1 en phase2 o 3
   phase23Factor = clamp(phase23Factor, 0.0, 1.0);
-  falloff = mix(falloff, pow(falloff, 1.5), phase23Factor); // Pow para falloff brusco, círculo definido (ajusta 1.5 a 2.0 si más nítido)
+  falloff = mix(falloff, pow(falloff, 2.5), phase23Factor);
 
   // Noise por fase
   float noiseFreq = mix(mix(3.5, 5.0, smoothstep(0.9, 1.1, uPhase)), 5.0, smoothstep(1.9, 2.1, uPhase));

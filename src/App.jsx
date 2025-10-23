@@ -49,18 +49,18 @@ export default function App() {
 
         <EffectComposer>
    
-          <Bloom
+          {/* <Bloom
             mipmapBlur
             intensity={0.005}
-            luminanceThreshold={0.01}
-            luminanceSmoothing={0.1}
-          /> 
+            luminanceThreshold={1}
+            luminanceSmoothing={1}
+          />  */}
 
      
-          <Noise
-            premultiply // mejora la integración con el fondo
-            opacity={1} // 0.1–0.25 según el gusto
-          />
+          {/* <Noise
+            premultiply 
+            opacity={0.3} // 0.1–0.25 según el gusto
+          /> */}
 
         
           <Vignette
@@ -72,7 +72,7 @@ export default function App() {
         </EffectComposer>
       </Canvas>
 
-      {/* 🔹 Contenido principal (Home) */}
+   
       <Home />
     </div>
   );
