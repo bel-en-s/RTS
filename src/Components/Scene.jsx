@@ -2,7 +2,8 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export default function Scene({ scroll }) {
+export default function Scene({ scroll, phase }) {
+
   const meshes = useMemo(
     () => [React.createRef(), React.createRef(), React.createRef(), React.createRef()],
     []
@@ -22,9 +23,9 @@ export default function Scene({ scroll }) {
     // Phase2
     [
       [2, 0, -1],
-      [2, 0, 0],
       [2, 0, -1],
-      [8, 0, -1], // todas unidas
+      [2, 0, -1],
+      [2, 0, -1], // todas unidas
     ],
     // Phase3
     [
@@ -74,75 +75,92 @@ export default function Scene({ scroll }) {
   //animacion
 
   useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    const s = Math.min(scroll / 1000, 1); // scroll normalizado de 0 a 1
-    const { pointer } = state;
+  const t = state.clock.getElapsedTime();
+  // normalizo scroll si lo querés usar
+  const s = Math.min(scroll / 1000, 1);
+  const { pointer } = state;
 
-    // captura mouse position para el efecto parallax
-    mouse.current.x = (pointer.x + 1) / 2;
-    mouse.current.y = (1 - pointer.y) / 2;
+  // mouse para parallax
+  mouse.current.x = (pointer.x + 1) / 2;
+  mouse.current.y = (1 - pointer.y) / 2;
 
-    // Transiciones
-    const phase1to2 = THREE.MathUtils.smoothstep(s, 0.0, 0.63);
-    const phase2to3 = THREE.MathUtils.smoothstep(s, 0.6, 1.0);
-    const focusScroll = THREE.MathUtils.clamp((s - 0.66) / 0.34, 0, 1);
+  // Para suavizar la fase (evitamos saltos bruscos)
+  // cada mesh tiene su propio uniform uPhase, que iremos acercando a la prop `phase`
+  // además usamos esa versión suavizada para calcular las posiciones objetivo
+  meshes.forEach((meshRef, i) => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
 
-    // Fase actual (0-2, lerp suave)
-    const currentPhase = THREE.MathUtils.lerp(
-      THREE.MathUtils.lerp(0, 1, phase1to2),
-      2,
-      phase2to3
-    );
+    // actualizar uniforms de tiempo / mouse / scroll
+    mesh.material.uniforms.uTime.value = t + i * 2.5;
+    mesh.material.uniforms.uScroll.value = s;
+    mesh.material.uniforms.uMouse.value.set(mouse.current.x, mouse.current.y);
 
-    const focusIndex = Math.floor(focusScroll * 3);
+    // suavizamos el valor de uPhase para evitar saltos
+    const prevPhase = mesh.material.uniforms.uPhase.value;
+    const smoothedPhase = THREE.MathUtils.lerp(prevPhase, phase, 0.08); // ajuste la rapidez cambiando 0.08
+    mesh.material.uniforms.uPhase.value = smoothedPhase;
 
-    meshes.forEach((meshRef, i) => {
-      const mesh = meshRef.current;
-      if (!mesh) return;
+    // --- calculo de posiciones interpoladas usando smoothedPhase ---
+    // p0 = fase 0, p1 = fase 1, p2 = fase 2
+    const p0 = positionsPerPhase[0][i];
+    const p1 = positionsPerPhase[1][i];
+    const p2 = positionsPerPhase[2][i];
 
-      mesh.material.uniforms.uTime.value = t + i * 2.5;
-      mesh.material.uniforms.uScroll.value = s;
-      mesh.material.uniforms.uMouse.value.set(mouse.current.x, mouse.current.y);
-      mesh.material.uniforms.uPhase.value = currentPhase;
+    // si smoothedPhase está entre 0 y 1 -> interpolamos entre p0 y p1
+    // si está entre 1 y 2 -> interpolamos entre p1 y p2 (localT va de 0 a 1)
+    let targetPos = [0, 0, 0];
+    if (smoothedPhase <= 1.0) {
+      const localT = THREE.MathUtils.clamp(smoothedPhase, 0, 1);
+      targetPos[0] = THREE.MathUtils.lerp(p0[0], p1[0], localT);
+      targetPos[1] = THREE.MathUtils.lerp(p0[1], p1[1], localT);
+      targetPos[2] = THREE.MathUtils.lerp(p0[2], p1[2], localT);
+    } else {
+      const localT = THREE.MathUtils.clamp(smoothedPhase - 1.0, 0, 1);
+      targetPos[0] = THREE.MathUtils.lerp(p1[0], p2[0], localT);
+      targetPos[1] = THREE.MathUtils.lerp(p1[1], p2[1], localT);
+      targetPos[2] = THREE.MathUtils.lerp(p1[2], p2[2], localT);
+    }
 
-      // Posiciones interpoladas
-      const [bx, by, bz] = positionsPerPhase[0][i];
-      const [mx, my, mz] = positionsPerPhase[1][i];
-      const [fx, fy, fz] = positionsPerPhase[2][i];
+    // parallax (aplicado despacio)
+    const intensity = parallaxIntensities[i];
+    const parallaxX = pointer.x * intensity;
+    const parallaxY = pointer.y * intensity;
 
-      const x12 = THREE.MathUtils.lerp(bx, mx, phase1to2);
-      const y12 = THREE.MathUtils.lerp(by, my, phase1to2);
-      const z12 = THREE.MathUtils.lerp(bz, mz, phase1to2);
+    mesh.position.x += (targetPos[0] + parallaxX - mesh.position.x) * 0.05;
+    mesh.position.y += (targetPos[1] + parallaxY - mesh.position.y) * 0.05;
+    mesh.position.z = targetPos[2];
 
-      const x23 = THREE.MathUtils.lerp(x12, fx, phase2to3);
-      const y23 = THREE.MathUtils.lerp(y12, fy, phase2to3);
-      const z23 = THREE.MathUtils.lerp(z12, fz, phase2to3);
+    // --- lógica especial para la mesh 3 (foco) ---
+    // calculamos focusIndex de forma segura usando la versión suavizada de la fase
+    // Queremos que focusIndex sea 0,1,2 según la subposición dentro de la fase final
+    // Usamos un map simple: si estamos en la segunda mitad (smoothedPhase > 1) el focusIndex
+    // dependerá de (smoothedPhase - 1) mapeado a 0..1
+    let focusIndex = 0;
+    const focusT = THREE.MathUtils.clamp((smoothedPhase <= 1 ? smoothedPhase : smoothedPhase - 1) , 0, 1);
+    // por ejemplo: dividir en 3 posiciones discretas (0,1,2)
+    focusIndex = Math.floor(focusT * 3);
+    focusIndex = Math.min(Math.max(focusIndex, 0), 2); // clamp 0..2
 
-      const intensity = parallaxIntensities[i];
-      const parallaxX = pointer.x * intensity;
-      const parallaxY = pointer.y * intensity;
-
-      mesh.position.x += (x23 + parallaxX - mesh.position.x) * 0.05;
-      mesh.position.y += (y23 + parallaxY - mesh.position.y) * 0.05;
-      mesh.position.z = z23;
-
-      if (i === 3) {
-        const target = positionsPerPhase[2][focusIndex];
-        mesh.position.x += (target[0] - mesh.position.x) * 0.05;
-        mesh.position.y += (target[1] - mesh.position.y) * 0.05;
-        mesh.material.uniforms.uColorA.value.lerpColors(
-          new THREE.Color("#024151"),
-          new THREE.Color(planes[focusIndex].color1),
-          0.8
-        );
-        mesh.material.uniforms.uColorB.value.lerpColors(
-          new THREE.Color("#024151"),
-          new THREE.Color(planes[focusIndex].color2),
-          0.8
-        );
-      }
-    });
+    if (i === 3) {
+      const target = positionsPerPhase[2][focusIndex] || p2;
+      mesh.position.x += (target[0] - mesh.position.x) * 0.05;
+      mesh.position.y += (target[1] - mesh.position.y) * 0.05;
+      // colores con lerp seguro
+      mesh.material.uniforms.uColorA.value.lerpColors(
+        new THREE.Color("#024151"),
+        new THREE.Color(planes[focusIndex].color1),
+        0.8
+      );
+      mesh.material.uniforms.uColorB.value.lerpColors(
+        new THREE.Color("#024151"),
+        new THREE.Color(planes[focusIndex].color2),
+        0.8
+      );
+    }
   });
+});
+
 
    return (
     <>
@@ -206,9 +224,8 @@ float f23 = smoothstep(1.0, 2.0, uPhase);
   float r = length(centeredUV);
 
  // Apertura por fase. Hace suve la transicion entre ellas
-float sigmaMin = mix(mix(0.06, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.54, smoothstep(1.9, 2.1, uPhase)); 
-float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smoothstep(1.9, 2.1, uPhase));
-
+  float sigmaMin = mix(mix(0.06, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.54, smoothstep(1.9, 2.1, uPhase)); 
+  float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smoothstep(1.9, 2.1, uPhase));
   float sigma = mix(sigmaMin, sigmaMax, smoothstep(0.02, 0.6, uScroll));
 
   float falloff = exp(- (r * r) / (1.0 * sigma * sigma));
@@ -256,6 +273,20 @@ falloff *= mix(1.0, idlePulse, idleFactor);
   float alpha = falloff * edgeFade * alphaMult;
   alpha = clamp(alpha, 0.0, 1.0);
 
-  gl_FragColor = vec4(color, alpha);
-}
+  
+  //material iridescent para etapa 2 cuando la bola es 1
+
+float phase2Mask = smoothstep(0.7, 1.2, uPhase) * (1.0 - smoothstep(1.2, 1.5, uPhase));
+
+
+    vec3 iridescent = vec3(
+      0.5 + 0.5 * sin(uTime + centeredUV.x * 5.0),
+      0.5 + 0.5 * sin(uTime * 1.3 + centeredUV.y * 5.0),
+      0.5 + 0.5 * sin(uTime * 1.7 + centeredUV.x * 3.0)
+    );
+
+    color = mix(color, iridescent, phase2Mask * 0.8);
+
+      gl_FragColor = vec4(color, alpha);
+    }
 `;
