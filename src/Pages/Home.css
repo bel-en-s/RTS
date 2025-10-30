@@ -47,6 +47,6 @@ section.home {
   flex-direction: column;
   justify-content: center;
   padding-top: 499px;
-  z-index: 10000;
+  z-index: 10000000;
   align-items: center;
 }

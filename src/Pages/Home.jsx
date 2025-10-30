@@ -28,7 +28,7 @@ export default function Home() {
 
         const chars = text.querySelectorAll(".char");
 
-        // 🎬 Timeline con scroll
+        // timeline con scroll
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: text,
@@ -40,7 +40,7 @@ export default function Home() {
           },
         });
 
-        // 🎞️ Animación de entrada (rotan desde atrás)
+        // aimación de entrada (rotan desde atrás)
         tl.fromTo(
           chars,
           {
