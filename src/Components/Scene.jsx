@@ -2,7 +2,7 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { vertexShader, fragmentShader } from "./Shaders/mainShader";
-import perladoTextureURL from "../assets/perlado.png";
+import perladoTextureURL from "../assets/descarga.png";
 
 export default function Scene({ scroll, phase }) {
   
@@ -32,7 +32,7 @@ export default function Scene({ scroll, phase }) {
     ],
     [
       [-2, 0, -1],
-      [0, 0, -1],
+      [-2, 0, -1],
       [2, 0, -1],
       [0, 3, -1],
     ],
@@ -58,6 +58,7 @@ perladoTexture.wrapS = perladoTexture.wrapT = THREE.MirroredRepeatWrapping;
 const shaderUniforms = useMemo(
   () => ({
     uTime: { value: 0 },
+    uCameraPosition: { value: new THREE.Vector3() },
     uScroll: { value: 0 },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) },
     uColorA: { value: new THREE.Color() },
@@ -72,6 +73,9 @@ const shaderUniforms = useMemo(
 
 
   useFrame((state) => {
+    const { camera } = state;
+    shaderUniforms.uCameraPosition.value.copy(camera.position);
+
     const t = state.clock.getElapsedTime();
     const s = Math.min(scroll / 1000, 1);
     const { pointer } = state;
@@ -173,6 +177,7 @@ const shaderUniforms = useMemo(
           <shaderMaterial
             uniforms={{
               ...shaderUniforms,
+              uTime: shaderUniforms.uTime,
               uColorA: { value: new THREE.Color(props.color1) },
               uColorB: { value: new THREE.Color(props.color2) },
             }}

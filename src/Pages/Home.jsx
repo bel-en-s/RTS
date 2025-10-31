@@ -59,7 +59,7 @@ export default function Home() {
           }
         );
 
-        // 🎞️ Animación de salida (rotan hacia adelante)
+        //
         tl.to(chars, {
           opacity: 0,
           rotateX: 90,

@@ -8,7 +8,10 @@ import { Fluid } from "@whatisjery/react-fluid-distortion"
 import Scene from "./Components/Scene.jsx";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Home from "./Pages/Home.jsx";
+import HorizontalCarousel from "./Components/Carousel/HorizontalCarousel.jsx";
+
 import "./Pages/Home.css";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +23,7 @@ export default function App() {
   useEffect(() => {
     const lenis = new Lenis({
       smooth: true,
-      lerp: 0.01,
+      // lerp: 0.01,
       wheelMultiplier: 0.8,
     });
     lenisRef.current = lenis;
@@ -75,7 +78,7 @@ export default function App() {
 
         <EffectComposer multisampling={0}>
           <Bloom intensity={0.8} luminanceThreshold={0.2} />
-          {/* <Noise opacity={0.2} /> */}
+          <Noise opacity={0.2} />
           <Fluid 
           radius={0.08}
           force={1}
@@ -92,6 +95,7 @@ export default function App() {
 
       <div className="scroll-container">
         <Home />
+        {/* <HorizontalCarousel /> */}
       </div>
     </div>
   );

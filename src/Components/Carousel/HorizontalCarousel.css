@@ -1,0 +1,40 @@
+.horizontal-carousel {
+  height: 100vh;
+  width: 100%;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1000000;
+  font-family: "Geist", sans-serif;
+  overflow: hidden;
+}
+
+.carousel-title {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  font-size: clamp(2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 3rem;
+  padding: 0 10vw;
+  height: 100%;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.card-component {
+  flex: 0 0 auto;
+  width: 320px;
+  min-height: 400px;
+}
