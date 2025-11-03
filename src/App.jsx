@@ -3,8 +3,9 @@ import { useEffect, useState, useRef } from "react";
 import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { EffectComposer, Bloom, Noise, Vignette } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, Noise, Vignette, ChromaticAberration } from "@react-three/postprocessing";
 import { Fluid } from "@whatisjery/react-fluid-distortion"
+import { BlendFunction } from 'postprocessing'
 import Scene from "./Components/Scene.jsx";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Home from "./Pages/Home.jsx";
@@ -77,25 +78,26 @@ export default function App() {
         <Scene scroll={scroll} phase={phase} />
 
         <EffectComposer multisampling={0}>
-          <Bloom intensity={0.8} luminanceThreshold={0.2} />
+          {/* <Bloom intensity={0.8} luminanceThreshold={0.2} /> */}
           <Noise opacity={0.2} />
-          <Fluid 
+         <Fluid
           radius={0.08}
-          force={1}
-          swirl={0.4}
-          fluidColor="#6d2cc8"
-          blend={1}
-          curl={0-2}
-          densityDissipation={0.95}
-          // backgroundColor="blue"
-          /> 
-          <Vignette darkness={0.8} />
+          force={0.5}
+          swirl={0.2}
+          fluidColor="#000000"   
+          blend={0}              
+          curl={0.1}
+          distortion={0.3}
+        />
+
+          <Vignette darkness={0.9} />
+          {/* <ChromaticAberration offset={[0.007, 0.007]} radial /> */}
         </EffectComposer>
       </Canvas>
 
       <div className="scroll-container">
         <Home />
-        {/* <HorizontalCarousel /> */}
+        <HorizontalCarousel />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { vertexShader, fragmentShader } from "./Shaders/mainShader";
-import perladoTextureURL from "../assets/descarga.png";
+import perladoTextureURL from "../assets/gainy.jpg";
 
 export default function Scene({ scroll, phase }) {
   
@@ -13,9 +13,7 @@ export default function Scene({ scroll, phase }) {
     []
   );
 
-  const mouse = useRef({ x: 0.8, y: 0.5 });
-
-  const hoveredPlane = useRef(null);
+ ;
 
   const positionsPerPhase = [
     [
@@ -43,18 +41,23 @@ export default function Scene({ scroll, phase }) {
   const parallaxIntensities = [0.1, 0.2, 0.3, 0.0];
 
   const planes = [
-    { color1: "rgba(12, 146, 202, 1)", color2: "#8A38F5" },
-    { color1: "#5334aa", color2: "#3f40cc" },
-    { color1: "#6a19ca", color2: "#3f40cc" },
-    { color1: "#03303a", color2: "#03303a" },
+    { color1: "#5B25D4", color2: "rgba(91, 37, 212, 1)" },
+    { color1: "#5B25D4", color2: "#04CBFE" },
+    { color1: "#04CBFE", color2: "#5B25D4" },
+    { color1: "#04CBFE", color2: "#5B25D4" },
   ];
-
+  const lightRef = useRef();
+  const mouse = useRef({ x: 0, y: 0 });
 
 
 const textureLoader = new THREE.TextureLoader();
 const perladoTexture = textureLoader.load(perladoTextureURL);
-perladoTexture.wrapS = perladoTexture.wrapT = THREE.MirroredRepeatWrapping;
 
+perladoTexture.wrapS = perladoTexture.wrapT = THREE.MirroredRepeatWrapping;
+perladoTexture.minFilter = THREE.LinearMipmapLinearFilter;
+perladoTexture.magFilter = THREE.LinearFilter;
+perladoTexture.anisotropy = 8;
+perladoTexture.needsUpdate = true;
 const shaderUniforms = useMemo(
   () => ({
     uTime: { value: 0 },
@@ -67,6 +70,8 @@ const shaderUniforms = useMemo(
     uRippleCenter: { value: new THREE.Vector2(0.5, 0.5) },
     uRippleStrength: { value: 0.0 },
     uTexture: { value: perladoTexture },
+    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+
   }),
   []
 );
@@ -136,7 +141,7 @@ const shaderUniforms = useMemo(
         mesh.position.y += (target[1] - mesh.position.y) * 0.05;
 
         mesh.material.uniforms.uColorA.value.lerpColors(
-          new THREE.Color("#024151"),
+          new THREE.Color(" #5B25D4"),
           new THREE.Color(planes[focusIndex].color1),
           0.8
         );
@@ -149,25 +154,38 @@ const shaderUniforms = useMemo(
     });
   });
 
-    const handlePointerMove = (e, index) => {
-    e.stopPropagation();
+
+  //   const handlePointerMove = (e, index) => {
+  //   e.stopPropagation();
     
-    hoveredPlane.current = index;
-    const uv = e.uv; // coordenadas del punto de intersección (0–1)
-    const mesh = meshes[index].current;
-    if (mesh) {
-      mesh.material.uniforms.uRippleCenter.value.lerp(uv, 0.2);
-    }
-  };
+  //   hoveredPlane.current = index;
+  //   const uv = e.uv; // coordenadas del punto de intersección (0–1)
+  //   const mesh = meshes[index].current;
+  //   if (mesh) {
+  //     mesh.material.uniforms.uRippleCenter.value.lerp(uv, 0.2);
+  //   }
+  // };
 
   const handlePointerOut = (e) => {
     e.stopPropagation();
     hoveredPlane.current = null;
   };
 
+;
+
+
   return (
     <>
-      <ambientLight intensity={0.3} />
+      
+       {/* <ambientLight intensity={4} color="#fc1111ff" />
+
+  
+      <directionalLight
+        ref={lightRef}
+        position={[0, 0, 5]}
+        intensity={8}
+        color="#aaccff"
+      />  */}
       {planes.map((props, i) => (
         <mesh key={i} ref={meshes[i]}
         frustumCulled={false}

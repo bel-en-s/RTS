@@ -7,72 +7,30 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const sectionRef = useRef();
+useEffect(() => {
+  const sections = gsap.utils.toArray(".hero-text")
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const texts = gsap.utils.toArray(".hero-text");
+  sections.forEach((section) => {
+    const lines = section.querySelectorAll("h1, p")
 
-      texts.forEach((text, i) => {
-        // 🔤 Separar letras
-        const letters = text.querySelectorAll("h1, p");
-        letters.forEach((el) => {
-          el.innerHTML = el.textContent
-            .split("")
-            .map((char) =>
-              char === " "
-                ? `<span class="char space">&nbsp;</span>`
-                : `<span class="char">${char}</span>`
-            )
-            .join("");
-        });
-
-        const chars = text.querySelectorAll(".char");
-
-        // timeline con scroll
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: text,
-            start: `${i * 100}% center`,
-            end: `${(i + 1) * 100}% center`,
-            scrub: true,
-            pin: false,
-            anticipatePin: 1,
-          },
-        });
-
-        // aimación de entrada (rotan desde atrás)
-        tl.fromTo(
-          chars,
-          {
-            opacity: 0,
-            rotateX: -90,
-            transformOrigin: "bottom center",
-            y: 50,
-          },
-          {
-            opacity: 1,
-            rotateX: 0,
-            y: 0,
-            stagger: 0.03,
-            duration: 1.2,
-            ease: "back.out(1.7)",
-          }
-        );
-
-        //
-        tl.to(chars, {
-          opacity: 0,
-          rotateX: 90,
-          y: -50,
-          stagger: 0.02,
-          duration: 1,
-          ease: "power2.inOut",
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    gsap.fromTo(lines,
+      { opacity: 0, y: 80 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          end: "top 40%",
+          scrub: true,
+        }
+      }
+    )
+  })
+}, [])
 
   return (
     <section className="home" ref={sectionRef}>
@@ -86,7 +44,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="hero-text">
+      {/* <div className="hero-text">
         <h1>EVERY PROJECT BEGINS INSIDE</h1>
         <h1>A LIVING ECOSYSTEM</h1>
       </div>
@@ -94,7 +52,7 @@ export default function Home() {
       <div className="hero-text">
         <h1>DIGITAL SKILLS</h1>
         <h1>AND CONTROL SYSTEMS</h1>
-      </div>
+      </div> */}
     </section>
   );
 }
