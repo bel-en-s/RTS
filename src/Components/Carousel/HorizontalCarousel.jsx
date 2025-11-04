@@ -22,6 +22,8 @@ export default function HorizontalCarousel() {
       },
     });
 
+    
+
     // Scroll horizontal
     const container = scrollContainerRef.current;
     const cards = container.querySelectorAll(".card-component");

@@ -1,42 +1,59 @@
-#root {
-  max-width: 1280px;
+/* === GRID SYSTEM === */
+
+:root {
+  /* Desktop */
+  --columns: 13;
+  --margin: 80px; /* space left/right */
+  --gutter: 24px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --columns: 4;
+    --margin: 16px;
+    --gutter: 16px;
+  }
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* Content container (real layout) */
+.layout-container {
+  width: 100%;
+  max-width: 1920px; /* optional, same as Figma max layout width */
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding-left: var(--margin);
+  padding-right: var(--margin);
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* GRID OVERLAY (visual only, does NOT push content) */
+.grid-helper {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+  display: grid;
+  grid-template-columns: 
+    [start] var(--margin)
+    repeat(var(--columns), 1fr)
+    var(--margin) [end];
+  gap: var(--gutter);
+  opacity: 0.25;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.grid-helper > div:nth-child(n+2):nth-last-child(n+2) {
+  background: rgba(160, 6, 6, 0.897); /* column color */
 }
 
-.card {
-  padding: 2em;
-}
 
-.read-the-docs {
-  color: #888;
+body.debug-grid .grid-helper {
+  display: grid;
 }
