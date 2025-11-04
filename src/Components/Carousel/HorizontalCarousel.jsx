@@ -52,7 +52,7 @@ export default function HorizontalCarousel() {
 
   return (
     <section className="horizontal-carousel" ref={sectionRef}>
-      <h1 className="carousel-title">Horizontal Carousel</h1>
+      <h1 className="carousel-title display-mdg">we navigate and serve the most complex industrial galaxies</h1>
 
       <div className="carousel-track" ref={scrollContainerRef}>
         <Card

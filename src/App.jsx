@@ -8,7 +8,6 @@ import Home from "./Pages/Home";
 import "./App.css";
 import "./styles/tokens.css";
 
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
@@ -16,8 +15,8 @@ export default function App() {
   useEffect(() => {
     const lenis = new Lenis({
       smooth: true,
-      lerp: 0.1,            // suavidad
-      wheelMultiplier: 0.9, // control velocidad
+      lerp: 0.08,
+      wheelMultiplier: 0.7,
     });
 
     function raf(time) {
@@ -26,7 +25,11 @@ export default function App() {
     }
     requestAnimationFrame(raf);
 
-    lenis.on("scroll", ScrollTrigger.update);
+
+    lenis.on("scroll", () => {
+      ScrollTrigger.update();
+    });
+
   }, []);
 
   return (
@@ -34,10 +37,11 @@ export default function App() {
       <Navbar />
 
       <div className="layout-container">
-        {/* helper grilla*/}
+
+        {/* grid */}
         <div className="grid-helper">
           {Array.from({ length: 15 }).map((_, i) => (
-            <div key={i} />
+            <div key={i}></div>
           ))}
         </div>
 

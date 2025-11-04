@@ -1,9 +1,9 @@
 .hero {
-  padding-top: 160px; /* para evitar overlap navbar */
+  padding-top: 160px; 
 }
 
 .hero-text {
-  max-width: 900px; /* ajusta según diseño */
+  max-width: 900px; 
 }
 
 .hero-text p {
