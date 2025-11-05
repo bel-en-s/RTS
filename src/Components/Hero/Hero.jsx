@@ -42,7 +42,8 @@ useEffect(() => {
     tl.to(el, {
       autoAlpha: 0,
       y: -40,
-      duration: 1.3,
+  
+      duration: 8.3,
       ease: "power3.inOut"
     }).fromTo(
       next,
@@ -50,8 +51,9 @@ useEffect(() => {
       {
         autoAlpha: 1,
         y: 0,
-        duration: 1.4,
-        ease: "power3.out"
+     
+        duration: 8.4,
+        ease: "power3.inOut"
       },
       ">-=0.7"
     );
@@ -80,11 +82,16 @@ useEffect(() => {
       <div className="hero-inner">
         
         <div className="hero-block">
-          <h1 className="display-lg">SPARK INDUSTRIAL BRILLIANCE</h1>
-          <p>— We merge decades of OT expertise with cutting-edge IT innovation...</p>
+           <div className="" data-phase="1">
+            <h1 className="display-lg hero-title ">
+            <span className="line line--1 ">SPARK INDUSTRIAL </span>
+            <span className="line line--2 ">BRILLIANCE</span>
+            </h1>
+        </div>
+          <p className="hero-subtext">—  We merge decades of OT expertise with cutting-edge IT innovation to empower industries with smarter, more efficient, and connected operations..</p>
         </div>
 
-        <div className="hero-block">
+        <div className="hero-block" data-phase="1">
           <h1>EVERY PROJECT BEGINS<br/>INSIDE A LIVING ECOSYSTEM</h1>
           <p>— Three departments working as one across disciplines.</p>
         </div>
