@@ -11,7 +11,7 @@ import Home from "./Pages/Home";
 import Scene from "./Components/Scene.jsx";
 
 import "./App.css";
-import "./styles/tokens.css";
+import "./styles/Tokens.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +50,7 @@ export default function App() {
     };
   }, []);
 
-  // Sincronizar Lenis con el loop de R3F
+  // Sincronizar Lenis 
   function LenisRaf() {
     useFrame((state) => {
       const lenis = lenisRef.current;

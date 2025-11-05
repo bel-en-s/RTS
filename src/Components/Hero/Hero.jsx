@@ -146,20 +146,20 @@ introTl
         <div className="hero-block">
            <div className="" data-phase="1">
             <h1 className="display-lg hero-title ">
-            <span className="line line--1 ">SPARK INDUSTRIAL </span>
+            <span className="line line--1 ">SPARK INDUSTRIAL </span><br/>
             <span className="line line--2 ">BRILLIANCE</span>
             </h1>
         </div>
-          <p className="hero-subtext">—  We merge decades of OT expertise with cutting-edge IT innovation to empower industries with smarter, more efficient, and connected operations..</p>
+          {/* <p className="hero-subtext">—  We merge decades of OT expertise with cutting-edge IT innovation to empower industries with smarter, more efficient, and connected operations..</p> */}
         </div>
 
         <div className="hero-block" data-phase="1">
-          <h1>EVERY PROJECT BEGINS<br/>INSIDE A LIVING ECOSYSTEM</h1>
+          <h1 className="display-md">EVERY PROJECT BEGINS<br/>INSIDE A LIVING ECOSYSTEM</h1>
           <p>— Three departments working as one across disciplines.</p>
         </div>
 
         <div className="hero-block">
-          <h1>AUTOMATION &<br/>CONTROLS</h1>
+          <h1 >AUTOMATION &<br/>CONTROLS</h1>
           <p>Specialized in integration, systems design and industrial performance.</p>
         </div>
 
