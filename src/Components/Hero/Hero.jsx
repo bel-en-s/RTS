@@ -12,6 +12,64 @@ useEffect(() => {
   const blocks = gsap.utils.toArray(".hero-block");
   const total = blocks.length;
 
+   // intro animacion
+ const introTl = gsap.timeline({
+  defaults: { ease: "power4.out" },
+});
+
+introTl
+  // ✨ 1) Animar las líneas del título con rebote y cascada
+  .fromTo(
+    ".hero-block:first-child .hero-title .line",
+    { 
+      y: 100, 
+      opacity: 0, 
+      scale: 1.05,
+      filter: "blur(6px)",
+    },
+    { 
+      y: 0, 
+      opacity: 1, 
+      scale: 1,
+      filter: "blur(0px)",
+      duration: 1.6,
+      ease: "back.out(1.7)",
+      stagger: { amount: 0.3, from: "start" },
+      delay: 0.5,
+    }
+  )
+
+  // ✨ 
+  .fromTo(
+    ".hero-block:first-child .hero-subtext",
+    { 
+      y: 50, 
+      opacity: 0, 
+      filter: "blur(4px)",
+    },
+    { 
+      y: 0, 
+      opacity: 1, 
+      filter: "blur(0px)",
+      duration: 1.2,
+      ease: "power3.out",
+    },
+    "-=0.8"
+  )
+
+  .to(
+    ".hero-block:first-child .hero-title .line",
+    {
+      y: -4,
+      duration: 0.5,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: 1,
+    },
+    "+=0.1"
+  );
+
+  
   gsap.set(blocks, { autoAlpha: 0, y: 60 });
   gsap.set(blocks[0], { autoAlpha: 1, y: 0 });
 
@@ -59,10 +117,14 @@ useEffect(() => {
     );
   });
 
-  // ✅ Fix overlapping when scrolling back into hero
+ 
   ScrollTrigger.create({
     trigger: heroRef.current,
     start: "top bottom",
+    onUpdate: (self) => {
+    const progress = self.progress;
+    console.log("Scroll progress:", progress.toFixed(2));
+  },
     onEnterBack: () => {
       const st = ScrollTrigger.getById("hero");
       if (!st) return;

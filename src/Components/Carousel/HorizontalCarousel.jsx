@@ -4,6 +4,8 @@ import "./HorizontalCarousel.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Card from "../UI/Card";
+import powerImage from "../../assets/carousel/power.png";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,10 +58,7 @@ export default function HorizontalCarousel() {
 
       <div className="carousel-track" ref={scrollContainerRef}>
         <Card
-          title="Proyecto A"
-          subtitle="Visual Engine"
-          image="/assets/img1.jpg"
-          description="Renderizado interactivo en tiempo real con Three.js."
+         image={powerImage}
         />
         <Card
           title="Proyecto B"

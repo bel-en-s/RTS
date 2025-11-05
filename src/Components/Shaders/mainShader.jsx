@@ -149,6 +149,9 @@ float edgeFade = pow(smoothstep(edgeStart, edgeEnd, length(centeredUV)), 2.0); /
   color = mix(color, iridescent, phase2Mask * 0.8);
 
 
+  //COLOR MIX look&feel
+  
+
 // --- textura detalle grainy ---
 vec2 detailUV = (vUv - 5.5) * 25.58 + 0.8; //TAMAÑO TEXTURA
 detailUV += vec2(sin(uTime*0.05), cos(uTime*0.008)) * 2.02;
@@ -159,10 +162,10 @@ vec3 tex = texture2D(uTexture, detailUV).rgb;
 float luma = dot(tex, vec3(-1.299, -0.587, -0.814));
 
   // modula brillo por luminancia de la textura
-  color *= mix(1.9, 1.15, luma);
+  color *= mix(1.5, 1.15, luma);
 
   // mezcla sutil del color con la textura
-  color = mix(color, tex, 0.12);
+  color = mix(color, tex, 0.22);
   
 // --- Grain basado en gl_FragCoord ---
 float grain = fract(sin(dot(gl_FragCoord.xy ,vec2(2.9898,78.233))) * 43758.5453 + uTime * 18.0);
@@ -170,8 +173,8 @@ grain = mix(0.95, 1.05, grain); // ajustar contraste
 color *= grain;
 
 // // --- partículas flotantes tipo polvo ---
-// // float dust = smoothstep(50.4, 1.2, fbm(vec3(centeredUV * 6.0, uTime * 0.5)));
-// // color += vec3(0.2, 0.98, 0.3) * dust * 0.9;
+//  float dust = smoothstep(1.8, 1.2, fbm(vec3(centeredUV * 6.0, uTime * 0.5)));
+//  color += vec3(0.2, 0.98, 0.3) * dust * 0.9;
 
 // // --- estrellas aleatorias --- 
 // float stars = starField(vUv * uResolution * 0.000002);

@@ -41,10 +41,10 @@ export default function Scene({ scroll, phase }) {
   const parallaxIntensities = [0.1, 0.2, 0.3, 0.0];
 
   const planes = [
-    { color1: "#5B25D4", color2: "rgba(91, 37, 212, 1)" },
-    { color1: "#5B25D4", color2: "#04CBFE" },
-    { color1: "#04CBFE", color2: "#5B25D4" },
-    { color1: "#04CBFE", color2: "#5B25D4" },
+    { color1: "#5B25D4", color2: "#2e6acc" },
+    { color1: "#5B25D4", color2: "#5212bf" }, //cambio este color dos por cualquier cosa y me aparce blanco remil saturado
+    { color1: "#5212bf", color2: "#5212bf" },
+    { color1: "#04CBFE", color2: "#4038af" },
   ];
   const lightRef = useRef();
   const mouse = useRef({ x: 0, y: 0 });
@@ -140,16 +140,16 @@ const shaderUniforms = useMemo(
         mesh.position.x += (target[0] - mesh.position.x) * 0.05;
         mesh.position.y += (target[1] - mesh.position.y) * 0.05;
 
-        mesh.material.uniforms.uColorA.value.lerpColors(
-          new THREE.Color(" #5B25D4"),
-          new THREE.Color(planes[focusIndex].color1),
-          0.8
-        );
-        mesh.material.uniforms.uColorB.value.lerpColors(
-          new THREE.Color("#024151"),
-          new THREE.Color(planes[focusIndex].color2),
-          0.8
-        );
+        // mesh.material.uniforms.uColorA.value.lerpColors(
+        //   new THREE.Color(" #5B25D4"),
+        //   new THREE.Color(planes[focusIndex].color1),
+        //   0.8
+        // );
+        // mesh.material.uniforms.uColorB.value.lerpColors(
+        //   new THREE.Color("#024151"),
+        //   new THREE.Color(planes[focusIndex].color2),
+        //   0.8
+        // );
       }
     });
   });
