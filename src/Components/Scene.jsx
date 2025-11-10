@@ -17,10 +17,10 @@ export default function Scene({ scroll, phase }) {
 
   const positionsPerPhase = [
     [
-      [0, 0.5, 3],
-      [2, 0, 0],
-      [1.2, 0, -1],
-      [0, 0, 2],
+      [0, 0, 4.5],
+      [1, 0, 3],
+      [-2, 0, 0],
+      [0, 0, 4],
     ],
     [
       [2, 0, -1],
@@ -78,15 +78,14 @@ const shaderUniforms = useMemo(
 
 
   useFrame((state) => {
+    
     const { camera } = state;
     shaderUniforms.uCameraPosition.value.copy(camera.position);
+    
 
     const t = state.clock.getElapsedTime();
     const s = Math.min(scroll / 1000, 1);
     const { pointer } = state;
-
-    mouse.current.x = (pointer.x + 1) / 2;
-    mouse.current.y = (1 - pointer.y) / 2;
 
     meshes.forEach((meshRef, i) => {
       const mesh = meshRef.current;
@@ -155,20 +154,9 @@ const shaderUniforms = useMemo(
   });
 
 
-  //   const handlePointerMove = (e, index) => {
-  //   e.stopPropagation();
-    
-  //   hoveredPlane.current = index;
-  //   const uv = e.uv; // coordenadas del punto de intersección (0–1)
-  //   const mesh = meshes[index].current;
-  //   if (mesh) {
-  //     mesh.material.uniforms.uRippleCenter.value.lerp(uv, 0.2);
-  //   }
-  // };
 
   const handlePointerOut = (e) => {
     e.stopPropagation();
-    hoveredPlane.current = null;
   };
 
 ;
@@ -177,15 +165,6 @@ const shaderUniforms = useMemo(
   return (
     <>
       
-       {/* <ambientLight intensity={4} color="#fc1111ff" />
-
-  
-      <directionalLight
-        ref={lightRef}
-        position={[0, 0, 5]}
-        intensity={8}
-        color="#aaccff"
-      />  */}
       {planes.map((props, i) => (
         <mesh key={i} ref={meshes[i]}
         frustumCulled={false}

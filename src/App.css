@@ -17,17 +17,16 @@
 }
 
 
-/* Content container (real layout) */
 .layout-container {
   width: 100%;
-  max-width: 1920px; /* optional, same as Figma max layout width */
+  max-width: 1920px; /* */
   margin: 0 auto;
   padding-left: var(--margin);
   padding-right: var(--margin);
   box-sizing: border-box;
 }
 
-/* GRID OVERLAY (visual only, does NOT push content) */
+/* GRID OVERLAY  */
 .grid-helper {
   position: fixed;
   inset: 0;
@@ -43,7 +42,7 @@
 }
 
 .grid-helper > div:nth-child(n+2):nth-last-child(n+2) {
-  background: rgba(160, 6, 6, 0.897); /* column color */
+  background: rgba(160, 6, 6, 0.897); /*  */
 }
 
 

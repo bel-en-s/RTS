@@ -122,8 +122,8 @@ introTl
     trigger: heroRef.current,
     start: "top bottom",
     onUpdate: (self) => {
-    const progress = self.progress;
-    console.log("Scroll progress:", progress.toFixed(2));
+    // const progress = self.progress;
+    // console.log("Scroll progress:", progress.toFixed(2));
   },
     onEnterBack: () => {
       const st = ScrollTrigger.getById("hero");
