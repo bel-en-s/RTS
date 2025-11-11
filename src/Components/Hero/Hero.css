@@ -1,15 +1,14 @@
 .hero {
   height: 100vh;
   position: relative;
-  overflow: hidden;
-  display:flex;
-  align-items:center;
+  overflow: clip;              /* evita desbordes laterales */
+  display: flex;
+  align-items: center;
 }
 
 .hero-inner {
   position: relative;
   width: 100%;
- 
 }
 
 .hero-block {
@@ -19,14 +18,12 @@
   transform: translateY(-50%);
   max-width: 100%;
   opacity: 0;
-  padding-left: 100px;
+  padding-left: 100px;         /* tu layout */
+  will-change: transform, opacity;
 }
 
-/* .hero-title {
- max-width: 500px;;
-} */
-
-.hero-block h1 {
+.hero-block h1,
+.hero-block h2 {
   font-family: "Neue Power Ultra", sans-serif;
   font-size: clamp(2.8rem, 6vw, 6rem);
   text-transform: uppercase;
@@ -34,6 +31,8 @@
   margin-bottom: 1.2rem;
   color: white;
 }
+
+.hero-title .line { display: inline-block; }
 
 .hero-block p {
   font-family: "Geist", sans-serif;
@@ -46,8 +45,7 @@
 .hero-subtext {
   position: absolute;
   left: 55vw;
-  top: 20vh; 
-
+  top: 20vh;
   text-align: left;
   max-width: 550px;
   font-size: 1.05rem;
@@ -55,3 +53,49 @@
   opacity: 0.85;
 }
 
+/* ------- Panel 01/02/03 ------- */
+.hero-bullets {
+  position: absolute;
+  top: clamp(14px, 5vh, 40px);
+  left: 100px;                 /* alinear con padding del bloque */
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 14px;
+  z-index: 6;
+  isolation: isolate;
+}
+
+.hero-bullets .bullet {
+  position: relative;
+  z-index: 2;
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-family: "Geist", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: color .25s ease, transform .25s ease;
+}
+
+.hero-bullets .bullet.is-active {
+  color: #cfe7ff;               /* iluminado */
+  transform: scale(1.04);
+}
+
+.hero-bullets .bullet-indicator {
+  position: absolute;
+  z-index: 1;
+  height: 28px;
+  width: 0;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: radial-gradient(120% 120% at 50% 50%, rgba(140,200,255,0.35), rgba(140,200,255,0.08) 70%, transparent 100%);
+  opacity: 0;                   /* aparece sólo cuando hay bullet activo */
+  pointer-events: none;
+}

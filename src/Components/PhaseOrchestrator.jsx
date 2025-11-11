@@ -1,4 +1,3 @@
-// Components/PhaseOrchestrator.jsx
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -6,42 +5,60 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Orquesta la "phase" de la escena leyendo data-scene-phase en cada .hero-block.
- * NO hace pin (eso lo maneja Hero). Sólo setea 0/1/2 con tween suave al entrar/salir cada bloque.
+ * Detecta qué .hero-block está visible y comunica la fase al parent.
+ * Usa data-phase="0", "1", "2" en cada bloque.
  */
 export default function PhaseOrchestrator({ onPhaseChange }) {
   useEffect(() => {
-    const blocks = gsap.utils.toArray(".hero .hero-block");
-    if (!blocks.length) return;
+    // limpiar cualquier instancia previa
+    ScrollTrigger.getAll().forEach((st) => st.kill());
 
-    const phaseProxy = { value: 0 };
-    const setPhaseSmooth = (target, dur = 0.5) => {
-      gsap.to(phaseProxy, {
-        value: target,
-        duration: dur,
+    const blocks = gsap.utils.toArray(".hero-block");
+    if (!blocks.length) {
+      console.warn("[PhaseOrchestrator] ⚠️ No hay bloques con clase .hero-block");
+      return;
+    }
+
+    console.log("[PhaseOrchestrator] ✅ Detectados", blocks.length, "bloques de texto");
+
+    const proxy = { value: 0 };
+
+    const setPhaseSmooth = (targetPhase) => {
+      gsap.to(proxy, {
+        value: targetPhase,
+        duration: 0.6,
         ease: "power2.out",
-        onUpdate: () => onPhaseChange?.(phaseProxy.value),
+        onUpdate: () => {
+          onPhaseChange?.(proxy.value);
+        },
       });
     };
 
-    const triggers = blocks.map((el) => {
-      const attr = el.getAttribute("data-scene-phase");
-      const targetPhase = Number.isFinite(+attr)
-        ? Math.max(0, Math.min(2, +attr))
-        : 0;
-
-      return ScrollTrigger.create({
-        trigger: el,
+    // Crear un ScrollTrigger por bloque
+    blocks.forEach((block) => {
+      const phaseIndex = parseFloat(block.dataset.phase);
+      ScrollTrigger.create({
+        trigger: block,
         start: "top center",
         end: "bottom center",
-        onEnter:     () => setPhaseSmooth(targetPhase, 0.4),
-        onEnterBack: () => setPhaseSmooth(targetPhase, 0.4),
-        // ❌ sin onUpdate: fase exacta por bloque para respetar tus posiciones originales
+        onEnter: () => {
+          console.log("🟢 Enter → bloque fase", phaseIndex);
+          setPhaseSmooth(phaseIndex);
+        },
+        onEnterBack: () => {
+          console.log("🟡 EnterBack → bloque fase", phaseIndex);
+          setPhaseSmooth(phaseIndex);
+        },
+        onLeave: () => {
+          console.log("🔵 Leave → bloque fase", phaseIndex);
+        },
       });
     });
 
+    // cleanup al desmontar
     return () => {
-      triggers.forEach((t) => t.kill());
+      console.log("[PhaseOrchestrator] 🔻 Cleanup ScrollTriggers");
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, [onPhaseChange]);
 

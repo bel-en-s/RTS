@@ -1,55 +1,35 @@
-import { useEffect, useRef } from "react";
-import Lenis from "@studio-freight/lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+// smoothScroll.js (o en tu Layout)
+import Lenis from '@studio-freight/lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * Lenis global (body scroller) sincronizado con ScrollTrigger.
- * Usá UN SOLO SmoothScroll en la App (fuera del Canvas).
- */
-export default function SmoothScroll({
-  lerp = 0.12,
-  wheelMultiplier = 0.9,
-  touchMultiplier = 1.2,
-  duration, // opcional: animación isócrona
-}) {
-  const lenisRef = useRef(null);
+export function initSmoothScroll() {
+  const lenis = new Lenis({
+    duration: 1.6,      // subir a 1.8–2.2 si querés más cine
+    easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic suave
+    smoothWheel: true,
+    wheelMultiplier: 0.8, // menor => menos “nervio” del mouse
+    touchMultiplier: 1.0,
+  });
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      lerp,
-      duration,
-      wheelMultiplier,
-      touchMultiplier,
-      smoothWheel: true,
-      smoothTouch: true,
-      gestureOrientation: "vertical",
-    });
-    lenisRef.current = lenis;
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
 
-    // Conducir Lenis con el ticker de GSAP para máxima compatibilidad
-    const update = (t) => {
-      lenis.raf(t * 1000);
-    };
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
+  // Sincronizar con ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
 
-    // Mantener ScrollTrigger al día
-    lenis.on("scroll", () => ScrollTrigger.update());
+  // Proxy (si usás body como scroller)
+  ScrollTrigger.scrollerProxy(document.body, {
+    scrollTop(value) {
+      if (arguments.length) { lenis.scrollTo(value, { immediate: true }); }
+      return lenis.scroll;
+    },
+    getBoundingClientRect() { return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }; },
+  });
 
-    // Resize/Refresh
-    const onRefresh = () => lenis.resize();
-    ScrollTrigger.addEventListener("refresh", onRefresh);
-    ScrollTrigger.refresh();
-
-    return () => {
-      ScrollTrigger.removeEventListener("refresh", onRefresh);
-      gsap.ticker.remove(update);
-      lenis.destroy();
-    };
-  }, [lerp, wheelMultiplier, touchMultiplier, duration]);
-
-  return null;
+  return lenis;
 }

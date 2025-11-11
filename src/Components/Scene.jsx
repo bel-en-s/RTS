@@ -1,180 +1,101 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import gsap from "gsap";
 import { vertexShader, fragmentShader } from "./Shaders/mainShader";
 import perladoTextureURL from "../assets/gainy.jpg";
 
 export default function Scene({ scroll, phase }) {
-  
-  
-
   const meshes = useMemo(
     () => [React.createRef(), React.createRef(), React.createRef(), React.createRef()],
     []
   );
 
- ;
-
   const positionsPerPhase = [
+    // fase 0 (compacta)
     [
       [0, 0, 4.5],
       [1, 0, 3],
       [-2, 0, 0],
       [0, 0, 4],
     ],
+    // fase 1 (expansión)
     [
-      [2, 0, -1],
-      [2, 0, -1],
-      [2, 0, -1],
-      [2, 0, -1],
+      [2, 1, 1],
+      [2, 1, 1],
+      [2, 1, 1],
+      [2, 1, 1],
     ],
+    // fase 2 (dispersión)
     [
-      [-2, 0, -1],
       [-2, 0, -1],
       [2, 0, -1],
       [0, 3, -1],
+      [0, -2, -1],
     ],
   ];
 
-  
-
-  const parallaxIntensities = [0.1, 0.2, 0.3, 0.0];
-
   const planes = [
     { color1: "#5B25D4", color2: "#2e6acc" },
-    { color1: "#5B25D4", color2: "#5212bf" }, //cambio este color dos por cualquier cosa y me aparce blanco remil saturado
+    { color1: "#5B25D4", color2: "#5212bf" },
     { color1: "#5212bf", color2: "#5212bf" },
     { color1: "#04CBFE", color2: "#4038af" },
   ];
-  const lightRef = useRef();
-  const mouse = useRef({ x: 0, y: 0 });
 
+  const perladoTexture = new THREE.TextureLoader().load(perladoTextureURL);
+  perladoTexture.wrapS = perladoTexture.wrapT = THREE.MirroredRepeatWrapping;
+  perladoTexture.minFilter = THREE.LinearMipmapLinearFilter;
+  perladoTexture.magFilter = THREE.LinearFilter;
 
-const textureLoader = new THREE.TextureLoader();
-const perladoTexture = textureLoader.load(perladoTextureURL);
+  const shaderUniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uColorA: { value: new THREE.Color() },
+      uColorB: { value: new THREE.Color() },
+      uTexture: { value: perladoTexture },
+    }),
+    []
+  );
 
-perladoTexture.wrapS = perladoTexture.wrapT = THREE.MirroredRepeatWrapping;
-perladoTexture.minFilter = THREE.LinearMipmapLinearFilter;
-perladoTexture.magFilter = THREE.LinearFilter;
-perladoTexture.anisotropy = 8;
-perladoTexture.needsUpdate = true;
-const shaderUniforms = useMemo(
-  () => ({
-    uTime: { value: 0 },
-    uCameraPosition: { value: new THREE.Vector3() },
-    uScroll: { value: 0 },
-    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-    uColorA: { value: new THREE.Color() },
-    uColorB: { value: new THREE.Color() },
-    uPhase: { value: 0 },
-    uRippleCenter: { value: new THREE.Vector2(0.5, 0.5) },
-    uRippleStrength: { value: 0.0 },
-    uTexture: { value: perladoTexture },
-    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+  // 🚀 Transición entre fases
+  useEffect(() => {
+    if (!meshes[0].current) return;
+    const targetIndex = Math.round(phase);
+    const targetPositions = positionsPerPhase[targetIndex] || positionsPerPhase[0];
 
-  }),
-  []
-);
-
-
-  useFrame((state) => {
-    
-    const { camera } = state;
-    shaderUniforms.uCameraPosition.value.copy(camera.position);
-    
-
-    const t = state.clock.getElapsedTime();
-    const s = Math.min(scroll / 1000, 1);
-    const { pointer } = state;
-
-    meshes.forEach((meshRef, i) => {
-      const mesh = meshRef.current;
+    meshes.forEach((ref, i) => {
+      const mesh = ref.current;
       if (!mesh) return;
+      const [tx, ty, tz] = targetPositions[i];
+      gsap.to(mesh.position, {
+        x: tx,
+        y: ty,
+        z: tz,
+        duration: 0.6,
+        ease: "power3.out",
+      });
+    });
 
-      mesh.material.uniforms.uTime.value = t + i * 2.5;
-      mesh.material.uniforms.uScroll.value = s;
-      mesh.material.uniforms.uMouse.value.set(mouse.current.x, mouse.current.y);
+    console.log("🌀 Changed to PHASE:", targetIndex);
+  }, [phase]);
 
-      
-      const prevPhase = mesh.material.uniforms.uPhase.value;
-      const smoothedPhase = THREE.MathUtils.lerp(prevPhase, phase, 0.08);
-      mesh.material.uniforms.uPhase.value = smoothedPhase;
-
-      const p0 = positionsPerPhase[0][i];
-      const p1 = positionsPerPhase[1][i];
-      const p2 = positionsPerPhase[2][i];
-
-      let targetPos = [0, 0, 0];
-      if (smoothedPhase <= 1.0) {
-        const localT = THREE.MathUtils.clamp(smoothedPhase, 0, 1);
-        targetPos[0] = THREE.MathUtils.lerp(p0[0], p1[0], localT);
-        targetPos[1] = THREE.MathUtils.lerp(p0[1], p1[1], localT);
-        targetPos[2] = THREE.MathUtils.lerp(p0[2], p1[2], localT);
-      } else {
-        const localT = THREE.MathUtils.clamp(smoothedPhase - 1.0, 0, 1);
-        targetPos[0] = THREE.MathUtils.lerp(p1[0], p2[0], localT);
-        targetPos[1] = THREE.MathUtils.lerp(p1[1], p2[1], localT);
-        targetPos[2] = THREE.MathUtils.lerp(p1[2], p2[2], localT);
-      }
-
-      const intensity = parallaxIntensities[i];
-      const parallaxX = pointer.x * intensity;
-      const parallaxY = pointer.y * intensity;
-
-      mesh.position.x += (targetPos[0] + parallaxX - mesh.position.x) * 0.05;
-      mesh.position.y += (targetPos[1] + parallaxY - mesh.position.y) * 0.05;
-      mesh.position.z = targetPos[2];
-
-      let focusIndex = 0;
-      const focusT = THREE.MathUtils.clamp(
-        smoothedPhase <= 1 ? smoothedPhase : smoothedPhase - 1,
-        0,
-        1
-      );
-      focusIndex = Math.floor(focusT * 3);
-      focusIndex = Math.min(Math.max(focusIndex, 0), 2);
-
-      if (i === 3) {
-        const target = positionsPerPhase[2][focusIndex] || p2;
-        mesh.position.x += (target[0] - mesh.position.x) * 0.05;
-        mesh.position.y += (target[1] - mesh.position.y) * 0.05;
-
-        // mesh.material.uniforms.uColorA.value.lerpColors(
-        //   new THREE.Color(" #5B25D4"),
-        //   new THREE.Color(planes[focusIndex].color1),
-        //   0.8
-        // );
-        // mesh.material.uniforms.uColorB.value.lerpColors(
-        //   new THREE.Color("#024151"),
-        //   new THREE.Color(planes[focusIndex].color2),
-        //   0.8
-        // );
-      }
+  // ⏱️ Animar tiempo uniform para shaders
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    meshes.forEach((ref, i) => {
+      const mesh = ref.current;
+      if (mesh) mesh.material.uniforms.uTime.value = t + i * 1.2;
     });
   });
 
-
-
-  const handlePointerOut = (e) => {
-    e.stopPropagation();
-  };
-
-;
-
-
   return (
     <>
-      
       {planes.map((props, i) => (
-        <mesh key={i} ref={meshes[i]}
-        frustumCulled={false}
-         onPointerMove={(e) => handlePointerMove(e, i)}
-          onPointerOut={handlePointerOut}>
+        <mesh key={i} ref={meshes[i]} frustumCulled={false}>
           <planeGeometry args={[30, 30, 64, 64]} />
           <shaderMaterial
             uniforms={{
               ...shaderUniforms,
-              uTime: shaderUniforms.uTime,
               uColorA: { value: new THREE.Color(props.color1) },
               uColorB: { value: new THREE.Color(props.color2) },
             }}
