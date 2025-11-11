@@ -56,13 +56,14 @@
 /* ------- Panel 01/02/03 ------- */
 .hero-bullets {
   position: absolute;
-  top: clamp(14px, 5vh, 40px);
+  /* top: clamp(14px, 5vh, 40px); */
   left: 100px;                 /* alinear con padding del bloque */
   display: grid;
   grid-auto-flow: column;
   align-items: center;
   gap: 14px;
   z-index: 6;
+  top: 20px;
   isolation: isolate;
 }
 
@@ -99,3 +100,10 @@
   opacity: 0;                   /* aparece sólo cuando hay bullet activo */
   pointer-events: none;
 }
+
+
+.one{
+  top: 0 ;
+  color: red;
+}
+

@@ -1,0 +1,33 @@
+body {
+  background-color: #000;
+  color: #fff;
+  transition: none; /* ⚡ dejamos que GSAP maneje la transición */
+}
+
+.story-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 5;
+}
+
+.story-content {
+  max-width: 800px;
+  text-align: center;
+}
+
+.story-title {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.story-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}

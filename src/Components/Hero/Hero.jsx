@@ -220,7 +220,7 @@ export default function Hero({ onPhase }) {
     <section className="hero" ref={heroRef}>
       <div className="hero-inner">
 
-        {/* Panel 01/02/03 — lo muestra/oculta GSAP a partir de fase 2 */}
+      
         <div className="hero-bullets" aria-label="Departments">
           <div className="bullet-indicator" ref={indicatorRef} />
           <button className="bullet" data-b="1" type="button">01</button>
@@ -228,8 +228,8 @@ export default function Hero({ onPhase }) {
           <button className="bullet" data-b="3" type="button">03</button>
         </div>
 
-        {/* 0 — Intro */}
-        <div className="hero-block" data-phase="0">
+
+        <div className="hero-block one" data-phase="0">
           <h1 className="display-lg hero-title">
             <span className="line">SPARK INDUSTRIAL</span><br />
             <span className="line">BRILLIANCE</span>

@@ -87,7 +87,8 @@ void main() {
   float sigmaMin = mix(mix(0.03, 0.04, smoothstep(0.9, 1.1, uPhase)), 0.54, smoothstep(1.9, 2.1, uPhase)); 
   float sigmaMax = mix(mix(0.1, 0.08, smoothstep(0.9, 1.1, uPhase)), 0.08, smoothstep(1.9, 2.1, uPhase));
   float sigma = mix(sigmaMin, sigmaMax, smoothstep(0.02, 0.6, uScroll));
-
+    
+  
   //Forma radial 
   float falloff = exp(- (r * r) / (1.8 * sigma * sigma));
 
@@ -136,45 +137,41 @@ float edgeFade = pow(smoothstep(edgeStart, edgeEnd, length(centeredUV)), 2.0); /
 
   alpha = clamp(alpha, 0.1, 0.81); //// fondo blurry
 
-
-  //COLOR MIX look&feel
-
-  // --- iridiscencia fría (azul-violeta, controlada en todas las fases)
-float iridescenceIntensity = 0.45; // cuánto del efecto mezcla
-float hueShift = sin(uTime * 0.3) * 2.08; // leve desplazamiento temporal
+// --- iridiscencia fría (azul-violeta perlada, lenta y sin quemarse)
+float iridescenceIntensity = 0.38; // mezcla más sutil
+float hueShift = sin(uTime * 0.1) * 0.15; // desplazamiento temporal más lento y leve
 
 // tonos base: mezcla azul profundo y violeta
-vec3 baseIri = vec3(0.25, 0.2, 0.45);   // violeta azulado base
-vec3 altIri  = vec3(0.1, 0.3, 0.8);     // azul más brillante
+vec3 baseIri = vec3(0.22, 0.18, 0.42);   // violeta azulado más oscuro
+vec3 altIri  = vec3(0.12, 0.28, 0.65);   // azul más brillante pero controlado
 
-// oscilación suave entre ambos tonos
+// oscilación muy suave entre ambos tonos (movimiento más lento)
 vec3 iridescent = mix(
   baseIri,
   altIri,
-  0.5 + 0.5 * sin(uTime * 0.06 + centeredUV.x * 4.0 + centeredUV.y * 3.0)
+  0.5 + 0.5 * sin(uTime * 0.025 + centeredUV.x * 3.5 + centeredUV.y * 2.8)
 );
 
-// modulamos brillo con distancia al centro
-float falloffIri = smoothstep(0.0, 1.0, 1.0 - r * 0.085);
+// modulamos brillo con distancia al centro (falloff más amplio y gradual)
+float falloffIri = smoothstep(0.0, 1.2, 1.0 - r * 0.6);
 
-iridescent = clamp(iridescent, 0.0, 0.55); // evita blancos (>1.0)
-
-// leve vibración cromática tipo perlado
-iridescent += 0.29 * vec3(
-  sin(uTime * 1.2 + centeredUV.x * 6.0),
-  sin(uTime * 1.1 + centeredUV.y * 4.0),
+// leve vibración cromática tipo perlado, pero más amortiguada
+iridescent += 0.18 * vec3(
+  sin(uTime * 0.8 + centeredUV.x * 4.0),
+  sin(uTime * 0.7 + centeredUV.y * 3.0),
   sin(uTime * 0.9 + centeredUV.x * 5.0)
 );
 
-// aplicamos falloff y mezcla final con el color base
+// limitar intensidad general y evitar “quemado”
+iridescent = clamp(iridescent, 0.0, 0.45);
+
+// aplicamos el falloff y mezcla con el color base
 iridescent *= falloffIri;
 color = mix(color, iridescent, iridescenceIntensity);
 
-  
-
 // --- textura detalle grainy ---
-vec2 detailUV = (vUv - 5.5) * 25.58 + 0.8; //TAMAÑO TEXTURA
-detailUV += vec2(sin(uTime*0.05), cos(uTime*0.008)) * 2.02;
+vec2 detailUV = (vUv - 5.5) * 25.58 + 0.8; // tamaño textura
+detailUV += vec2(sin(uTime * 0.02), cos(uTime * 0.015)) * 1.2;
 
 
 //textura

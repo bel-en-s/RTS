@@ -8,6 +8,7 @@ import { Fluid } from "@whatisjery/react-fluid-distortion";
 
 import Home from "./Pages/Home";
 import Scene from "./Components/Scene.jsx";
+import Navbar from "./Components/Navbar/Navbar.jsx";
 
 import "./App.css";
 import "./styles/Tokens.css";
@@ -73,7 +74,8 @@ export default function App() {
 
   return (
     <>
-      {/* Debug HUD */}
+
+      <Navbar />
       <div
         style={{
           position: "fixed",
@@ -112,7 +114,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* 3D Scene */}
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
@@ -136,7 +137,6 @@ export default function App() {
         </EffectComposer>
       </Canvas>
 
-      {/* Scroll content */}
       <div className="scroll-container" style={{ position: "relative", zIndex: 1 }}>
         <Home onPhase={setPhase} />
         <div style={{ height: "150vh" }} />
