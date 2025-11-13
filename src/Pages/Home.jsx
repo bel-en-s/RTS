@@ -5,9 +5,10 @@ import Story from "../Components/Story/Story";
 export default function Home({ onPhase }) {  
   return (
     <>
-  <Hero onPhase={onPhase}/>   
+      <Hero onPhase={onPhase}/> 
+      <div className="hero-outro-spacer"></div>  
      <HorizontalCarousel />
       <Story />
     </>
   );
-}
+} 

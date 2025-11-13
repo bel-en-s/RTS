@@ -114,13 +114,13 @@ void main() {
   // --- mezcla de color ---
   float colorMixRange = mix(mix(0.8, 0.4, smoothstep(0.9, 1.1, uPhase)), 0.4, smoothstep(1.9, 2.1, uPhase));
   //más espacial
-  float colorMix = smoothstep(3.0, colorMixRange, r + n * 5.1);
+  float colorMix = smoothstep(3.0, colorMixRange, r + n * 8.1);
   vec3 color = mix(uColorA, uColorB, colorMix);
 
   // --- desvanecimiento en bordes ---
   //  float edgeStart = mix(mix(5.0, 5.5, smoothstep(50.9, 1.1, uPhase)), 10.5, smoothstep(1.9, 2.1, uPhase));
   float edgeStart = 0.7;  
-  float edgeEnd = 0.000001;
+  float edgeEnd = 0.0001;
 //float edgeFade = pow(smoothstep(edgeStart, edgeEnd, length(centeredUV)), 2.0); // radial
 float edgeFade = pow(smoothstep(edgeStart, edgeEnd, length(centeredUV)), 2.0); // radial
 
@@ -149,7 +149,7 @@ vec3 altIri  = vec3(0.12, 0.28, 0.65);   // azul más brillante pero controlado
 vec3 iridescent = mix(
   baseIri,
   altIri,
-  0.5 + 0.5 * sin(uTime * 0.025 + centeredUV.x * 3.5 + centeredUV.y * 2.8)
+  0.05 + 0.5 * sin(uTime * 0.025 + centeredUV.x * 3.5 + centeredUV.y * 2.8)
 );
 
 // modulamos brillo con distancia al centro (falloff más amplio y gradual)
@@ -157,9 +157,9 @@ float falloffIri = smoothstep(0.0, 1.2, 1.0 - r * 0.6);
 
 // leve vibración cromática tipo perlado, pero más amortiguada
 iridescent += 0.18 * vec3(
-  sin(uTime * 0.8 + centeredUV.x * 4.0),
-  sin(uTime * 0.7 + centeredUV.y * 3.0),
-  sin(uTime * 0.9 + centeredUV.x * 5.0)
+  sin(uTime * 0.8 + centeredUV.x * 40.0),
+  sin(uTime * 0.7 + centeredUV.y * 30.0),
+  sin(uTime * 0.9 + centeredUV.x * 50.0)
 );
 
 // limitar intensidad general y evitar “quemado”
@@ -179,7 +179,7 @@ vec3 tex = texture2D(uTexture, detailUV).rgb;
 float luma = dot(tex, vec3(-1.299, -0.587, -0.814));
 
   // modula brillo por luminancia de la textura
-  color *= mix(1.5, 1.15, luma);
+  color *= mix(1.8, 1.5, luma);
 
   // mezcla sutil del color con la textura
   color = mix(color, tex, 0.22);

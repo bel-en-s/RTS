@@ -55,7 +55,7 @@ export default function Hero({ onPhase }) {
           id: ST_ID,
           trigger: heroRef.current,
           start: "top top",
-          end: `+=${steps * 180}vh`,
+          end: `+=${steps * 1500}vh`,
           pin: true,
           scrub: 0.9,
           anticipatePin: 1,
@@ -64,27 +64,42 @@ export default function Hero({ onPhase }) {
             ease: "power3.out",
             duration: 1.0,
           },
-          onUpdate: (self) => {
-            const idx = Math.round(self.progress * steps);
-            onPhase?.(idx);
+        onUpdate: (self) => {
+  
+  // 📌 fase continua para la nebulosa
+  const phaseContinuous = self.progress * steps;
+  onPhase?.(phaseContinuous);
 
-            // mostrar panel desde fase 2
-            const show = idx >= 2;
-            gsap.to(bulletsPanel, {
-              autoAlpha: show ? 1 : 0,
-              pointerEvents: show ? "auto" : "none",
-              duration: 0.25,
-              ease: "power1.out",
-            });
+  // 📌 fase discreta para texto y bullets
+  const idx = Math.round(self.progress * steps);
 
-            // encender bullet (2→01, 3→02, 4→03; 0,1,5 sin bullet)
-            const map = { 2: 1, 3: 2, 4: 3 };
-            setActiveBullet(map[idx] ?? null);
-          },
+  // mostrar panel desde fase 2
+  const show = idx >= 2;
+  gsap.to(bulletsPanel, {
+    autoAlpha: show ? 1 : 0,
+    pointerEvents: show ? "auto" : "none",
+    duration: 0.25,
+    ease: "power1.out",
+  });
+
+  // encender bullets correcto
+  const map = { 2: 1, 3: 2, 4: 3 };
+  setActiveBullet(map[idx] ?? null);
+}
+
           // markers: true,
-        },
+        }, 
       });
 
+//       ScrollTrigger.create({
+//   trigger: ".hero-outro-spacer",
+//   start: "top bottom",
+//   end: "+=160vh",   // ajustá este valor
+//   pin: true,
+//   scrub: 1.2,
+// });
+
+      
       // === TRANSICIONES ===
       // 0 -> 1 (VERTICAL)
       if (blocks[1]) {
@@ -202,7 +217,7 @@ export default function Hero({ onPhase }) {
             progress,
             duration: 1.0,
             ease: "power2.inOut",
-            onUpdate: () => st.scroll(),
+            // onUpdate: () => st.scroll(),
           });
         });
       });
