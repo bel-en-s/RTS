@@ -5,25 +5,32 @@ import { vertexShader, fragmentShader } from "./Shaders/mainShader";
 import perladoTextureURL from "../assets/gainy.jpg";
 
 export default function Scene({ scroll, phase }) {
-  // REFERENCIAS PARA LAS BOLAS BASE
+
+  // =============================================================================
+  //  REFS PARA LAS BOLAS BASE (las 4 capas grandes de la nebulosa)
+  // =============================================================================
   const meshes = useMemo(
     () => [
       React.createRef(), // izquierda
       React.createRef(), // centro
       React.createRef(), // derecha
-      React.createRef(), // cuarta (no importa en fases 2–3, queda detrás)
+      React.createRef(), // atrás del foco
     ],
     []
   );
 
-  // FOCO INDEPENDIENTE
+  //  ref del FOCO (esfera rosada / plano rosado)
   const focusRef = useRef();
 
-  // TEXTURA
+  // =============================================================================
+  //  TEXTURA PRINCIPAL DEL SHADER
+  // =============================================================================
   const perladoTexture = new THREE.TextureLoader().load(perladoTextureURL);
   perladoTexture.wrapS = perladoTexture.wrapT = THREE.MirroredRepeatWrapping;
 
-  // UNIFORMS BASE
+  // =============================================================================
+  //  UNIFORMS BASE QUE COMPARTEN TODAS LAS BOLAS
+  // =============================================================================
   const shaderUniforms = useMemo(
     () => ({
       uTime: { value: 0 },
@@ -34,56 +41,66 @@ export default function Scene({ scroll, phase }) {
     []
   );
 
-  // SUAVIZADO
+  // =============================================================================
+  //  Suavizado tipo smoothstep (lo uso para blends de fase)
+  // =============================================================================
   function smoothstep(edge0, edge1, x) {
-    const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - x), 0, 1);
-    return t * t * (3 - 2 * t);
+    const t = THREE.MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
+    return t * t * (30 - 2 * t);
   }
 
-  // POSICIONES POR FASE
+  // =============================================================================
+  //  POSICIONES DE LAS BOLAS POR FASE
+  // =============================================================================
   const positionsPerPhase = [
-    // ------------------------------------------------
-    // FASE 0 — COMPACTA
-    // ------------------------------------------------
+    // FASE 0 — compacta
     [
-      [0, 0, 4.5],
-      [1, 0, 3],
-      [-2, 0, 0],
-      [0, 0, 4],
+      [0, 0, 0],
+      [1, 0, 2],
+      [-1.5, 0, 0],
+      [0, 0, 3]
     ],
 
-    // ------------------------------------------------
-    // FASE 1 — TODAS JUNTAS A LA DERECHA
-    // ------------------------------------------------
+    // FASE 1 — juntitas a la derecha
     [
-      [2, 1, 1],
-      [2, 1, 1],
-      [2, 1, 1],
-      [2, 1, 1],
+      [2, 0, 1],
+      [2, 0, 1],
+      [2, 0, 1],
+      [2, 0, 1]
     ],
 
-    // ------------------------------------------------
-    // FASE 2 — 3 BOLAS ESTABILIZADAS
-    // ------------------------------------------------
-    [
-      [-1.3, -0.2, 0], // izquierda
-      [0.2, 0.1, 0],   // centro
-      [1.4, 0.15, 0],  // derecha
-      [0.2, 0.1, -0.35], // atrás del foco
-    ],
-
-    // ------------------------------------------------
-    // FASE 3 — MISMAS BOLAS, EL FOCO SE DESLIZA
-    // ------------------------------------------------
+    // FASE 2 — 3 bolas estabilizadas
     [
       [-1.3, -0.2, 0],
       [0.2, 0.1, 0],
       [1.4, 0.15, 0],
-      [0.2, 0.1, -0.35],
+      [0.2, 0.1, -0.35]
     ],
+
+    // FASE 3 — mismas bolas, el foco se desliza
+    [
+      [-0.8, 0, 4],
+      [0.2, 0.1, 3],
+      [1.4, 0.15, 2],
+      [0.2, 0.1, 1]
+    ]
   ];
 
-  // COLORES BASE
+  // =============================================================================
+  // POSICIONES DEL FOCO POR FASE (esto es lo nuevo que agrego)
+  // =============================================================================
+  //  defino una posición del foco para cada fase, así lo hago acompañar
+  //    todo el recorrido desde 0 → 1 → 2 → 3.
+  const focusPositions = [
+    [0, 0, -4.5],    // fase 0 — acompaña al cluster inicial
+    [2, 0, 0],      // fase 1 — acompaña el movimiento hacia derecha
+    [-1.3, 0.1, 3],  // fase 2 — foco aparece en el centro
+    [0.2, 0.15, 3], // fase 3 — foco se desplaza a la derecha
+  ];
+
+  // =============================================================================
+  //  COLORES BASE DE CADA CAPA
+  // =============================================================================
   const planes = [
     { color1: "#5B25D4", color2: "#2e6acc" },
     { color1: "#5B25D4", color2: "#5212bf" },
@@ -91,28 +108,31 @@ export default function Scene({ scroll, phase }) {
     { color1: "#04CBFE", color2: "#4038af" },
   ];
 
-  // ----------------------------------------------------
-  // ⚡ USE FRAME — ANIMACIÓN
-  // ----------------------------------------------------
-
+  // =============================================================================
+  //  USE FRAME — ANIMACIÓN POR FRAME
+  // =============================================================================
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     const lerpFactor = 0.06;
 
+    // Fases enteras
     const floorIndex = Math.floor(phase);
     const ceilIndex = Math.min(floorIndex + 1, positionsPerPhase.length - 1);
+
+    // Blend fraccional entre fase actual y siguiente
     const blend = phase - floorIndex;
     const easedBlend = THREE.MathUtils.clamp(blend, 0, 1);
 
-    // ------------------------------------------------
-    // ANIMAR BOLAS BASE
-    // ------------------------------------------------
+    // ---------------------------------------------------------------------------
+    //  ANIMO LAS 4 BOLAS BASE
+    // ---------------------------------------------------------------------------
     meshes.forEach((ref, i) => {
       const mesh = ref.current;
       if (!mesh) return;
 
       mesh.material.uniforms.uTime.value = t + i * 1.1;
 
+      // POSICIÓN INTERPOLADA ENTRE FASES
       const [ax, ay, az] = positionsPerPhase[floorIndex][i];
       const [bx, by, bz] = positionsPerPhase[ceilIndex][i];
 
@@ -124,7 +144,7 @@ export default function Scene({ scroll, phase }) {
       mesh.position.y += (ty - mesh.position.y) * lerpFactor;
       mesh.position.z += (tz - mesh.position.z) * lerpFactor;
 
-      // ❄ Se vuelven un poco más azules en fase 2–3
+      // BLEND DE COLOR HACIA TONOS MÁS FRÍOS EN FASE 2–3
       const blueShift = phase < 2 ? 0 : smoothstep(2, 3, phase);
       const baseA = new THREE.Color(planes[i].color1);
       const baseB = new THREE.Color(planes[i].color2);
@@ -138,66 +158,49 @@ export default function Scene({ scroll, phase }) {
       mesh.scale.set(1, 1, 1);
     });
 
-    // ------------------------------------------------
-    // 🔥 FOCO
-    // ------------------------------------------------
-
+    // ---------------------------------------------------------------------------
+    //  ANIMO EL FOCO — con interpolación entre TODAS las fases
+    // ---------------------------------------------------------------------------
     const focus = focusRef.current;
     if (focus) {
+
       focus.material.uniforms.uTime.value = t;
 
-      // Foco solo visible en fase >=2
+      // 👉 Hago que la opacidad aparezca recién en fase 2
       const visible = phase >= 2 ? 1 : 0;
-      focus.material.opacity += (visible - focus.material.opacity) * 0.1;
+      focus.material.opacity += (visible - focus.material.opacity) * 0.08;
 
-      // Posiciones
-      const pLeft = positionsPerPhase[2][0];
-      const pCenter = positionsPerPhase[2][1];
-      const pRight = positionsPerPhase[2][2];
+      // Fases enteras para el foco
+      const f0 = Math.floor(phase);
+      const f1 = Math.min(f0 + 1, focusPositions.length - 1);
 
-      // Lógica: izquierda → centro → derecha
-      let target = pLeft;
+      // Blend fraccional del foco
+      const k = THREE.MathUtils.clamp(phase - f0, 0, 1);
 
-      if (phase >= 2 && phase < 2.5) {
-        // izquierda → centro
-        const k = smoothstep(2, 2.5, phase);
-        target = [
-          THREE.MathUtils.lerp(pLeft[0], pCenter[0], k),
-          THREE.MathUtils.lerp(pLeft[1], pCenter[1], k),
-          THREE.MathUtils.lerp(pLeft[2], pCenter[2], k),
-        ];
-      } else if (phase >= 2.5) {
-        // centro → derecha
-        const k = smoothstep(2.5, 3, phase);
-        target = [
-          THREE.MathUtils.lerp(pCenter[0], pRight[0], k),
-          THREE.MathUtils.lerp(pCenter[1], pRight[1], k),
-          THREE.MathUtils.lerp(pCenter[2], pRight[2], k),
-        ];
-      }
+      // POSICIÓN DEL FOCO INTERPOLADA ENTRE FASES
+      const [ax, ay, az] = focusPositions[f0];
+      const [bx, by, bz] = focusPositions[f1];
 
-      // Interpolar posición del foco
-      focus.position.x += (target[0] - focus.position.x) * 0.08;
-      focus.position.y += (target[1] - focus.position.y) * 0.08;
-      focus.position.z = 0.3;
+      const tx = THREE.MathUtils.lerp(ax, bx, k);
+      const ty = THREE.MathUtils.lerp(ay, by, k);
+      const tz = THREE.MathUtils.lerp(az, bz, k);
 
-      // Color rosa suave y transparente
-      const pinkA = new THREE.Color("rgba(255,112,255,0.7)");
-      const pinkB = new THREE.Color("rgba(230,80,255,0.7)");
+      // Muevo suavemente el foco hacia el target
+      focus.position.x += (tx - focus.position.x) * 0.06;
+      focus.position.y += (ty - focus.position.y) * 0.06;
+      focus.position.z += (tz - focus.position.z) * 0.06;
 
-      focus.material.uniforms.uColorA.value.copy(pinkA);
-      focus.material.uniforms.uColorB.value.copy(pinkB);
+      // Colores del foco (rosa suave)
+      focus.material.uniforms.uColorA.value.set("#ff70ff");
+      focus.material.uniforms.uColorB.value.set("#e650ff");
 
       focus.scale.set(1, 1, 1);
     }
   });
 
-  // ------------------------------------------------
-  // RENDER
-  // ------------------------------------------------
   return (
     <>
-      {/* bolas base */}
+      {/*  bolas base (4 planos grandes) */}
       {planes.map((props, i) => (
         <mesh key={i} ref={meshes[i]} frustumCulled={false}>
           <planeGeometry args={[30, 30, 64, 64]} />
@@ -216,7 +219,7 @@ export default function Scene({ scroll, phase }) {
         </mesh>
       ))}
 
-      {/* FOCO */}
+      {/*  FOCO  */}
       <mesh ref={focusRef} frustumCulled={false}>
         <planeGeometry args={[30, 30, 64, 64]} />
         <shaderMaterial

@@ -1,6 +1,6 @@
 .hero {
   height: 100vh;
-  display: block;  /* 👈 SACA EL FLEX */
+  display: block;  
   position: relative;
 }
 
@@ -11,16 +11,17 @@
 }
 
 .hero-block {
-position: absolute;
+  position: absolute;
   top: 60%;
   transform: translateY(-50%);
   max-width: 100%;
   opacity: 0;
+  margin-top: 500px;
   padding-left: 100px;         /* tu layout */
   will-change: transform, opacity;
 }
 
-.hero-block h1,
+/* .hero-block h1,
 .hero-block h2 {
   font-family: "Neue Power Ultra", sans-serif;
   font-size: clamp(2.8rem, 6vw, 6rem);
@@ -28,7 +29,7 @@ position: absolute;
   line-height: 1;
   margin-bottom: 1.2rem;
   color: white;
-}
+} */
 
 .hero-title .line { display: inline-block; }
 
@@ -37,25 +38,27 @@ position: absolute;
   font-size: clamp(1rem, 1.4vw, 1.35rem);
   line-height: 1.55;
   max-width: 550px;
+  margin-left: 200px;
   color: rgba(255,255,255,0.85);
 }
 
 .hero-subtext {
-  position: absolute;
-  left: 55vw;
-  top: 20vh;
-  text-align: left;
-  max-width: 550px;
-  font-size: 1.05rem;
+  position: relative;
+  font-family: "Geist", sans-serif;
+  font-size: clamp(16px, 1.4vw, 20px);
   line-height: 1.55;
+ 
   opacity: 0.85;
+  margin-left: 40VW;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* ------- Panel 01/02/03 ------- */
+
 .hero-bullets {
   position: absolute;
   /* top: clamp(14px, 5vh, 40px); */
-  left: 100px;                 /* alinear con padding del bloque */
+    margin-top: 300px;
+  left: 100px;                 
   display: grid;
   grid-auto-flow: column;
   align-items: center;
@@ -81,7 +84,7 @@ position: absolute;
 }
 
 .hero-bullets .bullet.is-active {
-  color: #cfe7ff;               /* iluminado */
+  color: #cfe7ff;             
   transform: scale(1.04);
 }
 
@@ -101,17 +104,72 @@ position: absolute;
 
 
 .one{
-  top: 0 ;
-  color: red;
+  /* top: 300px ; */
+  font-family: "Neue Power Ultra", sans-serif;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  /* text-transform: uppercase; */
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  color: white;
+  width: 100%;
+  /* color: red; */
+}
+
+.two{
+  /* top: 300px ; */
+  font-family: "Neue Power Ultra", sans-serif;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  /* text-transform: uppercase; */
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  color: white;
+  width: 100%;
+  /* color: red; */
+}
+
+.hero-block.two .display-md {
+  letter-spacing: 0.02em !important;
+  line-height: 1.15 !important;
 }
 
 /* Mobile */
-@media (max-width: 768px) {
+@media (max-width: 1068px) {
   .hero-title.display-lg {
     font-size: var(--display-sm-size);
     line-height: var(--display-sm-line);
     letter-spacing: var(--display-sm-spacing);
   }
+  .one  {
+    padding: 16px;
+    top: 200px;
+  }
+    .hero-title {
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-line);
+    letter-spacing: var(--display-sm-space);
+  }
+  .hero-subtext {
+  position: relative;
+  font-family: "Geist", sans-serif;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.55;
+  opacity: 0.85;
+  margin-left: 30vw;
+  color: rgba(255, 255, 255, 0.85);
+}
+.two{
+ padding: 16px;
+    top: 200px;
+  /* color: red; */
+
+}
+.three {
+  top: 55%; /* centrado vertical como los demás */
+  /* transform: translateY(-50%); */
+  padding-left: 100px;
+  max-width: 900px;
+  opacity: 0;
+  position: absolute;
 }
 
-
+}

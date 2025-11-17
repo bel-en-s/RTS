@@ -1,13 +1,12 @@
 :root {
-  
   /* === FONT FAMILY === */
   --font-base: "Geist", sans-serif;
 
-  /* === DISPLAY === */
+  /* === DISPLAY TOKENS (DESKTOP) === */
   --display-lg-size: 84px;
   --display-lg-weight: 800;
   --display-lg-line: 100%;
-  --display-lg-space: 0.05em; /* -5% */
+  --display-lg-space: 0.05em;
 
   --display-md-size: 60px;
   --display-md-weight: 700;
@@ -19,23 +18,30 @@
   --display-sm-line: 100%;
   --display-sm-space: -0.02em;
 
-  /* === BODY === */
+  /* === BODY TOKENS === */
   --body-lg-size: 20px;
   --body-lg-line: 140%;
 
   --body-md-size: 18px;
-  --body-md-line: 140%;
   --body-md-weight: 400;
-
+  --body-md-line: 140%;
 
   --body-sm-size: 14px;
-  --body-sm-line: 140%;
   --body-sm-weight: 400;
+  --body-sm-line: 140%;
   --body-sm-space: 0%;
+
+  /* === HEADLINE SMALL (MOBILE TOKEN) === */
+  --headline-small-size: 28px;
+  --headline-small-weight: 700;
+  --headline-small-line: 108%;
+  --headline-small-space: 0.05em;
 }
 
+/* =============================
+   DESKTOP TYPOGRAPHY CLASSES
+   ============================= */
 .display-lg {
-  font-family: var(--font-base);
   font-size: var(--display-lg-size);
   font-weight: var(--display-lg-weight);
   line-height: var(--display-lg-line);
@@ -61,11 +67,58 @@
   line-height: var(--body-lg-line);
 }
 
+.body-md {
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-line);
+}
+
 .body-sm {
   font-family: var(--font-base);
   font-size: var(--body-sm-size);
-  font-weight: var(--body-sm-weight); /* ✅ Regular */
+  font-weight: var(--body-sm-weight);
   line-height: var(--body-sm-line);
   letter-spacing: var(--body-sm-space);
 }
 
+/* HEADLINE SMALL (base class) */
+.headline-small {
+  font-family: var(--font-base);
+  font-size: var(--headline-small-size);
+  font-weight: var(--headline-small-weight);
+  line-height: var(--headline-small-line);
+  letter-spacing: var(--headline-small-space);
+}
+
+/* =============================
+   MOBILE OVERRIDES < 1068px
+   ============================= */
+
+@media (max-width: 1068px) {
+
+  /* display-md becomes HEADLINE SMALL */
+  .display-md {
+    font-size: var(--headline-small-size) !important;
+    font-weight: var(--headline-small-weight) !important;
+    line-height: var(--headline-small-line) !important;
+    letter-spacing: var(--headline-small-space) !important;
+  }
+
+  /* display-lg also scales a bit down in mobile
+     (opcional, si querés mantenerlo gigante, aviso) */
+  .display-lg {
+    font-size: calc(var(--display-lg-size) * 0.55);
+    line-height: 110%;
+  }
+
+  /* cuerpo reestablecido para legibilidad mobile */
+  .body-md {
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  .body-sm {
+    font-size: 14px;
+    line-height: 150%;
+  }
+}

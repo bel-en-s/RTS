@@ -119,7 +119,7 @@ export default function Hero({ onPhase }) {
         );
       }
 
-      // 1 -> 2 (VERTICAL)  ✅ como pediste
+      // 1 -> 2 (VERTICAL)  
       if (blocks[2]) {
         tl.to(blocks[1], {
           autoAlpha: 0, y: -40, duration: 1.0, ease: "power2.inOut",
@@ -250,16 +250,27 @@ export default function Hero({ onPhase }) {
         </div>
 
 
-        <div className="hero-block one" data-phase="0">
-          <h1 className="display-lg hero-title">
-            <span className="line">SPARK INDUSTRIAL</span><br />
-            <span className="line">BRILLIANCE</span>
-          </h1>
-          <p className="body-md hero-subtext">— We merge decades of OT expertise...</p>
-        </div>
+       <div className="hero-block one" data-phase="0">
+  
+<div className="hero-left">
+  <h1 className="hero-title display-lg">
+    <span className="line">SPARK INDUSTRIAL</span><br />
+    <span className="line">BRILLIANCE</span>
+  </h1>
+</div>
+
+<div className="hero-right">
+  <p className="hero-subtext body-md">
+    — We merge decades of OT expertise with cutting-edge IT innovation to empower industries with smarter, more efficient, and connected operations.
+  </p>
+</div>
+
+
+</div>
+
 
         {/* 1 — Ecosystem */}
-        <div className="hero-block" data-phase="1">
+        <div className="hero-block two" data-phase="1">
           <h2 className="display-md hero-title">
             <span className="line display-md">EVERY PROJECT BEGINS</span><br />
             <span className="line display-md">INSIDE A LIVING ECOSYSTEM </span>
@@ -269,7 +280,7 @@ export default function Hero({ onPhase }) {
         </div>
 
         {/* 2 — Automation & Controls */}
-        <div className="hero-block" data-phase="2" data-bullet="1">
+        <div className="hero-block three" data-phase="2" data-bullet="1">
           <h2 className="display-md">AUTOMATION &<br />CONTROLS</h2>
           <p className="body-md">Specialized in integration, systems design and industrial performance.</p>
         </div>
