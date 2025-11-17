@@ -1,10 +1,9 @@
 .hero {
   height: 100vh;
+  display: block;  /* 👈 SACA EL FLEX */
   position: relative;
-  overflow: clip;              /* evita desbordes laterales */
-  display: flex;
-  align-items: center;
 }
+
 
 .hero-inner {
   position: relative;
@@ -12,9 +11,8 @@
 }
 
 .hero-block {
-  position: absolute;
-  top: 50%;
-  left: 0;
+position: absolute;
+  top: 60%;
   transform: translateY(-50%);
   max-width: 100%;
   opacity: 0;
@@ -27,7 +25,7 @@
   font-family: "Neue Power Ultra", sans-serif;
   font-size: clamp(2.8rem, 6vw, 6rem);
   text-transform: uppercase;
-  line-height: 1.05;
+  line-height: 1;
   margin-bottom: 1.2rem;
   color: white;
 }
@@ -106,4 +104,14 @@
   top: 0 ;
   color: red;
 }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .hero-title.display-lg {
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-line);
+    letter-spacing: var(--display-sm-spacing);
+  }
+}
+
 

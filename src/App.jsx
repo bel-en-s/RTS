@@ -6,9 +6,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { EffectComposer, Noise, Vignette, Bloom } from "@react-three/postprocessing";
 import { Fluid } from "@whatisjery/react-fluid-distortion";
+import GridHelper from "./styles/gridHelper.jsx";
+
+
 
 import Home from "./Pages/Home";
 import Scene from "./Components/Scene.jsx";
+import Navbar from "./Components/Navbar/Navbar";
 
 import "./App.css";
 import "./styles/Tokens.css";
@@ -21,9 +25,6 @@ export default function App() {
 
   const lenisRef = useRef(null);
 
-  /* -------------------------------------------------------------
-      LENIS + SCROLLER
-     ------------------------------------------------------------- */
 useEffect(() => {
   const lenis = new Lenis({
     duration: 1.2,
@@ -43,7 +44,7 @@ useEffect(() => {
     requestAnimationFrame(raf);
 
     lenis.on("scroll", ({ scroll }) => {
-    setScroll(scroll);   // sincroniza escena 3D con scroll real
+    setScroll(scroll);   // sync scrolles
   });
 
 
@@ -64,7 +65,7 @@ useEffect(() => {
     // 🔹 Default: todos los triggers usan este scroller
     ScrollTrigger.defaults({ scroller: ".scroll-container" });
 
-    // 🔹 Forzamos refresh una vez todo está listo
+    // forzar refresh 
     setTimeout(() => ScrollTrigger.refresh(), 80);
 
     return () => {
@@ -73,9 +74,7 @@ useEffect(() => {
     };
   }, []);
 
-  /* -------------------------------------------------------------
-      SYNC R3F + LENIS
-     ------------------------------------------------------------- */
+
   function LenisRaf() {
     useFrame((state) => {
       lenisRef.current?.raf(state.clock.elapsedTime * 1000);
@@ -83,12 +82,11 @@ useEffect(() => {
     return null;
   }
 
-  /* -------------------------------------------------------------
-      RENDER
-     ------------------------------------------------------------- */
+
   return (
     <>
-     
+     {/* <GridHelper /> */}
+      <Navbar />
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
@@ -106,7 +104,7 @@ useEffect(() => {
         </EffectComposer>
       </Canvas>
 
-      {/* 🧭 SCROLLER REAL */}
+ 
       <div className="scroll-container" style={{ position: "relative", zIndex: 1 }}>
         <Home onPhase={setPhase} />
         <div style={{ height: "120vh" }} />

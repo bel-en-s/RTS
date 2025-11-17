@@ -21,7 +21,7 @@ export default function Hero({ onPhase }) {
       introTl
         .fromTo(
           ".hero-block:first-child .hero-title .line",
-          { y: 100, opacity: 0, scale: 1.05, filter: "blur(6px)" },
+          { y: 100, opacity: 0, scale: 1.05, filter: "blur(6px)", yPercent:10 },
           {
             y: 0, opacity: 1, scale: 1, filter: "blur(0px)",
             duration: 1.6, ease: "back.out(1.7)",
@@ -41,7 +41,13 @@ export default function Hero({ onPhase }) {
         if (i < 2) gsap.set(b, { autoAlpha: 0, y: 60, x: 0 });
         else gsap.set(b, { autoAlpha: 0, x: 120, y: 0 });
       });
-      gsap.set(blocks[0], { autoAlpha: 1, y: 0, x: 0 });
+     gsap.set(blocks[0], { 
+      autoAlpha: 1,
+      x: 0,
+      y: 0,
+      yPercent: 2 
+    });
+
 
       onPhase?.(0);
 
@@ -255,8 +261,9 @@ export default function Hero({ onPhase }) {
         {/* 1 — Ecosystem */}
         <div className="hero-block" data-phase="1">
           <h2 className="display-md hero-title">
-            <span className="line">EVERY PROJECT BEGINS</span><br />
-            <span className="line">INSIDE A LIVING ECOSYSTEM OF EXPERTISE</span>
+            <span className="line display-md">EVERY PROJECT BEGINS</span><br />
+            <span className="line display-md">INSIDE A LIVING ECOSYSTEM </span>
+            <span className="line display-md">OF EXPERTISE</span>
           </h2>
           <p className="body-md">— Three departments working as one to  shape, implement, and evolve the technologies that move modern industry forward..</p>
         </div>
