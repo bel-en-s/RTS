@@ -86,6 +86,7 @@ useEffect(() => {
   return (
     <>
      {/* <GridHelper /> */}
+     
       <Navbar />
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
@@ -104,10 +105,12 @@ useEffect(() => {
         </EffectComposer>
       </Canvas>
 
- 
+      <div className="main-container">
       <div className="scroll-container" style={{ position: "relative", zIndex: 1 }}>
         <Home onPhase={setPhase} />
         <div style={{ height: "120vh" }} />
+      </div>
+
       </div>
     </>
   );

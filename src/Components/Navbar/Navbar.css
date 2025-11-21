@@ -1,19 +1,24 @@
-/* === NAVBAR BASE === */
-.navbar {
+.navbar-wrapper {
   position: fixed;
   top: 1rem;
-  left: var(--margin);
-  right: var(--margin);
+  left: var(--margin-desktop);
+  right: var(--margin-desktop);
+  z-index: 200000000;
+  pointer-events: none;
+}
+
+.navbar {
+  pointer-events: auto;
+  width: 100%;
+  padding: 0.55rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 0.9rem ; */
+
   border-radius: 16px;
   backdrop-filter: blur(12px) saturate(180%);
   background-color: rgba(255, 255, 255, 0.08);
   color: white;
-  z-index: 100000000;
-  /* mix-blend-mode: difference; */
 }
 
 .navbar-left {
@@ -22,143 +27,102 @@
   gap: 32px;
 }
 
-/* === LOGO === */
 .logo {
   width: 44px;
   height: 21px;
-  display: block;
   filter: brightness(0) invert(1);
 }
 
-/* === DESKTOP LINKS === */
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 28px;
   list-style: none;
+  gap: 28px;
   font-size: 14px;
   font-weight: 400;
 }
 
-.nav-links li {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  height: 37px;
-  transition: opacity 0.3s ease;
-}
-
-.nav-links li:hover {
-  opacity: 0.7;
-}
-
-/* === BUTTON === */
 .nav-button {
-  background: #f2f2f233;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   padding: 9px 14px;
+  color: white;
   border-radius: 8px 2px 8px 8px;
-  font-size: 14px;
+  height: 37px;
   display: flex;
   align-items: center;
-  height: 37px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
+  transition: 0.3s ease;
 }
 
-.nav-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-}
-
-/* === HAMBURGER === */
-.hamburger {
-  width: 30px;
-  height: 24px;
+.hamburger-btn {
   display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  background: #424146;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.hamburger span {
-  height: 3px;
-  width: 100%;
-  background: white;
-  border-radius: 4px;
-  transition: 0.3s;
+.hamburger-btn svg {
+  stroke-width: 2px !important;
+  position: absolute;
 }
 
-/* Hamburger animation */
-.hamburger.open span:nth-child(1) {
-  transform: translateY(10px) rotate(45deg);
-}
-.hamburger.open span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.open span:nth-child(3) {
-  transform: translateY(-10px) rotate(-45deg);
-}
-
-/* === MOBILE MENU === */
+/* DROPDOWN MOBILE */
 .mobile-menu {
   position: fixed;
   top: calc(1rem + 60px);
-  left: var(--margin);
-  right: var(--margin);
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(25px);
-  border-radius: 16px;
+
+  left: var(--margin-desktop);
+  right: var(--margin-desktop);
+
+  padding: 3rem 2rem;
+
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 18px;
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
+
   flex-direction: column;
-  gap: 24px;
-  z-index: 999999999;
-  display: none; /* GSAP se encargará de cambiarlo */
+  gap: 22px;
+
+  z-index: 199999999;
+  display: none;
   opacity: 0;
-}
-
-
-.mobile-menu.show {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .mobile-menu ul {
   list-style: none;
+  display: flex;
+  gap: 18px;
+  flex-direction: column;
+  text-align: left;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
   font-size: 18px;
 }
 
-.mobile-btn {
-  margin-top: 1rem;
-  width: 100%;
-}
+/* RESPONSIVE ------------------------------------ */
 
-/* === RESPONSIVE === */
 @media (max-width: 1024px) {
   .desktop-only {
     display: none;
   }
-
-  .hamburger {
+  .hamburger-btn {
     display: flex;
-  }
-
-  .navbar {
-    padding: 0.7rem 1.4rem;
-    border-radius: 14px;
   }
 }
 
-@media (max-width: 768px) {
-  .navbar {
-    padding: 0.6rem 1.1rem;
-    border-radius: 12px;
+@media (max-width: 640px) {
+  .navbar-wrapper {
+    left: var(--margin-mobile);
+    right: var(--margin-mobile);
+  }
+
+  .mobile-menu {
+    left: var(--margin-mobile);
+    right: var(--margin-mobile);
+    padding: 2.5rem var(--margin-mobile);
   }
 }

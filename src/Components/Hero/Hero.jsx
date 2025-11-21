@@ -14,9 +14,9 @@ export default function Hero({ onPhase }) {
     const ctx = gsap.context(() => {
       const blocks = gsap.utils.toArray(".hero-block");
       const bullets = gsap.utils.toArray(".hero-bullets .bullet");
-      const steps = blocks.length - 1; // con 6 bloques => steps = 5
+      const steps = blocks.length - 1; 
 
-      // --- Intro (vertical)
+  
       const introTl = gsap.timeline({ defaults: { ease: "power4.out" } });
       introTl
         .fromTo(
@@ -51,11 +51,11 @@ export default function Hero({ onPhase }) {
 
       onPhase?.(0);
 
-      // panel 01/02/03 oculto hasta fase 2
+  
       const bulletsPanel = document.querySelector(".hero-bullets");
       gsap.set(bulletsPanel, { autoAlpha: 0, pointerEvents: "none" });
 
-      // --- Timeline principal
+ 
       const tl = gsap.timeline({
         scrollTrigger: {
           id: ST_ID,
@@ -71,15 +71,14 @@ export default function Hero({ onPhase }) {
             duration: 1.0,
           },
         onUpdate: (self) => {
-  
-  // 📌 fase continua para la nebulosa
+ 
   const phaseContinuous = self.progress * steps;
   onPhase?.(phaseContinuous);
 
-  // 📌 fase discreta para texto y bullets
+
   const idx = Math.round(self.progress * steps);
 
-  // mostrar panel desde fase 2
+  
   const show = idx >= 2;
   gsap.to(bulletsPanel, {
     autoAlpha: show ? 1 : 0,
@@ -88,7 +87,7 @@ export default function Hero({ onPhase }) {
     ease: "power1.out",
   });
 
-  // encender bullets correcto
+
   const map = { 2: 1, 3: 2, 4: 3 };
   setActiveBullet(map[idx] ?? null);
 }
@@ -260,7 +259,7 @@ export default function Hero({ onPhase }) {
 </div>
 
 <div className="hero-right">
-  <p className="hero-subtext body-md">
+  <p className="hero-subtext ">
     — We merge decades of OT expertise with cutting-edge IT innovation to empower industries with smarter, more efficient, and connected operations.
   </p>
 </div>
@@ -276,7 +275,7 @@ export default function Hero({ onPhase }) {
             <span className="line display-md">INSIDE A LIVING ECOSYSTEM </span>
             <span className="line display-md">OF EXPERTISE</span>
           </h2>
-          <p className="body-md">— Three departments working as one to  shape, implement, and evolve the technologies that move modern industry forward..</p>
+          <p className="body-md">— Three departments working as one to shape, implement, and evolve the technologies that move modern industry forward..</p>
         </div>
 
         {/* 2 — Automation & Controls */}

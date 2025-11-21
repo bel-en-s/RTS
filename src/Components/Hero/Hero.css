@@ -1,70 +1,79 @@
+
 .hero {
   height: 100vh;
-  display: block;  
+  display: block;
   position: relative;
 }
-
 
 .hero-inner {
   position: relative;
   width: 100%;
 }
 
-.hero-block {
-  position: absolute;
-  top: 60%;
-  transform: translateY(-50%);
-  max-width: 100%;
-  opacity: 0;
-  margin-top: 500px;
-  padding-left: 100px;         /* tu layout */
-  will-change: transform, opacity;
+
+.one {
+  margin-top: 25vh;
 }
 
-/* .hero-block h1,
-.hero-block h2 {
-  font-family: "Neue Power Ultra", sans-serif;
-  font-size: clamp(2.8rem, 6vw, 6rem);
-  text-transform: uppercase;
-  line-height: 1;
-  margin-bottom: 1.2rem;
-  color: white;
-} */
 
-.hero-title .line { display: inline-block; }
+.hero-block.one .hero-right {
+  grid-column: 9 / 14;
+}
 
+/* Línea de texto del título */
+.hero-title .line {
+  display: inline-block;
+}
+
+/* 🎯 SUBTEXTO — REEMPLAZO DEL TUYO (posición correcta Figma) */
+.hero-subtext {
+  font-family: "Geist", sans-serif;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.55;
+  opacity: 0.85;
+
+  /* 👉 Margen equivalente al grid del Figma */
+  margin-left: 40vw;
+
+  max-width: 420px;
+  color: rgba(255, 255, 255, 0.85);
+
+  position: relative;
+}
+
+/* ============================================================
+   TEXTO GENERAL DE BLOQUES (NO SE USA EN EL BLOQUE 1)
+   ============================================================ */
 .hero-block p {
   font-family: "Geist", sans-serif;
   font-size: clamp(1rem, 1.4vw, 1.35rem);
   line-height: 1.55;
   max-width: 550px;
-  margin-left: 200px;
+
+  /* Tu margen viejo — lo dejo comentado */
+  /* margin-left: 200px; */
+
   color: rgba(255,255,255,0.85);
 }
 
-.hero-subtext {
-  position: relative;
-  font-family: "Geist", sans-serif;
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.55;
- 
-  opacity: 0.85;
-  margin-left: 40VW;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-
+/* ============================================================
+   HERO BULLETS — INDICADORES DE LAS FASES
+   ============================================================ */
 .hero-bullets {
   position: absolute;
-  /* top: clamp(14px, 5vh, 40px); */
-    margin-top: 300px;
-  left: 100px;                 
+
+  /* Tu margen viejo: lo dejo comentado */
+  /* margin-top: 300px; */
+
+  top: 20px;
+  left: 100px;
+
   display: grid;
   grid-auto-flow: column;
   align-items: center;
   gap: 14px;
+
   z-index: 6;
-  top: 20px;
   isolation: isolate;
 }
 
@@ -84,7 +93,7 @@
 }
 
 .hero-bullets .bullet.is-active {
-  color: #cfe7ff;             
+  color: #cfe7ff;
   transform: scale(1.04);
 }
 
@@ -97,79 +106,80 @@
   top: 50%;
   transform: translateY(-50%);
   border-radius: 999px;
-  background: radial-gradient(120% 120% at 50% 50%, rgba(140,200,255,0.35), rgba(140,200,255,0.08) 70%, transparent 100%);
-  opacity: 0;                   /* aparece sólo cuando hay bullet activo */
+  background: radial-gradient(
+    120% 120% at 50% 50%,
+    rgba(140,200,255,0.35),
+    rgba(140,200,255,0.08) 70%,
+    transparent 100%
+  );
+  opacity: 0;
   pointer-events: none;
 }
 
+/* ============================================================
+   BLOQUES SIGUIENTES (TWO, THREE, ETC)
+   ============================================================ */
 
-.one{
-  /* top: 300px ; */
-  font-family: "Neue Power Ultra", sans-serif;
-  font-size: clamp(2.8rem, 6vw, 6rem);
-  /* text-transform: uppercase; */
-  line-height: 1;
-  margin-bottom: 1.2rem;
-  color: white;
-  width: 100%;
-  /* color: red; */
-}
-
-.two{
-  /* top: 300px ; */
-  font-family: "Neue Power Ultra", sans-serif;
-  font-size: clamp(2.8rem, 6vw, 6rem);
-  /* text-transform: uppercase; */
-  line-height: 1;
-  margin-bottom: 1.2rem;
-  color: white;
-  width: 100%;
-  /* color: red; */
-}
-
+/* Letras del H2 del bloque TWO */
 .hero-block.two .display-md {
   letter-spacing: 0.02em !important;
   line-height: 1.15 !important;
 }
 
-/* Mobile */
-@media (max-width: 1068px) {
-  .hero-title.display-lg {
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-line);
-    letter-spacing: var(--display-sm-spacing);
-  }
-  .one  {
-    padding: 16px;
-    top: 200px;
-  }
-    .hero-title {
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-line);
-    letter-spacing: var(--display-sm-space);
-  }
-  .hero-subtext {
-  position: relative;
-  font-family: "Geist", sans-serif;
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.55;
-  opacity: 0.85;
-  margin-left: 30vw;
-  color: rgba(255, 255, 255, 0.85);
-}
-.two{
- padding: 16px;
-    top: 200px;
-  /* color: red; */
-
-}
+/* Bloque THREE (posición original tuya, dejada comentada por si la necesitás) */
+/*
 .three {
-  top: 55%; /* centrado vertical como los demás */
-  /* transform: translateY(-50%); */
+  top: 55%;
   padding-left: 100px;
   max-width: 900px;
   opacity: 0;
   position: absolute;
 }
+*/
 
+
+
+@media (max-width: 1068px) {
+
+  .hero-title.display-lg {
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-line);
+    letter-spacing: var(--display-sm-spacing);
+  }
+
+  .one {
+    padding: 16px;
+    top: 200px;
+  }
+
+  .hero-title {
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-line);
+    letter-spacing: var(--display-sm-space);
+  }
+
+
+  .hero-subtext {
+    font-size: 16px;
+    line-height: 1.55;
+
+    margin-left: 15vw;
+    
+    opacity: 0.85;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .hero-block p {
+  font-family: "Geist", sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  line-height: 1.55;
+  max-width: 200px;
+  padding: 30px;
+  color: rgba(255,255,255,0.85);
+}
+
+  .two {
+    padding: 16px;
+    top: 200px;
+  }
 }

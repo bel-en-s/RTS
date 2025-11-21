@@ -1,6 +1,41 @@
-/* =======================
-   TIPOGRAFÍAS
-======================= */
+/* =========================================================
+   GLOBAL RESPONSIVE MARGINS
+========================================================= */
+:root {
+  --margin-desktop: 3.5vw;
+  --margin-laptop: 5vw;
+  --margin-tablet: 6vw;
+  --margin-mobile: 7vw;
+}
+
+.main-container {
+  width: 100%;
+  /* max-width: 1600px; */
+  margin-left: var(--margin-desktop);
+  margin-right: var(--margin-desktop);
+}
+
+@media (max-width: 1280px) {
+  .main-container {
+    margin-left: var(--margin-laptop);
+    margin-right: var(--margin-laptop);
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-container {
+    margin-left: var(--margin-tablet);
+    margin-right: var(--margin-tablet);
+  }
+}
+
+@media (max-width: 640px) {
+  .main-container {
+    margin-left: var(--margin-mobile);
+    margin-right: var(--margin-mobile);
+  }
+}
+
 @font-face {
   font-family: "Geist";
   src: url("/fonts/Geist-Regular.ttf") format("truetype");
@@ -20,9 +55,6 @@
 
 
 
-/* =======================
-   FUENTE GLOBAL
-======================= */
 html, body {
   font-family: "Geist", sans-serif; 
 }
@@ -38,16 +70,14 @@ body {
   color: white;
   margin: 0;
   padding: 0;
-  background-color: #000; /* opcional */
+  background-color: #000; 
 }
 
 code, pre {
   font-family: "Geist", sans-serif; 
 }
 
-/* =======================
-   REGLAS GENERALES
-======================= */
+
 body, html {
   margin: 0;
   padding: 0;
@@ -57,18 +87,14 @@ body, html {
   color: white;
 }
 
-/* =======================
-   ESTILOS DE TEXTO
-======================= */
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Neue Power Ultra", sans-serif;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-/* =======================
-   SECCIÓN PRINCIPAL
-======================= */
+
 .scroll-section {
   position: relative;
   z-index: 10; /* por encima del canvas */

@@ -1,8 +1,21 @@
+/* =========================================================
+   GLOBAL TOKENS (ROOT)
+   ========================================================= */
 :root {
-  /* === FONT FAMILY === */
+  /* ======= FONTS ======= */
   --font-base: "Geist", sans-serif;
+  --font-display: "Neue Power Ultra", sans-serif;
 
-  /* === DISPLAY TOKENS (DESKTOP) === */
+  --color-text: #ffffff;
+  --color-bg: #000000;
+
+  /* ======= GLOBAL MARGINS ======= */
+  --margin-desktop: 3.5vw;
+  --margin-laptop: 5vw;
+  --margin-tablet: 6vw;
+  --margin-mobile: 7vw;
+
+  /* ======= DISPLAY TOKENS (DESKTOP) ======= */
   --display-lg-size: 84px;
   --display-lg-weight: 800;
   --display-lg-line: 100%;
@@ -18,7 +31,7 @@
   --display-sm-line: 100%;
   --display-sm-space: -0.02em;
 
-  /* === BODY TOKENS === */
+  /* ======= BODY TOKENS ======= */
   --body-lg-size: 20px;
   --body-lg-line: 140%;
 
@@ -31,16 +44,56 @@
   --body-sm-line: 140%;
   --body-sm-space: 0%;
 
-  /* === HEADLINE SMALL (MOBILE TOKEN) === */
+  /* ======= MOBILE TOKEN ======= */
   --headline-small-size: 28px;
   --headline-small-weight: 700;
   --headline-small-line: 108%;
   --headline-small-space: 0.05em;
 }
 
-/* =============================
-   DESKTOP TYPOGRAPHY CLASSES
-   ============================= */
+/* =========================================================
+   FONTS
+   ========================================================= */
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Power Ultra";
+  src: url("/fonts/NeuePower-Bold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =========================================================
+   RESET + BASE
+   ========================================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+code, pre {
+  font-family: var(--font-base);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   TYPOGRAPHY CLASSES (DESKTOP)
+   ========================================================= */
 .display-lg {
   font-size: var(--display-lg-size);
   font-weight: var(--display-lg-weight);
@@ -74,29 +127,44 @@
 }
 
 .body-sm {
-  font-family: var(--font-base);
   font-size: var(--body-sm-size);
   font-weight: var(--body-sm-weight);
   line-height: var(--body-sm-line);
   letter-spacing: var(--body-sm-space);
 }
 
-/* HEADLINE SMALL (base class) */
-.headline-small {
-  font-family: var(--font-base);
-  font-size: var(--headline-small-size);
-  font-weight: var(--headline-small-weight);
-  line-height: var(--headline-small-line);
-  letter-spacing: var(--headline-small-space);
+/* =========================================================
+   GLOBAL CONTAINER
+   ========================================================= */
+.main-container {
+  width: 100%;
+  max-width: 1600px;
+  margin-left: var(--margin-desktop);
+  margin-right: var(--margin-desktop);
 }
 
-/* =============================
-   MOBILE OVERRIDES < 1068px
-   ============================= */
+/* =========================================================
+   RESPONSIVE MARGINS
+   ========================================================= */
+@media (max-width: 1280px) {
+  :root {
+    --margin-desktop: var(--margin-laptop);
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --margin-desktop: var(--margin-tablet);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --margin-desktop: var(--margin-mobile);
+  }
+}
 
 @media (max-width: 1068px) {
-
-  /* display-md becomes HEADLINE SMALL */
   .display-md {
     font-size: var(--headline-small-size) !important;
     font-weight: var(--headline-small-weight) !important;
@@ -104,14 +172,11 @@
     letter-spacing: var(--headline-small-space) !important;
   }
 
-  /* display-lg also scales a bit down in mobile
-     (opcional, si querés mantenerlo gigante, aviso) */
   .display-lg {
     font-size: calc(var(--display-lg-size) * 0.55);
     line-height: 110%;
   }
 
-  /* cuerpo reestablecido para legibilidad mobile */
   .body-md {
     font-size: 16px;
     line-height: 150%;
