@@ -133,9 +133,6 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: var(--body-sm-space);
 }
 
-/* =========================================================
-   GLOBAL CONTAINER
-   ========================================================= */
 .main-container {
   width: 100%;
   max-width: 1600px;
@@ -143,9 +140,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: var(--margin-desktop);
 }
 
-/* =========================================================
-   RESPONSIVE MARGINS
-   ========================================================= */
 @media (max-width: 1280px) {
   :root {
     --margin-desktop: var(--margin-laptop);

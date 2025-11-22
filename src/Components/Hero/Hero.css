@@ -1,185 +1,117 @@
+/* ===========================
+   HERO BASE
+=========================== */
 
 .hero {
   height: 100vh;
-  display: block;
   position: relative;
 }
 
 .hero-inner {
-  position: relative;
   width: 100%;
+  position: relative;
 }
-
 
 .one {
-  margin-top: 25vh;
+  margin-top: 30vh;
 }
 
 
-.hero-block.one .hero-right {
-  grid-column: 9 / 14;
-}
-
-/* Línea de texto del título */
 .hero-title .line {
   display: inline-block;
 }
-
-/* 🎯 SUBTEXTO — REEMPLAZO DEL TUYO (posición correcta Figma) */
-.hero-subtext {
-  font-family: "Geist", sans-serif;
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.55;
-  opacity: 0.85;
-
-  /* 👉 Margen equivalente al grid del Figma */
-  margin-left: 40vw;
-
-  max-width: 420px;
-  color: rgba(255, 255, 255, 0.85);
-
-  position: relative;
+.hero-subtext--desktop {
+  margin-left:50vw; 
+  margin-top: 1.8rem;                  
+  /* max-width: 480px;                     */
+  font-size: 20px;
+  line-height: 1.45;
+  opacity: 0.9;
 }
 
-/* ============================================================
-   TEXTO GENERAL DE BLOQUES (NO SE USA EN EL BLOQUE 1)
-   ============================================================ */
-.hero-block p {
-  font-family: "Geist", sans-serif;
-  font-size: clamp(1rem, 1.4vw, 1.35rem);
-  line-height: 1.55;
-  max-width: 550px;
-
-  /* Tu margen viejo — lo dejo comentado */
-  /* margin-left: 200px; */
-
-  color: rgba(255,255,255,0.85);
+.hero-subtext--mobile {
+  display: none;
 }
 
-/* ============================================================
-   HERO BULLETS — INDICADORES DE LAS FASES
-   ============================================================ */
+/* ===========================
+   BULLETS (Desktop-only)
+=========================== */
+
 .hero-bullets {
   position: absolute;
-
-  /* Tu margen viejo: lo dejo comentado */
-  /* margin-top: 300px; */
-
   top: 20px;
   left: 100px;
-
   display: grid;
   grid-auto-flow: column;
-  align-items: center;
   gap: 14px;
-
   z-index: 6;
-  isolation: isolate;
 }
 
 .hero-bullets .bullet {
-  position: relative;
-  z-index: 2;
-  appearance: none;
   background: transparent;
   border: none;
-  color: rgba(255,255,255,0.55);
-  font-family: "Geist", sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
-  padding: 6px 10px;
-  transition: color .25s ease, transform .25s ease;
-}
-
-.hero-bullets .bullet.is-active {
-  color: #cfe7ff;
-  transform: scale(1.04);
+  font-weight: 600;
 }
 
 .hero-bullets .bullet-indicator {
   position: absolute;
-  z-index: 1;
   height: 28px;
   width: 0;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
   border-radius: 999px;
-  background: radial-gradient(
-    120% 120% at 50% 50%,
-    rgba(140,200,255,0.35),
-    rgba(140,200,255,0.08) 70%,
-    transparent 100%
-  );
+  background: rgba(140, 200, 255, 0.25);
   opacity: 0;
-  pointer-events: none;
 }
 
-/* ============================================================
-   BLOQUES SIGUIENTES (TWO, THREE, ETC)
-   ============================================================ */
+/* ===========================
+   MOBILE (≤ 767px)
+=========================== */
 
-/* Letras del H2 del bloque TWO */
-.hero-block.two .display-md {
-  letter-spacing: 0.02em !important;
-  line-height: 1.15 !important;
-}
+@media (max-width: 767px) {
 
-/* Bloque THREE (posición original tuya, dejada comentada por si la necesitás) */
-/*
-.three {
-  top: 55%;
-  padding-left: 100px;
-  max-width: 900px;
-  opacity: 0;
-  position: absolute;
-}
-*/
+  .hero {
+    height: auto;
+    padding-top: 50%;
+  }
 
-
-
-@media (max-width: 1068px) {
+  .one {
+    margin-top: 0;
+  }
 
   .hero-title.display-lg {
     font-size: var(--display-sm-size);
     line-height: var(--display-sm-line);
-    letter-spacing: var(--display-sm-spacing);
   }
 
-  .one {
-    padding: 16px;
-    top: 200px;
+ 
+  .hero-subtext--desktop {
+    display: none !important;
   }
 
-  .hero-title {
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-line);
-    letter-spacing: var(--display-sm-space);
+  .hero-subtext--mobile {
+    display: block !important;
   }
-
 
   .hero-subtext {
     font-size: 16px;
-    line-height: 1.55;
-
-    margin-left: 15vw;
-    
-    opacity: 0.85;
-    color: rgba(255, 255, 255, 0.85);
+    line-height: 140%;
+    margin-top: 80px;
+    margin-left: 80px !important;
+    padding-left: var(--margin-mobile);
+    padding-right: var(--margin-mobile);
   }
 
-  .hero-block p {
-  font-family: "Geist", sans-serif;
-  font-size: clamp(1rem, 1.4vw, 1.35rem);
-  line-height: 1.55;
-  max-width: 200px;
-  padding: 30px;
-  color: rgba(255,255,255,0.85);
+  /* Hide bullets in mobile */
+  .hero-bullets {
+    display: none;
+  }
 }
 
-  .two {
-    padding: 16px;
-    top: 200px;
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .one {
+    margin-top: 14vh;
   }
 }
