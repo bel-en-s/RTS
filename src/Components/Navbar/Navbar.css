@@ -62,6 +62,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  border: none;
 }
 
 .hamburger-btn svg {
@@ -126,3 +127,4 @@
     padding: 2.5rem var(--margin-mobile);
   }
 }
+

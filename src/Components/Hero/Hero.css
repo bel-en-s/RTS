@@ -1,6 +1,7 @@
-/* ===========================
-   HERO BASE
-=========================== */
+.hero-spacer {
+  height: 10vh;
+}
+
 
 .hero {
   height: 100vh;
@@ -16,14 +17,13 @@
   margin-top: 30vh;
 }
 
-
 .hero-title .line {
   display: inline-block;
 }
+
 .hero-subtext--desktop {
-  margin-left:50vw; 
-  margin-top: 1.8rem;                  
-  /* max-width: 480px;                     */
+  margin-left: 50vw;
+  margin-top: 1.8rem;
   font-size: 20px;
   line-height: 1.45;
   opacity: 0.9;
@@ -33,18 +33,41 @@
   display: none;
 }
 
-/* ===========================
-   BULLETS (Desktop-only)
-=========================== */
+.hero-title--ecosystem-mobile {
+  display: none;
+}
+
+.two {
+  position: absolute;
+  top: -100px;
+}
+
+.two-subtext {
+  margin-left: 20vw;
+}
 
 .hero-bullets {
   position: absolute;
-  top: 20px;
-  left: 100px;
-  display: grid;
-  grid-auto-flow: column;
-  gap: 14px;
+  top: 100px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
   z-index: 6;
+  font-family: "Geist", sans-serif;
+}
+
+.bullets-label {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.bullets-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .hero-bullets .bullet {
@@ -53,23 +76,72 @@
   color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
   font-weight: 600;
+  font-size: 15px;
+  transition: color 0.25s ease;
 }
 
-.hero-bullets .bullet-indicator {
-  position: absolute;
-  height: 28px;
-  width: 0;
-  border-radius: 999px;
-  background: rgba(140, 200, 255, 0.25);
-  opacity: 0;
+.hero-bullets .bullet.is-active::before {
+  content: "-";
+  margin-right: 3px;
+}
+
+.hero-bullets .bullet.is-active::after {
+  content: "";
 }
 
 /* ===========================
-   MOBILE (≤ 767px)
+   THREE — Automation Text
+=========================== */
+
+.three-subtext--desktop {
+  display: block;
+}
+
+.three-subtext--mobile {
+  display: none;
+}
+
+/* ===========================
+   TWO — Ecosystem Text
+=========================== */
+
+.two-subtext--desktop {
+  display: block;
+}
+
+.two-subtext--mobile {
+  display: none;
+}
+
+/* ===========================
+   FOUR — Digital Skills
+=========================== */
+
+.four-subtext--desktop {
+  display: block;
+}
+
+.four-subtext--mobile {
+  display: none;
+}
+
+/* ===========================
+   FIVE — Energy & Infra
+=========================== */
+
+.five-subtext--desktop {
+  display: block;
+}
+
+.five-subtext--mobile {
+  display: none;
+}
+
+/* ===========================
+   MOBILE (max-width: 767px)
 =========================== */
 
 @media (max-width: 767px) {
-
   .hero {
     height: auto;
     padding-top: 50%;
@@ -84,7 +156,6 @@
     line-height: var(--display-sm-line);
   }
 
- 
   .hero-subtext--desktop {
     display: none !important;
   }
@@ -102,9 +173,83 @@
     padding-right: var(--margin-mobile);
   }
 
-  /* Hide bullets in mobile */
-  .hero-bullets {
-    display: none;
+  .two {
+    position: absolute;
+    top: -100px;
+  }
+
+  .three {
+    position: absolute;
+    top: 150px;
+  }
+
+  .four {
+    position: absolute;
+    top: 150px;
+  }
+
+  .five {
+    position: absolute;
+    top: 150px;
+  }
+
+  .four-subtext {
+    max-width: 90vw;
+  }
+
+  .hero-title--ecosystem-desktop {
+    display: none !important;
+  }
+
+  .hero-title--ecosystem-mobile {
+    display: block !important;
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-line);
+    letter-spacing: var(--display-sm-space);
+    margin-bottom: 1.4rem;
+  }
+
+  .two-subtext--desktop {
+    display: none !important;
+  }
+
+  .two-subtext--mobile {
+    display: block !important;
+    padding-left: 20px;
+    padding-right: var(--margin-mobile);
+    margin-top: 18px;
+    line-height: 150%;
+  }
+
+  .three-subtext--desktop {
+    display: none !important;
+  }
+
+  .three-subtext--mobile {
+    display: block !important;
+ 
+    margin-top: 18px;
+    line-height: 140%;
+  }
+
+  .four-subtext--desktop {
+    display: none !important;
+  }
+
+  .four-subtext--mobile {
+    display: block !important;
+    line-height: 150%;
+    max-width: 400px;
+  }
+
+  .five-subtext--desktop {
+    display: none !important;
+  }
+
+  .five-subtext--mobile {
+    display: block !important;
+    line-height: 150%;
+    margin-top: 12px;
   }
 }
 
@@ -113,5 +258,13 @@
 @media (min-width: 768px) and (max-width: 1024px) {
   .one {
     margin-top: 14vh;
+  }
+}
+
+
+
+@media (min-width: 768px) {
+  .hero-block.two {
+    padding-top: 16vh;
   }
 }

@@ -13,7 +13,7 @@
   --margin-desktop: 3.5vw;
   --margin-laptop: 5vw;
   --margin-tablet: 6vw;
-  --margin-mobile: 7vw;
+  /* --margin-mobile: 7vw; */
 
   /* ======= DISPLAY TOKENS (DESKTOP) ======= */
   --display-lg-size: 84px;

@@ -1,0 +1,29 @@
+.approach-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* height: 45px; */
+  padding: 12px 16px;
+
+  border-radius: 12px;
+
+
+  background-color: #5b25d4;
+  color: #ffffff;
+
+  font-family: var(--font-base, "Geist", sans-serif);
+  font-size: 16px;
+  line-height: 140%;
+  font-weight: 500;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.approach-btn:hover {
+  background-color: #4f00ff;
+  transform: translateY(-2px);
+}

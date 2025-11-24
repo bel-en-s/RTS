@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import "./Navbar.css";
 import logo from "../../assets/logo-rts.svg";
 
-export default function Navbar() {
+export default function Navbar({ navMode }) {
   const navRef = useRef(null);
   const menuRef = useRef(null);
   const menuIconRef = useRef(null);
