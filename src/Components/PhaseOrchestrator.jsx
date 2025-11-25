@@ -55,7 +55,7 @@ export default function PhaseOrchestrator({ onPhaseChange }) {
       });
     });
 
-    // cleanup al desmontar
+
     return () => {
       console.log("[PhaseOrchestrator] 🔻 Cleanup ScrollTriggers");
       ScrollTrigger.getAll().forEach((st) => st.kill());

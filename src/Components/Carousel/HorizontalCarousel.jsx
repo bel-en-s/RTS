@@ -1,10 +1,13 @@
-// src/Pages/HorizontalCarousel.jsx
+// Mejora basada en layout Figma mobile/desktop + hover layout
 import React, { useEffect, useRef } from "react";
 import "./HorizontalCarousel.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Card from "../UI/Card";
-import powerImage from "../../assets/carousel/power.png";
+import powerImage from "../../assets/carousel/test.jpeg";
+import pharmaImage from "../../assets/carousel/test.jpeg";
+import miningImage from "../../assets/carousel/test.jpeg";
+import pulpImage from "../../assets/carousel/test.jpeg";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,14 +27,9 @@ export default function HorizontalCarousel() {
       },
     });
 
-    
-
     // Scroll horizontal
     const container = scrollContainerRef.current;
-    const cards = container.querySelectorAll(".card-component");
-
-    const totalWidth =
-      container.scrollWidth - window.innerWidth; // ancho total scrollable
+    const totalWidth = container.scrollWidth - window.innerWidth;
 
     gsap.to(container, {
       x: () => -totalWidth,
@@ -39,7 +37,7 @@ export default function HorizontalCarousel() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: () => `+=${totalWidth}`, // duración del scroll
+        end: () => `+=${totalWidth}`,
         scrub: true,
         pin: true,
         anticipatePin: 1,
@@ -54,31 +52,22 @@ export default function HorizontalCarousel() {
 
   return (
     <section className="horizontal-carousel" ref={sectionRef}>
-      <h1 className="carousel-title display-mdg">we navigate and serve the most complex industrial galaxies</h1>
+      <h1 className="carousel-title display-md">
+        WE NAVIGATE AND SERVE THE MOST COMPLEX <span className="gradient-text">INDUSTRIAL GALAXIES</span>
+      </h1>
 
       <div className="carousel-track" ref={scrollContainerRef}>
-        <Card
-         image={powerImage}
-        />
-        <Card
-          title="Proyecto B"
-          subtitle="Diseño 3D"
-          image="/assets/img2.jpg"
-          description="Modelado interactivo con iluminación dinámica."
-        />
-        <Card
-          title="Proyecto C"
-          subtitle="Animación"
-          image="/assets/img3.jpg"
-          description="Animaciones fluidas con shaders personalizados."
-        />
-        <Card
-          title="Proyecto D"
-          subtitle="Interactividad"
-          image="/assets/img4.jpg"
-          description="Scroll reactivo y físicas suaves con GSAP + Lenis."
-        />
+        <Card title="Oil & Gas" image={powerImage} description="High-pressure orbit where precision defines every move." />
+        <Card title="Power Generation" image={powerImage} />
+        <Card title="Chemicals & Petrochemicals" image={pharmaImage} />
+        <Card title="Pulp & Paper" image={pulpImage} />
+        <Card title="Metals & Mining" image={miningImage} />
+        <Card title="Pharmaceuticals" image={pharmaImage} />
       </div>
+
+
+
     </section>
+    
   );
 }

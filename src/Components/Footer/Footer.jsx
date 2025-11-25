@@ -1,13 +1,14 @@
 import "./Footer.css";
-import footerLogo from "../../assets/Footer.png"; // logo
 
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-left">
-          <img src={footerLogo} alt="RTS Logo" className="footer-logo" />
-          <h2 className="footer-title display-sm">SPARK INDUSTRIAL<br />BRILLIANCE</h2>
+          <img src="/footer.png" alt="RTS Logo" className="footer-logo" />
+          <h2 className="footer-title display-sm">
+            SPARK INDUSTRIAL<br />BRILLIANCE
+          </h2>
         </div>
 
         <div className="footer-columns">
