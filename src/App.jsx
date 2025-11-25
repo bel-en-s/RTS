@@ -13,9 +13,10 @@ import GridHelper from "./styles/gridHelper.jsx";
 import Home from "./Pages/Home";
 import Scene from "./Components/Scene.jsx";
 import Navbar from "./Components/Navbar/Navbar";
+import Footer from "./Components/Footer/Footer";
 
 import "./App.css";
-import "./styles/Tokens.css";
+import "./index.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,10 +109,13 @@ useEffect(() => {
       <div className="main-container">
       <div className="scroll-container" style={{ position: "relative", zIndex: 1 }}>
         <Home onPhase={setPhase} />
-        <div style={{ height: "120vh" }} />
+        <Footer />
+       
       </div>
 
       </div>
+
+ 
     </>
   );
 }

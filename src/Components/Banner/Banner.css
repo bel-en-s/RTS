@@ -1,0 +1,74 @@
+.banner {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 10vh;
+
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+.banner-inner {
+  max-width: 800px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem; 
+  padding-inline: 5vw;
+}
+
+.banner-title {
+  font-weight: 500;
+  font-size: clamp(28px, 5vw, 56px);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.banner-body {
+  font-family: "Geist", sans-serif;
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 640px;
+  opacity: 0.9;
+  margin: top -20px;
+}
+
+.banner-button {
+  margin-top: 1rem;
+}
+
+/* ========== Responsive split ========== */
+.desktop {
+  display: inline;
+}
+.mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: inline;
+  }
+
+  .banner-body {
+    margin-top: -10px;
+    width: 300px;
+  }
+
+  .banner-inner {
+    gap: 1rem;
+  }
+}

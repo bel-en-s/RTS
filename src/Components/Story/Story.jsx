@@ -11,7 +11,7 @@ export default function Story() {
   useEffect(() => {
     const section = sectionRef.current;
 
-    // pin normal
+  
     const pin = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -20,7 +20,7 @@ export default function Story() {
       pinSpacing: true,
     });
 
-    // transición con gsap (rápida, confiable)
+
     const colorTrigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -29,7 +29,7 @@ export default function Story() {
         gsap.to("body", {
           backgroundColor: "#ffffff",
           color: "#000000",
-          duration: 0.25, // ⚡ súper rápida
+          duration: 0.25,
           ease: "none",
           overwrite: true,
         }),

@@ -1,41 +1,65 @@
+/* ==========================================================================
+   GLOBAL DESIGN TOKENS
+   Belén Seoane · RTS Site
+========================================================================== */
+
 /* =========================================================
-   GLOBAL RESPONSIVE MARGINS
+   ROOT VARIABLES
 ========================================================= */
 :root {
+  /* ====== FONT FAMILIES ====== */
+  --font-base: "Geist", sans-serif;
+  --font-display: "Neue Power Ultra", sans-serif;
+
+  /* ====== COLORS ====== */
+  --color-text: #ffffff;
+  --color-bg: #000000;
+
+  /* ====== RESPONSIVE MARGINS ====== */
   --margin-desktop: 3.5vw;
   --margin-laptop: 5vw;
   --margin-tablet: 6vw;
   --margin-mobile: 7vw;
+
+  /* ====== DISPLAY TOKENS (DESKTOP) ====== */
+  --display-lg-size: 84px;
+  --display-lg-weight: 800;
+  --display-lg-line: 100%;
+  --display-lg-space: 0.05em;
+
+  --display-md-size: 60px;
+  --display-md-weight: 700;
+  --display-md-line: 100%;
+  --display-md-space: -0.03em;
+
+  --display-sm-size: 52px;
+  --display-sm-weight: 600;
+  --display-sm-line: 100%;
+  --display-sm-space: -0.02em;
+
+  /* ====== BODY TOKENS ====== */
+  --body-lg-size: 20px;
+  --body-lg-line: 140%;
+
+  --body-md-size: 18px;
+  --body-md-weight: 400;
+  --body-md-line: 140%;
+
+  --body-sm-size: 14px;
+  --body-sm-weight: 400;
+  --body-sm-line: 140%;
+  --body-sm-space: 0%;
+
+  /* ====== MOBILE TOKENS ====== */
+  --headline-small-size: 28px;
+  --headline-small-weight: 700;
+  --headline-small-line: 108%;
+  --headline-small-space: 0.05em;
 }
 
-.main-container {
-  width: 100%;
-  /* max-width: 1600px; */
-  /* margin-left: var(--margin-desktop);
-  margin-right: var(--margin-desktop); */
-}
-
-@media (max-width: 1280px) {
-  .main-container {
-    margin-left: var(--margin-laptop);
-    margin-right: var(--margin-laptop);
-  }
-}
-
-@media (max-width: 1024px) {
-  .main-container {
-    margin-left: var(--margin-tablet);
-    margin-right: var(--margin-tablet);
-  }
-}
-
-@media (max-width: 640px) {
-  .main-container {
-    margin-left: var(--margin-mobile);
-    margin-right: var(--margin-mobile);
-  }
-}
-
+/* =========================================================
+   FONT-FACE DEFINITIONS
+========================================================= */
 @font-face {
   font-family: "Geist";
   src: url("/fonts/Geist-Regular.ttf") format("truetype");
@@ -46,74 +70,131 @@
 
 @font-face {
   font-family: "Neue Power Ultra";
-  /* src: url("/fonts/NeuePower-Bold.eot"); */
   src: url("/fonts/NeuePower-Bold.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
 
-
-
+/* =========================================================
+   RESET + BASE
+========================================================= */
 html, body {
-  font-family: "Geist", sans-serif; 
-}
-
-:root {
-  font-family: "Geist", sans-serif;
-  color: white;
-  background-color: black;
-}
-
-body {
-  font-family: "Geist", sans-serif;
-  color: white;
   margin: 0;
   padding: 0;
-  background-color: #000; 
+  font-family: var(--font-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
 }
 
 code, pre {
-  font-family: "Geist", sans-serif; 
+  font-family: var(--font-base);
 }
-
-
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: "Geist", sans-serif; 
-  overflow-x: hidden;
-  background: black;
-  color: white;
-}
-
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Neue Power Ultra", sans-serif;
-  letter-spacing: 2px;
+  font-family: var(--font-display);
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-
-.scroll-section {
-  position: relative;
-  z-index: 10; /* por encima del canvas */
-  min-height: 400vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* =========================================================
+   TYPOGRAPHY CLASSES (UTILITARIAS)
+========================================================= */
+.display-lg {
+  font-size: var(--display-lg-size);
+  font-weight: var(--display-lg-weight);
+  line-height: var(--display-lg-line);
+  letter-spacing: var(--display-lg-space);
 }
 
-
-
-.hero-text h1 {
-  font-size: 3rem;
-  letter-spacing: 3px;
-  margin-bottom: 1rem;
+.display-md {
+  font-size: var(--display-md-size);
+  font-weight: var(--display-md-weight);
+  line-height: var(--display-md-line);
+  letter-spacing: var(--display-md-space);
 }
 
-.hero-text p {
-  font-size: 1rem;
-  line-height: 1.6;
-  opacity: 0.8;
+.display-sm {
+  font-size: var(--display-sm-size);
+  font-weight: var(--display-sm-weight);
+  line-height: var(--display-sm-line);
+  letter-spacing: var(--display-sm-space);
+}
+
+.body-lg {
+  font-size: var(--body-lg-size);
+  line-height: var(--body-lg-line);
+}
+
+.body-md {
+  font-size: var(--body-md-size);
+  font-weight: var(--body-md-weight);
+  line-height: var(--body-md-line);
+}
+
+.body-sm {
+  font-size: var(--body-sm-size);
+  font-weight: var(--body-sm-weight);
+  line-height: var(--body-sm-line);
+  letter-spacing: var(--body-sm-space);
+}
+
+/* =========================================================
+   RESPONSIVE OVERRIDES
+========================================================= */
+@media (max-width: 1068px) {
+  .display-md {
+    font-size: var(--headline-small-size) !important;
+    font-weight: var(--headline-small-weight) !important;
+    line-height: var(--headline-small-line) !important;
+    letter-spacing: var(--headline-small-space) !important;
+  }
+
+  .display-lg {
+    font-size: calc(var(--display-lg-size) * 0.55);
+    line-height: 110%;
+  }
+
+  .body-md {
+    font-size: 16px;
+    line-height: 150%;
+  }
+
+  .body-sm {
+    font-size: 14px;
+    line-height: 150%;
+  }
+}
+
+/* =========================================================
+   UTILS / WRAPPERS / LAYOUT
+========================================================= */
+.main-container {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+/* Si querés usar márgenes por sección */
+.wrapper {
+  padding-inline: var(--margin-desktop);
+}
+
+@media (max-width: 1280px) {
+  .wrapper {
+    padding-inline: var(--margin-laptop);
+  }
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    padding-inline: var(--margin-tablet);
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    padding-inline: var(--margin-mobile);
+  }
 }
