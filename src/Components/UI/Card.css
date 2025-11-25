@@ -2,8 +2,8 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  width: 70%;
-  height: 5%;
+  width: 535px;
+  height: 409px;
   border-radius: 30px;
 }
 
@@ -17,7 +17,7 @@
 .card-content {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5); /* optional: adds dark overlay */
+ 
   color: white;
   opacity: 0;
   display: flex;

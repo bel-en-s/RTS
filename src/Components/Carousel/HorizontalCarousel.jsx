@@ -4,7 +4,7 @@ import "./HorizontalCarousel.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Card from "../UI/Card";
-import powerImage from "../../assets/carousel/power.png";
+import powerImage from "../../assets/carousel/descarga.png";
 
 
 gsap.registerPlugin(ScrollTrigger);

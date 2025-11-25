@@ -1,154 +1,239 @@
-.hero-spacer {
-  height: 10vh;
-}
-
+/* ============================================
+   HERO — BASE STRUCTURE
+============================================ */
 
 .hero {
-  height: 100vh;
-  position: relative;
+  height: auto;
+  min-height: 100vh;
 }
+
 
 .hero-inner {
-  width: 100%;
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.one {
-  margin-top: 30vh;
+/* ============================================
+   GLOBAL HERO BLOCK (ABSOLUTE, 12-COL GRID)
+============================================ */
+
+.hero-block {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  opacity: 0;
+  pointer-events: none;
 }
 
-.hero-title .line {
-  display: inline-block;
+.hero-block * {
+  pointer-events: auto;
+}
+
+/* ============================================
+   BLOCK 1 — SPARK INDUSTRIAL BRILLIANCE
+============================================ */
+
+.hero-block.one {
+  padding-top: 12vh;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+
+  row-gap: 2rem;
+}
+
+/* --------------------------------------------
+   TÍTULO (cols 1–6)
+-------------------------------------------- */
+.hero-block.one .hero-left {
+  grid-column: 1 / span 6;
+}
+
+.hero-block.one .hero-title {
+  text-transform: uppercase;
+  font-size: var(--display-lg-size);
+  line-height: 0.58;
+  margin: 0;
+}
+
+.hero-block.one .hero-title .line {
+  display: block; /
+}
+
+/* --------------------------------------------
+   SUBTEXTO (cols 8–12)
+-------------------------------------------- */
+.hero-block.one .hero-right {
+  grid-column: 8 / span 4;
+  margin-top: -0.5rem;
+}
+
+.hero-block.one .hero-subtext--desktop {
+  font-size: 18px;
+  line-height: 1.45;
+  opacity: 0.9;
 }
 
 .hero-subtext--desktop {
-  margin-left: 50vw;
-  margin-top: 1.8rem;
-  font-size: 20px;
-  line-height: 1.45;
-  opacity: 0.9;
+  display: block;
 }
 
 .hero-subtext--mobile {
   display: none;
 }
 
+/* --------------------------------------------
+   RESPONSIVE — MOBILE
+-------------------------------------------- */
+@media (max-width: 767px) {
+  .hero-block.one {
+    padding-top: 12vh;
+
+    /* deja que fluya verticalmente */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .hero-block.one .hero-left,
+  .hero-block.one .hero-right {
+    grid-column: unset;      /* elimina grilla */
+    width: 100%;
+  }
+
+  .hero-block.one .hero-title {
+    font-size: var(--display-sm-size);
+    line-height: var(--display-sm-line);
+  }
+
+  .hero-block.one .hero-subtext--desktop {
+    display: none;
+  }
+
+  .hero-block.one .hero-subtext--mobile {
+    display: block;
+    font-size: 15px;
+    line-height: 1.45;
+    opacity: 0.9;
+    width: 100%;
+  }
+}
+
+
+/* ============================================
+   GENERIC TYPOGRAPHY
+============================================ */
+
+.hero-title .line {
+  display: inline-block;
+  width: 100vw;
+}
+
+.hero-subtext--desktop {
+  font-size: 20px;
+  margin-top: 20vh;
+  line-height: 1.45;
+  opacity: 0.85;
+}
+
+.hero-subtext--mobile {
+  display: none;
+}
+
+/* Ecosystem mobile title */
 .hero-title--ecosystem-mobile {
   display: none;
 }
 
-.two {
-  position: absolute;
-  top: -100px;
+.title-desktop {
+  display: block;
+}
+.title-mobile {
+  display: none;
 }
 
-.two-subtext {
-  margin-left: 20vw;
-}
+/* ============================================
+   BULLETS (Desktop)
+============================================ */
 
 .hero-bullets {
   position: absolute;
-  top: 100px;
+  top: 9vh;
+  left: var(--margin);
   display: flex;
   align-items: center;
-  gap: 20px;
-  z-index: 6;
-  font-family: "Geist", sans-serif;
+  gap: 24px;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .bullets-label {
   font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  font-size: 13px;
+  letter-spacing: 0.04em;
   color: rgba(255, 255, 255, 0.85);
 }
 
 .bullets-wrap {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .hero-bullets .bullet {
-  background: transparent;
+  background: none;
   border: none;
   color: rgba(255, 255, 255, 0.55);
-  cursor: pointer;
-  font-weight: 600;
   font-size: 15px;
-  transition: color 0.25s ease;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-.hero-bullets .bullet.is-active::before {
-  content: "-";
-  margin-right: 3px;
+.hero-bullets .bullet.is-active {
+  color: white;
 }
 
-.hero-bullets .bullet.is-active::after {
-  content: "";
+.bullet-indicator {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: white;
+  opacity: 0;
+  border-radius: 4px;
 }
 
-/* ===========================
-   THREE — Automation Text
-=========================== */
-
-.three-subtext--desktop {
-  display: block;
-}
-
-.three-subtext--mobile {
-  display: none;
-}
-
-/* ===========================
-   TWO — Ecosystem Text
-=========================== */
-
-.two-subtext--desktop {
-  display: block;
-}
-
-.two-subtext--mobile {
-  display: none;
-}
-
-/* ===========================
-   FOUR — Digital Skills
-=========================== */
-
-.four-subtext--desktop {
-  display: block;
-}
-
-.four-subtext--mobile {
-  display: none;
-}
-
-/* ===========================
-   FIVE — Energy & Infra
-=========================== */
-
-.five-subtext--desktop {
-  display: block;
-}
-
-.five-subtext--mobile {
-  display: none;
-}
-
-/* ===========================
+/* ============================================
    MOBILE (max-width: 767px)
-=========================== */
+============================================ */
 
 @media (max-width: 767px) {
   .hero {
     height: auto;
-    padding-top: 50%;
+    padding-top: 18vh;
   }
 
-  .one {
-    margin-top: 0;
+  .hero-inner {
+    height: auto;
+  }
+
+  .hero-block {
+    position: relative;
+    inset: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    opacity: 1 !important;
+    transform: none !important;
+    margin-bottom: 28vh;
   }
 
   .hero-title.display-lg {
@@ -157,114 +242,46 @@
   }
 
   .hero-subtext--desktop {
-    display: none !important;
+    display: none;
   }
 
   .hero-subtext--mobile {
-    display: block !important;
-  }
-
-  .hero-subtext {
+    display: block;
     font-size: 16px;
-    line-height: 140%;
-    margin-top: 80px;
-    margin-left: 80px !important;
-    padding-left: var(--margin-mobile);
-    padding-right: var(--margin-mobile);
-  }
-
-  .two {
-    position: absolute;
-    top: -100px;
-  }
-
-  .three {
-    position: absolute;
-    top: 150px;
-  }
-
-  .four {
-    position: absolute;
-    top: 150px;
-  }
-
-  .five {
-    position: absolute;
-    top: 150px;
-  }
-
-  .four-subtext {
-    max-width: 90vw;
-  }
-
-  .hero-title--ecosystem-desktop {
-    display: none !important;
+    line-height: 1.4;
   }
 
   .hero-title--ecosystem-mobile {
-    display: block !important;
-    font-size: var(--display-sm-size);
-    line-height: var(--display-sm-line);
-    letter-spacing: var(--display-sm-space);
-    margin-bottom: 1.4rem;
+    display: block;
   }
 
-  .two-subtext--desktop {
+  .hero-title--ecosystem-desktop {
+    display: none;
+  }
+
+  .hero-bullets {
     display: none !important;
-  }
-
-  .two-subtext--mobile {
-    display: block !important;
-    padding-left: 20px;
-    padding-right: var(--margin-mobile);
-    margin-top: 18px;
-    line-height: 150%;
-  }
-
-  .three-subtext--desktop {
-    display: none !important;
-  }
-
-  .three-subtext--mobile {
-    display: block !important;
- 
-    margin-top: 18px;
-    line-height: 140%;
-  }
-
-  .four-subtext--desktop {
-    display: none !important;
-  }
-
-  .four-subtext--mobile {
-    display: block !important;
-    line-height: 150%;
-    max-width: 400px;
-  }
-
-  .five-subtext--desktop {
-    display: none !important;
-  }
-
-  .five-subtext--mobile {
-    display: block !important;
-    line-height: 150%;
-    margin-top: 12px;
   }
 }
 
-
+/* ============================================
+   TABLET (768–1024px)
+============================================ */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-  .one {
-    margin-top: 14vh;
+
+  .hero {
+    height: auto;
   }
-}
 
+  .hero-block {
+    position: relative;
+    inset: unset;
+    display: block;
+    margin-bottom: 25vh;
+  }
 
-
-@media (min-width: 768px) {
-  .hero-block.two {
-    padding-top: 16vh;
+  .hero-block.one {
+    margin-top: 10vh;
   }
 }

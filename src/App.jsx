@@ -15,7 +15,7 @@ import Scene from "./Components/Scene.jsx";
 import Navbar from "./Components/Navbar/Navbar";
 
 import "./App.css";
-import "./styles/Tokens.css";
+import "./index.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,8 +85,8 @@ useEffect(() => {
 
   return (
     <>
-     {/* <GridHelper /> */}
-     
+
+   
       <Navbar />
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
@@ -104,9 +104,9 @@ useEffect(() => {
           <Vignette darkness={0.85} />
         </EffectComposer>
       </Canvas>
-
+  <div className="scroll-container" style={{ zIndex: 1 }}>
       <div className="main-container">
-      <div className="scroll-container" style={{ position: "relative", zIndex: 1 }}>
+    
         <Home onPhase={setPhase} />
         <div style={{ height: "120vh" }} />
       </div>
