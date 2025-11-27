@@ -6,71 +6,111 @@ import "./Story.css";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Story() {
-  const sectionRef = useRef(null);
+  const rootRef = useRef(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
+    const section = rootRef.current;
+    const panels = gsap.utils.toArray(".story-panel");
+    const navbar = document.querySelector(".navbar");
 
-  
-    const pin = ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: "+=140%",
-      pin: true,
-      pinSpacing: true,
+
+    const switchNavbar = (mode) => {
+      gsap.to(navbar, {
+        backgroundColor:
+          mode === "dark"
+            ? "rgba(255,255,255,0.08)"
+            : "rgba(0,0,0,0.12)",
+        color: mode === "dark" ? "#fff" : "#000",
+        duration: 0.5,
+      });
+
+      gsap.to(".hamburger-btn", {
+        backgroundColor: mode === "dark" ? "#424146" : "#fff",
+        duration: 0.5,
+      });
+    };
+
+
+    gsap.set(panels, { autoAlpha: 0, y: 120 });
+    gsap.set(panels[0], { autoAlpha: 1, y: 0 });
+
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: "+=300vh",  
+        scrub: 0.5,
+        pin: true,
+        pinSpacing: true,
+      },
     });
 
+    tl.to({}, { duration: 0.38 });
 
-    const colorTrigger = ScrollTrigger.create({
+    tl.to(panels[0], {
+      y: -120,
+      autoAlpha: 0,
+      duration: 0.18,
+      ease: "power3.inOut",
+    });
+
+    tl.to(panels[1], {
+      y: 0,
+      autoAlpha: 1,
+      duration: 0.18,
+      ease: "power3.out",
+    }, ">-=0.05");
+
+
+    tl.to({}, { duration: 0.50 });
+
+    ScrollTrigger.create({
       trigger: section,
-      start: "top top",
-      end: "+=140%",
-      onEnter: () =>
-        gsap.to("body", {
-          backgroundColor: "#ffffff",
-          color: "#000000",
-          duration: 0.25,
-          ease: "none",
-          overwrite: true,
-        }),
-      onLeave: () =>
-        gsap.to("body", {
-          backgroundColor: "#000000",
-          color: "#ffffff",
-          duration: 0.25,
-          ease: "none",
-          overwrite: true,
-        }),
-      onEnterBack: () =>
-        gsap.to("body", {
-          backgroundColor: "#ffffff",
-          color: "#000000",
-          duration: 0.25,
-          ease: "none",
-          overwrite: true,
-        }),
-      onLeaveBack: () =>
-        gsap.to("body", {
-          backgroundColor: "#000000",
-          color: "#ffffff",
-          duration: 0.25,
-          ease: "none",
-          overwrite: true,
-        }),
+      start: "top 5%",
+      end: "bottom 5%",
+      onEnter: () => switchNavbar("light"),
+      onEnterBack: () => switchNavbar("light"),
+      onLeave: () => switchNavbar("dark"),
+      onLeaveBack: () => switchNavbar("dark"),
     });
 
     return () => {
-      pin.kill();
-      colorTrigger.kill();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
 
   return (
-    <section ref={sectionRef} className="story-section">
-      <div className="story-content">
-        <h2 className="story-title">Story Placeholder</h2>
-       
+    <section className="story-section" ref={rootRef}>
+      <h4 className="story-subtitle-fixed">OUR STORY</h4>
+
+      <div className="story-panel">
+        <h2 className="story-title">
+          RTS WAS BORN IN THE WORLD OF
+          <br />
+          OPERATIONAL TECHNOLOGY…
+        </h2>
+
+        <p className="story-body">
+          — and evolved to become a unique blend
+          <br />
+          of industrial experience and innovation.
+        </p>
       </div>
+
+      <div className="story-panel">
+        <h2 className="story-title">
+          OUR STORY ISN’T ONE OF CHANGE,
+          <br />
+          BUT OF CONTINUOUS EVOLUTION
+        </h2>
+
+        <p className="story-body">
+          — from control systems to intelligent ecosystems.
+        </p>
+      </div>
+
     </section>
   );
 }
+

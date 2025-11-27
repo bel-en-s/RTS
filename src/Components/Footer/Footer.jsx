@@ -2,10 +2,17 @@ import "./Footer.css";
 
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-container">
+    <footer >
+
+      {/* CONTENIDO SUPERIOR */}
+      <div className="footer footer-container">
         <div className="footer-left">
-          <img src="/footer.png" alt="RTS Logo" className="footer-logo" />
+          <img 
+            src={`${import.meta.env.BASE_URL}footer.png`} 
+            alt="RTS Logo"
+            className="footer-logo" 
+          />
+
           <h2 className="footer-title display-sm">
             SPARK INDUSTRIAL<br />BRILLIANCE
           </h2>
@@ -13,7 +20,7 @@ export default function Footer() {
 
         <div className="footer-columns">
           <div className="footer-column">
-            <h4 className="footer-heading">Departments</h4>
+            <h4 className="footer-heading">DEPARTMENTS</h4>
             <ul>
               <li>Automation & Controls</li>
               <li>Digital Skills</li>
@@ -22,25 +29,44 @@ export default function Footer() {
           </div>
 
           <div className="footer-column">
-            <h4 className="footer-heading">Resources</h4>
+            <h4 className="footer-heading">RESOURCES</h4>
             <ul>
               <li>Media kit</li>
             </ul>
           </div>
 
-          <div className="footer-column mobile-only">
-            <h4 className="footer-heading">Policy</h4>
+          <div className="footer-column">
+            <h4 className="footer-heading">POLICY</h4>
             <ul>
               <li>Privacy Policy</li>
               <li>Cookie Settings</li>
             </ul>
           </div>
+
+          <div className="footer-column">
+            <h4 className="footer-heading">SOCIAL</h4>
+            <ul>
+              <li>Linkedin</li>
+              <li>Youtube</li>
+              <li>Discord</li>
+            </ul>
+          </div>
         </div>
       </div>
 
+ 
       <div className="footer-bottom">
-        <p>All Rights Reserved ©2025 RTS Group</p>
+        <div className="footer-bottom-inner">
+          <div className="fb-left mobile-only">
+            <span>Privacy Policy</span>
+            <span>Cookie Settings</span>
+          </div>
+
+          <p className="fb-center">All Rights Reserved ©2025 RTS Group</p>
+
+        </div>
       </div>
+
     </footer>
   );
 }

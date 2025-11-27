@@ -128,3 +128,59 @@
   }
 }
 
+
+/* MODO OSCURO (default) */
+.navbar.dark {
+  background-color: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px) saturate(180%);
+}
+
+.navbar.dark .hamburger-btn {
+  background: rgba(255,255,255,0.15);
+}
+
+.navbar.dark .hamburger-btn svg {
+  stroke: white;
+}
+
+/* MODO CLARO */
+.navbar.light .hamburger-btn {
+  background: rgba(0,0,0,0.12);
+}
+
+.navbar.light .hamburger-btn svg {
+  stroke: black;
+}
+
+.navbar.dark .logo {
+  filter: brightness(0) invert(1);
+}
+
+.navbar.dark .nav-links li,
+.navbar.dark .nav-button,
+.navbar.dark .hamburger-btn svg {
+  color: white;
+  stroke: white;
+}
+
+/* MODO CLARO (cuando Story está activo) */
+.navbar.light {
+  background-color: rgba(0,0,0,0.12);
+  backdrop-filter: blur(12px) saturate(180%);
+}
+
+.navbar.light .logo {
+  filter: brightness(1) invert(0); /* logo oscuro */
+}
+
+.navbar.light .nav-links li,
+.navbar.light .nav-button,
+.navbar.light .hamburger-btn svg {
+  color: black;
+  stroke: black;
+}
+
+.navbar.light .nav-button {
+  background: rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.2);
+}

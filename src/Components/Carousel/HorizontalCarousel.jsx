@@ -52,7 +52,7 @@ export default function HorizontalCarousel() {
 
   return (
     <section className="horizontal-carousel" ref={sectionRef}>
-      <h1 className="carousel-title display-md">
+      <h1 className="carousel-title headline-md">
         WE NAVIGATE AND SERVE THE MOST COMPLEX <span className="gradient-text">INDUSTRIAL GALAXIES</span>
       </h1>
 

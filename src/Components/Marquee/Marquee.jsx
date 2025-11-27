@@ -1,34 +1,48 @@
 import React from "react";
 import "./Marquee.css";
-import logo from "../../assets/react.svg";
 
 export default function Marquee() {
-  const logos = Array(8).fill(logo);
+  const topLogos = [
+    `${import.meta.env.BASE_URL}logos/logo-1.png`,
+    `${import.meta.env.BASE_URL}logos/logo-2.png`,
+    `${import.meta.env.BASE_URL}logos/logo-3.png`,
+    `${import.meta.env.BASE_URL}logos/logo-4.png`,
+  ];
+
+  const bottomLogos = [
+    `${import.meta.env.BASE_URL}logos/logo-5.png`,
+    `${import.meta.env.BASE_URL}logos/logo-6.png`,
+    `${import.meta.env.BASE_URL}logos/logo-7.png`,
+    `${import.meta.env.BASE_URL}logos/logo-8.png`,
+  ];
+
+  const repeatedTop = [...topLogos, ...topLogos];
+  const repeatedBottom = [...bottomLogos, ...bottomLogos];
 
   return (
     <div className="marquee-wrapper">
       <h2 className="marquee-title">TRUSTED BY INDUSTRY LEADERS</h2>
 
       <div className="marquee-container">
-        <div className="marquee-track marquee-scroll-left">
-          <div className="marquee-group">
-            {logos.map((img, idx) => (
-              <div className="logo-box" key={`top-${idx}`}>
-                <img src={img} alt={`logo-${idx}`} />
-              </div>
-            ))}
-          </div>
+        
+        {/* FILA ARRIBA */}
+        <div className="marquee-track marquee-left">
+          {repeatedTop.map((src, i) => (
+            <div className="logo-box" key={`top-${i}`}>
+              <img src={src} alt="" />
+            </div>
+          ))}
         </div>
 
-        <div className="marquee-track marquee-scroll-right">
-          <div className="marquee-group">
-            {logos.map((img, idx) => (
-              <div className="logo-box" key={`bottom-${idx}`}>
-                <img src={img} alt={`logo-${idx}`} />
-              </div>
-            ))}
-          </div>
+        {/* FILA ABAJO */}
+        <div className="marquee-track marquee-right">
+          {repeatedBottom.map((src, i) => (
+            <div className="logo-box" key={`bottom-${i}`}>
+              <img src={src} alt="" />
+            </div>
+          ))}
         </div>
+
       </div>
     </div>
   );
