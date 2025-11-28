@@ -74,7 +74,7 @@ export default function App() {
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
       >
-        <Scene scroll={scroll} phase={phase} />
+        {/* <Scene scroll={scroll} phase={phase} /> */}
 
         <EffectComposer multisampling={0}>
           <Noise opacity={0.2} />

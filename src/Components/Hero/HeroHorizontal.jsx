@@ -7,42 +7,48 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroHorizontal({ onPhase }) {
   const rootRef = useRef(null);
+  const indicatorRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray(".heroH-panel");
       const track = rootRef.current.querySelector(".heroH-track");
 
-      // asegurar que cada panel = 100vw
       gsap.set(panels, { width: window.innerWidth });
 
       const totalSlides = panels.length - 1;
 
-      gsap.to(track, {
+      const tl = gsap.to(track, {
         x: () => -window.innerWidth * totalSlides,
         ease: "none",
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
-
-          // 🔥 EXTRA HOLD TIME
-          // antes: "+=window.innerWidth * totalSlides"
-          end: () =>
-            "+=" + window.innerWidth * totalSlides * 1.25, // 25% más de pineo
-
+          end: () => "+=" + window.innerWidth * totalSlides * 1.25,
           scrub: 0.9,
           pin: true,
           anticipatePin: 1,
-
-        
           snap: 1 / totalSlides,
-
           onUpdate: (self) => {
-           const slide = Math.round(self.progress * totalSlides);
-onPhase?.(slide + 2); 
+            const slide = Math.round(self.progress * totalSlides);
+            onPhase?.(slide + 2);
+            setActive(slide);
           },
         },
       });
+
+      function setActive(slide) {
+        const labels = gsap.utils.toArray(".heroH-index span");
+        labels.forEach((el, i) => {
+          if (i === slide) {
+            el.classList.add("active");
+            el.textContent = `–0${i + 1}`;
+          } else {
+            el.classList.remove("active");
+            el.textContent = `0${i + 1}`;
+          }
+        });
+      }
     }, rootRef);
 
     return () => ctx.revert();
@@ -50,6 +56,13 @@ onPhase?.(slide + 2);
 
   return (
     <section id="hero-horizontal" className="heroH" ref={rootRef}>
+      
+      <div className="heroH-index">
+        <span>01</span>
+        <span>02</span>
+        <span>03</span>
+      </div>
+
       <div className="heroH-track">
 
         <section className="heroH-panel" data-phase="2">
