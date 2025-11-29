@@ -18,6 +18,9 @@ export default function HeroHorizontal({ onPhase }) {
 
       const total = panels.length - 1;
 
+
+
+
       gsap.to(track, {
         x: () => -window.innerWidth * total,
         ease: "none",
@@ -69,9 +72,9 @@ export default function HeroHorizontal({ onPhase }) {
       <div className="heroH-track">
 
         {/* PANEL 01 */}
-        <section className="heroH-panel" data-phase="2">
+<section className="heroH-panel heroH-panel--first" data-phase="2">
           <div className="heroH-inner">
-            <h2 className="display-xl heroH-title">AUTOMATION & CONTROLS</h2>
+            <h2 className="display-xl heroH-title">AUTOMATION <br/>& CONTROLS</h2>
 
             <p className="body-md heroH-body">
              We specialize in developing, integrating, building,  and analyzing  end-to-end systems to meet the  unique automation needs of our clients. 

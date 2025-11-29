@@ -22,6 +22,8 @@ export default function App() {
   const [scroll, setScroll] = useState(0);
   const [phase, setPhase] = useState(0);
   const lenisRef = useRef(null);
+  const [isStoryMode, setIsStoryMode] = useState(false);
+
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -77,7 +79,7 @@ export default function App() {
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
       >
-        <Scene scroll={scroll} phase={phase} />
+<Scene scroll={scroll} phase={phase} isStoryMode={isStoryMode} />
 
         <EffectComposer multisampling={0}>
           <Noise opacity={0.2} />

@@ -11,35 +11,15 @@ export default function Story() {
   useEffect(() => {
     const section = rootRef.current;
     const panels = gsap.utils.toArray(".story-panel");
-    const navbar = document.querySelector(".navbar");
-
-
-    const switchNavbar = (mode) => {
-      gsap.to(navbar, {
-        backgroundColor:
-          mode === "dark"
-            ? "rgba(255,255,255,0.08)"
-            : "rgba(0,0,0,0.12)",
-        color: mode === "dark" ? "#fff" : "#000",
-        duration: 0.5,
-      });
-
-      gsap.to(".hamburger-btn", {
-        backgroundColor: mode === "dark" ? "#424146" : "#fff",
-        duration: 0.5,
-      });
-    };
-
 
     gsap.set(panels, { autoAlpha: 0, y: 120 });
     gsap.set(panels[0], { autoAlpha: 1, y: 0 });
-
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=500vh",  
+        end: "+=500vh",
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
@@ -55,25 +35,18 @@ export default function Story() {
       ease: "power3.inOut",
     });
 
-    tl.to(panels[1], {
-      y: 0,
-      autoAlpha: 1,
-      duration: 0.18,
-      ease: "power3.out",
-    }, ">-=0.05");
+    tl.to(
+      panels[1],
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.22,
+        ease: "power3.out",
+      },
+      ">-=0.05"
+    );
 
-
-    tl.to({}, { duration: 0.80 });
-
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top 5%",
-      end: "bottom 5%",
-      onEnter: () => switchNavbar("light"),
-      onEnterBack: () => switchNavbar("light"),
-      onLeave: () => switchNavbar("dark"),
-      onLeaveBack: () => switchNavbar("dark"),
-    });
+    tl.to({}, { duration: 0.8 });
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => st.kill());
@@ -109,8 +82,6 @@ export default function Story() {
           — from control systems to intelligent ecosystems.
         </p>
       </div>
-
     </section>
   );
 }
-

@@ -3,6 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { vertexShader, fragmentShader } from "./Shaders/mainShader";
 import perladoTextureURL from "../assets/gainy.jpg";
+import { useEffect } from "react";
+
 
 export default function Scene({ scroll, phase }) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
@@ -164,6 +166,8 @@ export default function Scene({ scroll, phase }) {
       focus.material.uniforms.uColorB.value.set("#e650ff");
     }
   });
+
+  
 
   return (
     <>

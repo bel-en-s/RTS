@@ -40,6 +40,10 @@
   --body-lg-size: 20px;
   --body-lg-line: 140%;
 
+  --headline-large:46px;
+  --headline-medium:40px;
+  --headline-small:20px;
+
   --body-md-size: 18px;
   --body-md-weight: 400;
   --body-md-line: 140%;

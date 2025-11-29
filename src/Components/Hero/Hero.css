@@ -22,10 +22,14 @@
   clip-path: inset(0 0 0 0);
 }
 
-.heroV-step[data-phase="0"] { z-index: 2; }
-.heroV-step[data-phase="1"] { z-index: 1; }
+.heroV-step[data-phase="0"] {
+  z-index: 2;
+}
 
-/* Layouts */
+.heroV-step[data-phase="1"] {
+  z-index: 1;
+}
+
 .hv-layout,
 .hv-layout-2 {
   position: relative;
@@ -33,9 +37,10 @@
   height: 100%;
 }
 
-.hv-layout-2 { top: 10vh; }
+.hv-layout-2 {
+  top: 10vh;
+}
 
-/* Titles & Subtexts — Panel 0 */
 .heroV-step[data-phase="0"] .hv-title {
   position: absolute;
   top: 18vh;
@@ -52,7 +57,6 @@
   line-height: 150%;
 }
 
-/* Panel 1 */
 .heroV-step[data-phase="1"] .hv-title {
   position: absolute;
   top: 15vh;
@@ -62,94 +66,66 @@
 
 .heroV-step[data-phase="1"] .hv-subtext {
   position: absolute;
-  top: 50vh;
+  top: 55vh;
   left: 25%;
   max-width: 420px;
   opacity: 0.9;
   line-height: 150%;
 }
 
-/* Desktop/Mobile Toggle */
-.hv-title .line { display: inline-block; }
+.approach-subtitle-fixed {
+  position: absolute;
+  top: 10vh;
+  left: var(--margin-desktop);
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.hv-title .line {
+  display: inline-block;
+}
 
 .hv-title--desktop,
-.hv-subtext--desktop { display: block; }
+.hv-subtext--desktop {
+  display: block;
+}
 
 .hv-title--mobile,
-.hv-subtext--mobile { display: none; }
+.hv-subtext--mobile {
+  display: none;
+}
 
-/* Responsive */
 @media (max-width: 768px) {
   .heroV-step .hv-title {
     left: var(--margin-mobile);
     max-width: 90%;
   }
 
+  .approach-subtitle-fixed {
+    display: none;
+  }
+
   .heroV-step .hv-subtext {
-    left: var(--margin-mobile);
+    left: 25vw;
     right: var(--margin-mobile);
     max-width: 90%;
   }
 
   .hv-title--desktop,
-  .hv-subtext--desktop { display: none; }
+  .hv-subtext--desktop {
+    display: none;
+  }
 
   .hv-title--mobile,
-  .hv-subtext--mobile { display: block; }
-}
-
-
-/* ============================================================
-   HERO VERTICAL — CTA
-============================================================ */
-
-.heroV-cta {
-  position: absolute;
-  bottom: 8vh;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 14px 28px 14px 56px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 40px;
-  backdrop-filter: blur(20px);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.92);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.cta-circle {
-  position: absolute;
-  left: 20px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  background: radial-gradient(circle,
-    rgba(105, 90, 255, 0.0) 20%,
-    rgba(105, 90, 255, 0.9) 100%
-  );
-  mask: radial-gradient(circle, transparent 15%, black 46%);
-}
-
-.cta-text { white-space: nowrap; }
-
-/* Mobile */
-@media (max-width: 768px) {
-  .heroV-cta {
-    bottom: 6vh;
-    padding: 12px 20px 12px 48px;
-    font-size: 14px;
+  .hv-subtext--mobile {
+    display: block;
   }
+  .heroV-step[data-phase="1"] .hv-subtext {
 
-  .cta-circle {
-    width: 22px;
-    height: 22px;
-    left: 14px;
-  }
+  top: 35vh;
+
+}
 }
 
 
@@ -185,14 +161,13 @@
   padding-left: var(--margin-desktop);
   display: flex;
   flex-direction: column;
-  /* gap: 24px; */
 }
 
-.heroH-title {
+/* .heroH-title {
   font-size: clamp(44px, 6vw, 72px);
   font-weight: 700;
   line-height: 100%;
-}
+} */
 
 .heroH-body {
   opacity: 0.85;
@@ -201,7 +176,7 @@
 
 
 /* ============================================================
-   HERO HORIZONTAL 
+   HERO HORIZONTAL — HEADER
 ============================================================ */
 
 .heroH-header {
@@ -240,6 +215,29 @@
 }
 
 .heroH-inner {
-margin-top : 30vh;
+  margin-top: 30vh;
+}
+
+
+
+.heroH-title {
+  font-size: var(--headline-large) !important;
+  font-weight: var(--display-lg-weight) !important;
+  line-height: var(--display-lg-line) !important;
+  letter-spacing: var(--display-lg-space) !important;
+  max-width: 14ch;
+}
+
+/* MOBILE — headline-small */
+@media (max-width: 768px) {
+  .heroH-title {
+    font-size: var(--headline-small) !important;
+    font-weight: var(--headline-small-weight) !important;
+    line-height: var(--headline-small-line) !important;
+    letter-spacing: var(--headline-small-space) !important;
+  }
+  .heroH-inner {
+  margin-top: 1vh;
+}
 
 }

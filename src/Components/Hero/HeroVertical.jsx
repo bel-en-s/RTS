@@ -182,7 +182,7 @@ if (node && isDesktop) {
 
       <div className="heroV-step" data-phase="1">
         <div className="hv-layout-2">
-          <h4 className="story-subtitle-fixed">THE APPROACH</h4>
+          <h4 className="approach-subtitle-fixed">THE APPROACH</h4>
 
           <h2 className="hv-title hv-title--desktop display-md">
             <span className="line">EVERY PROJECT BEGINS</span><br />

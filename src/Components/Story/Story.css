@@ -1,7 +1,7 @@
 .story-section {
   position: relative;
   height: 100vh;
-  background: #ffffff;
+  background: white;
   color: #000;
   overflow: hidden;
   padding: 0 var(--margin-desktop);
@@ -9,7 +9,7 @@
 
 .story-panel {
   position: absolute;
-  top: 50%;
+  top: 30vh;
   left: var(--margin-desktop);
   transform: translateY(-50%);
   width: calc(100% - 2 * var(--margin-desktop));
@@ -27,7 +27,6 @@
   z-index: 1;
 }
 
-
 .story-subtitle-fixed {
   position: absolute;
   top: 10vh;
@@ -42,21 +41,15 @@
   font-size: 48px;
   line-height: 110%;
   margin-bottom: 1.8rem;
-
 }
 
-
-/* BODY */
 .story-body {
   font-size: 18px;
   line-height: 150%;
   opacity: 0.85;
 }
 
-/* ================================
-   RESPONSIVE
-================================= */
-
+/* Responsive */
 @media (max-width: 768px) {
   .story-section {
     padding: 0 var(--margin-mobile);
@@ -67,9 +60,9 @@
   }
 
   .story-title {
-    font-size: 28px; /* Headline Small */
+    font-size: 28px;
     line-height: 120%;
-     padding-top: 25vh;
+    padding-top: 25vh;
   }
 
   .story-body {
