@@ -1,6 +1,5 @@
 /* ==========================================================================
-   GLOBAL DESIGN TOKENS
-   Belén Seoane · RTS Site
+   Belén Seoane Palmieri
 ========================================================================== */
 
 /* =========================================================
@@ -176,7 +175,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-inline: auto;
 }
 
-/* Si querés usar márgenes por sección */
+
 .wrapper {
   padding-inline: var(--margin-desktop);
 }

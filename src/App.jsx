@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useEffect, useRef, useState } from "react";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
@@ -9,9 +8,10 @@ import { EffectComposer, Noise, Vignette, Bloom } from "@react-three/postprocess
 import { Fluid } from "@whatisjery/react-fluid-distortion";
 
 import Navbar from "./Components/Navbar/Navbar";
+import FloatingNode from "./Components/UI/FloatingNode";
 import Home from "./Pages/Home";
 import Footer from "./Components/Footer/Footer";
-import Scene from "./Components/Scene.jsx";
+import Scene from "./Components/Scene";
 
 import "./App.css";
 import "./index.css";
@@ -28,7 +28,6 @@ export default function App() {
       duration: 1.2,
       smoothWheel: true,
       wheelMultiplier: 0.7,
-      touchMultiplier: 1.0,
       easing: (t) => 1 - Math.pow(1 - t, 3),
     });
     lenisRef.current = lenis;
@@ -39,9 +38,7 @@ export default function App() {
     }
     requestAnimationFrame(raf);
 
-    lenis.on("scroll", ({ scroll }) => {
-      setScroll(scroll);
-    });
+    lenis.on("scroll", ({ scroll }) => setScroll(scroll));
 
     gsap.ticker.add(ScrollTrigger.update);
 
@@ -52,8 +49,13 @@ export default function App() {
           : lenis.scroll;
       },
       getBoundingClientRect() {
-        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-      },
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight
+        };
+      }
     });
 
     ScrollTrigger.defaults({ scroller: ".scroll-container" });
@@ -62,32 +64,25 @@ export default function App() {
 
     return () => {
       lenis.destroy();
-      ScrollTrigger.killAll(); // ⚠️ EL FIX REAL
+      ScrollTrigger.killAll();
     };
   }, []);
 
   return (
     <>
       <Navbar />
+      <FloatingNode phase={phase} />
 
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
       >
-        {/* <Scene scroll={scroll} phase={phase} /> */}
+        <Scene scroll={scroll} phase={phase} />
 
         <EffectComposer multisampling={0}>
           <Noise opacity={0.2} />
           <Bloom intensity={0.8} luminanceThreshold={0.2} />
-          <Fluid
-            radius={0.08}
-            force={0.8}
-            swirl={0.8}
-            fluidColor="#000"
-            blend={0}
-            curl={0.8}
-            distortion={0.86}
-          />
+          <Fluid radius={0.08} force={0.8} swirl={0.8} curl={0.8} distortion={0.86} />
           <Vignette darkness={0.85} />
         </EffectComposer>
       </Canvas>

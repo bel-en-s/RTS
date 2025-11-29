@@ -39,7 +39,7 @@ export default function Story() {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=300vh",  
+        end: "+=500vh",  
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
@@ -51,7 +51,7 @@ export default function Story() {
     tl.to(panels[0], {
       y: -120,
       autoAlpha: 0,
-      duration: 0.18,
+      duration: 0.58,
       ease: "power3.inOut",
     });
 
@@ -63,7 +63,7 @@ export default function Story() {
     }, ">-=0.05");
 
 
-    tl.to({}, { duration: 0.50 });
+    tl.to({}, { duration: 0.80 });
 
     ScrollTrigger.create({
       trigger: section,

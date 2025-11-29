@@ -1,3 +1,7 @@
+/* ============================================================
+   HERO VERTICAL — PANELS
+============================================================ */
+
 .heroV {
   height: 100vh;
   width: 100%;
@@ -21,17 +25,22 @@
 .heroV-step[data-phase="0"] { z-index: 2; }
 .heroV-step[data-phase="1"] { z-index: 1; }
 
-.hv-layout {
+/* Layouts */
+.hv-layout,
+.hv-layout-2 {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
+.hv-layout-2 { top: 10vh; }
+
+/* Titles & Subtexts — Panel 0 */
 .heroV-step[data-phase="0"] .hv-title {
   position: absolute;
   top: 18vh;
   left: var(--margin-desktop);
-  max-width: 1000x;
+  max-width: 1000px;
 }
 
 .heroV-step[data-phase="0"] .hv-subtext {
@@ -43,36 +52,33 @@
   line-height: 150%;
 }
 
+/* Panel 1 */
 .heroV-step[data-phase="1"] .hv-title {
   position: absolute;
-  top: 20vh;
+  top: 15vh;
   left: var(--margin-desktop);
   max-width: 1000px;
 }
 
 .heroV-step[data-phase="1"] .hv-subtext {
   position: absolute;
-  top: 62vh;
-  left: 40%;
+  top: 50vh;
+  left: 25%;
   max-width: 420px;
   opacity: 0.9;
   line-height: 150%;
 }
 
-.hv-title .line {
-  display: inline-block;
-}
+/* Desktop/Mobile Toggle */
+.hv-title .line { display: inline-block; }
 
 .hv-title--desktop,
-.hv-subtext--desktop {
-  display: block;
-}
+.hv-subtext--desktop { display: block; }
 
 .hv-title--mobile,
-.hv-subtext--mobile {
-  display: none;
-}
+.hv-subtext--mobile { display: none; }
 
+/* Responsive */
 @media (max-width: 768px) {
   .heroV-step .hv-title {
     left: var(--margin-mobile);
@@ -86,71 +92,16 @@
   }
 
   .hv-title--desktop,
-  .hv-subtext--desktop {
-    display: none;
-  }
+  .hv-subtext--desktop { display: none; }
 
   .hv-title--mobile,
-  .hv-subtext--mobile {
-    display: block;
-  }
+  .hv-subtext--mobile { display: block; }
 }
 
 
-.heroH {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-}
-
-.heroH-track {
-  display: flex;
-  height: 100%;
-  width: max-content;
-}
-
-.heroH-panel {
-  height: 100vh;
-  width: 100vw;      
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.heroH-inner {
-  width: 100%;
-  max-width: 1500px;     
-  padding-left: var(--margin-desktop);
-  padding-right: var(--margin-desktop);
-}
-
-.heroH-index {
-  position: absolute;
-  top: 20%;
-  left: var(--margin-desktop);
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: row;
-  gap: 14px;
-  z-index: 100;
-  font-family: var(--font-display);
-  font-size: clamp(18px, 2vw, 26px);
-  opacity: 0.9;
-}
-
-.heroH-index span {
-  transition: 0.25s ease;
-  opacity: 0.4;
-  font-weight: 300;
-}
-
-.heroH-index span.active {
-  opacity: 1;
-  font-weight: 700;
-}
-
+/* ============================================================
+   HERO VERTICAL — CTA
+============================================================ */
 
 .heroV-cta {
   position: absolute;
@@ -164,7 +115,6 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  font-family: var(--font-base);
   font-size: 15px;
   color: rgba(255, 255, 255, 0.92);
   opacity: 0;
@@ -173,33 +123,123 @@
 
 .cta-circle {
   position: absolute;
-  left: 16px;
-  width: 26px;
-  height: 26px;
+  left: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    #6d5cff,
-    #4f29ff,
-    #1eb7ff
+  border: 3px solid transparent;
+  background: radial-gradient(circle,
+    rgba(105, 90, 255, 0.0) 20%,
+    rgba(105, 90, 255, 0.9) 100%
   );
-  box-shadow: 0 0 14px rgba(111, 90, 255, 0.9);
+  mask: radial-gradient(circle, transparent 15%, black 46%);
 }
 
-.cta-text {
-  white-space: nowrap;
-}
+.cta-text { white-space: nowrap; }
 
+/* Mobile */
 @media (max-width: 768px) {
   .heroV-cta {
     bottom: 6vh;
     padding: 12px 20px 12px 48px;
     font-size: 14px;
   }
-  
+
   .cta-circle {
     width: 22px;
     height: 22px;
     left: 14px;
   }
+}
+
+
+/* ============================================================
+   HERO HORIZONTAL — MAIN
+============================================================ */
+
+.heroH {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  background: transparent;
+}
+
+.heroH-track {
+  display: flex;
+  height: 100%;
+  width: max-content;
+}
+
+.heroH-panel {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: white;
+}
+
+.heroH-inner {
+  max-width: 540px;
+  padding-left: var(--margin-desktop);
+  display: flex;
+  flex-direction: column;
+  /* gap: 24px; */
+}
+
+.heroH-title {
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.heroH-body {
+  opacity: 0.85;
+  line-height: 150%;
+}
+
+
+/* ============================================================
+   HERO HORIZONTAL 
+============================================================ */
+
+.heroH-header {
+  position: absolute;
+  top: 30vh;
+  left: var(--margin-desktop);
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  z-index: 50;
+}
+
+.heroH-header h4 {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.heroH-index {
+  display: flex;
+  gap: 22px;
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.heroH-index span {
+  opacity: 0.35;
+  transition: opacity 0.25s ease;
+}
+
+.heroH-index span.active {
+  opacity: 1;
+  font-weight: 700;
+}
+
+.heroH-inner {
+margin-top : 30vh;
+
 }

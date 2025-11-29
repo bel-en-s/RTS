@@ -1,0 +1,155 @@
+/* =========================================================
+   FLOATING NODE BASE (collapsed)
+   ========================================================= */
+.floating-node {
+  translate: 0 0;
+  transition: translate 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .floating-node:hover {
+    translate: 0 -6px;
+  }
+}
+.floating-node {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 999999;
+
+  width: 60px;
+  height: 60px;
+
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  
+
+  background: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   OUTER CIRCLE (gray background circle)
+   ========================================================= */
+
+.fn-outer-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+
+  background: rgba(60, 60, 60, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   RING (anillo hueco con gradiente)
+   ========================================================= */
+
+.fn-ring {
+  width: 32px;
+  height: 32px;
+
+  --ring-width: 4px;
+  border-radius: 50%;
+
+  background: conic-gradient(
+    #33d6ff,
+    #2d9dff,
+    #4f47ff,
+    #9b1fff,
+    #33d6ff
+  );
+
+  mask: radial-gradient(
+    circle,
+    transparent calc(50% - var(--ring-width)),
+    black calc(50% - var(--ring-width) + 1px)
+  );
+}
+
+
+/* =========================================================
+   TEXT (visible solo en expanded)
+   ========================================================= */
+
+.fn-text {
+  display: none;
+  opacity: 0;
+
+  line-height: 1.3;
+  font-weight: 400;
+  color: #eeeeee;
+  white-space: nowrap;
+    font-size: var(--body-sm-size);
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   EXPANDED MODE — FIGMA EXACTO
+   ========================================================= */
+
+.floating-node.expanded {
+  width: auto;            /* hug contents */
+  height: 60px;           /* EXACTO FIGMA */
+  padding-left: 16px;     /* EXACTO FIGMA */
+  padding-right: 16px;    /* EXACTO FIGMA */
+  gap: 16px;              /* EXACTO FIGMA */
+
+  border-radius: 999px;
+
+  /* fondo del Figma (gris #3C3C3C al 80%) */
+  background: rgba(60, 60, 60, 0.8);
+  backdrop-filter: blur(12px);
+
+  display: flex;
+  align-items: center;
+}
+
+/* outer circle tamaño exacto en expanded */
+.floating-node.expanded .fn-outer-circle {
+  width: 48px;     /* FIGMA */
+  height: 48px;    /* FIGMA */
+}
+
+/* ring grueso igual al Figma */
+.floating-node.expanded .fn-ring {
+  width: 48px;
+  height: 48px;
+
+  --ring-width: 7px;
+
+  background: conic-gradient(
+    #33d6ff,
+    #2d9dff,
+    #4f47ff,
+    #9b1fff,
+    #33d6ff
+  );
+
+  mask: radial-gradient(
+    circle,
+    transparent calc(50% - var(--ring-width)),
+    black calc(50% - var(--ring-width) + 1px)
+  );
+}
+
+/* mostrar texto */
+.floating-node.expanded .fn-text {
+  display: block;
+  opacity: 1;
+}
+
+
