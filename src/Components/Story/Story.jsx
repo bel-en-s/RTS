@@ -1,3 +1,4 @@
+// src/Components/Story/Story.jsx
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -15,42 +16,34 @@ export default function Story() {
     gsap.set(panels, { autoAlpha: 0, y: 120 });
     gsap.set(panels[0], { autoAlpha: 1, y: 0 });
 
-    const tl = gsap.timeline({
+    gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=500vh",
+        end: "+=300vh",
         scrub: 0.5,
         pin: true,
         pinSpacing: true,
       },
-    });
-
-    tl.to({}, { duration: 0.38 });
-
-    tl.to(panels[0], {
-      y: -120,
-      autoAlpha: 0,
-      duration: 0.58,
-      ease: "power3.inOut",
-    });
-
-    tl.to(
-      panels[1],
-      {
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.22,
-        ease: "power3.out",
-      },
-      ">-=0.05"
-    );
-
-    tl.to({}, { duration: 0.8 });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
+    })
+      .to({}, { duration: 0.4 })
+      .to(panels[0], {
+        y: -120,
+        autoAlpha: 0,
+        duration: 0.4,
+        ease: "power3.inOut",
+      })
+      .to(
+        panels[1],
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.4,
+          ease: "power3.out",
+        },
+        ">-=0.15"
+      )
+      .to({}, { duration: 0.6 });
   }, []);
 
   return (
@@ -59,11 +52,10 @@ export default function Story() {
 
       <div className="story-panel">
         <h2 className="story-title">
-          RTS WAS BORN IN THE WORLD OF
-          <br />
-          OPERATIONAL TECHNOLOGY…
+          RTS WAS BORN IN THE <br /> WORLD OF
+         
+          OPERATIONAL <br />TECHNOLOGY…
         </h2>
-
         <p className="story-body">
           — and evolved to become a unique blend
           <br />
@@ -77,7 +69,6 @@ export default function Story() {
           <br />
           BUT OF CONTINUOUS EVOLUTION
         </h2>
-
         <p className="story-body">
           — from control systems to intelligent ecosystems.
         </p>

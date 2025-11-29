@@ -77,7 +77,7 @@ export default function Navbar({ navMode }) {
   return (
     <>
       <div className="navbar-wrapper">
-        <nav className="navbar" ref={navRef}>
+<nav className={`navbar ${navMode === "light" ? "light" : "dark"}`} ref={navRef}>
           <div className="navbar-left">
             <img src={logo} className="logo" alt="RTS" />
 

@@ -22,8 +22,7 @@ export default function App() {
   const [scroll, setScroll] = useState(0);
   const [phase, setPhase] = useState(0);
   const lenisRef = useRef(null);
-  const [isStoryMode, setIsStoryMode] = useState(false);
-
+  const [navMode, setNavMode] = useState("dark");
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -72,15 +71,15 @@ export default function App() {
 
   return (
     <>
-      <Navbar />
+       <Navbar navMode={navMode} />
       <FloatingNode phase={phase} />
 
+      {/* CANVAS BACKGROUND */}
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
       >
-<Scene scroll={scroll} phase={phase} isStoryMode={isStoryMode} />
-
+        <Scene scroll={scroll} phase={phase} />
         <EffectComposer multisampling={0}>
           <Noise opacity={0.2} />
           <Bloom intensity={0.8} luminanceThreshold={0.2} />
@@ -89,9 +88,11 @@ export default function App() {
         </EffectComposer>
       </Canvas>
 
+      <div id="white-overlay"></div>
+
       <div className="main-container">
-        <div className="scroll-container" style={{ position: "relative", zIndex: 1 }}>
-          <Home onPhase={setPhase} />
+        <div className="scroll-container" style={{ position: "relative", zIndex: 3 }}>
+          <Home onPhase={setPhase} setNavMode={setNavMode} />
           <Footer />
         </div>
       </div>

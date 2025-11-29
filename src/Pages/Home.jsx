@@ -7,82 +7,89 @@ import HorizontalCarousel from "../Components/Carousel/HorizontalCarousel";
 import Story from "../Components/Story/Story";
 import Banner from "../Components/Banner/Banner";
 import Marquee from "../Components/Marquee/Marquee";
+import Hub from "../Components/Hub/Hub";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Home({ onPhase }) {
-  const storyRef = useRef(null);
-  const hubRef = useRef(null);
-  const presenceRef = useRef(null);
+export default function Home({ onPhase, setNavMode }) {
+  const whiteBlockRef = useRef(null);
 
   useEffect(() => {
-    const whiteSections = [
-      storyRef.current,
-      hubRef.current,
-      presenceRef.current,
-    ];
+    const whiteBlock = whiteBlockRef.current;
 
-    whiteSections.forEach((section) => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top center",
-        end: "bottom center",
-        scroller: ".scroll-container",
+    ScrollTrigger.create({
+      trigger: whiteBlock,
+      start: "top center",
+      end: "bottom center",
 
-        onEnter: () =>
-          gsap.to("body", {
-            backgroundColor: "#fff",
-            color: "#000",
-            duration: 0.35,
-            ease: "none",
-          }),
+      onEnter: () => {
+        gsap.to("body", {
+          backgroundColor: "#ebeef0",
+          color: "#000",
+          duration: 0.4,
+          ease: "none",
+        });
+         gsap.delayedCall(0.25, () => {
+    setNavMode("light");
+    window.dispatchEvent(new Event("navLight"));
+  });
 
-        onEnterBack: () =>
-          gsap.to("body", {
-            backgroundColor: "#fff",
-            color: "#000",
-            duration: 0.35,
-            ease: "none",
-          }),
+        window.dispatchEvent(new Event("navLight"));   // <—
+      },
 
-        onLeave: () =>
-          gsap.to("body", {
-            backgroundColor: "#000",
-            color: "#fff",
-            duration: 0.35,
-            ease: "none",
-          }),
+      onEnterBack: () => {
+        gsap.to("body", {
+          backgroundColor: "#ebeef0",
+          color: "#000",
+          duration: 0.4,
+          ease: "none",
+        });
+         gsap.delayedCall(0.25, () => {
+    setNavMode("light");
+    window.dispatchEvent(new Event("navLight"));
+  });
 
-        onLeaveBack: () =>
-          gsap.to("body", {
-            backgroundColor: "#000",
-            color: "#fff",
-            duration: 0.35,
-            ease: "none",
-          }),
-      });
+        window.dispatchEvent(new Event("navLight"));   // <—
+      },
+
+      onLeave: () => {
+        gsap.to("body", {
+          backgroundColor: "#000",
+          color: "#ebeef0",
+          duration: 0.4,
+          ease: "none",
+        });
+        setNavMode("dark");
+
+        window.dispatchEvent(new Event("navDark"));    // <—
+      },
+
+      onLeaveBack: () => {
+        gsap.to("body", {
+          backgroundColor: "#000",
+          color: "#ebeef0",
+          duration: 0.4,
+          ease: "none",
+        });
+        setNavMode("dark");
+
+        window.dispatchEvent(new Event("navDark"));    // <—
+      },
     });
   }, []);
 
   return (
     <>
       <Hero onPhase={onPhase} />
-
       <div className="hero-outro-spacer"></div>
 
       <HorizontalCarousel />
       <Marquee />
 
-      <div ref={storyRef}>
+      <div ref={whiteBlockRef}>
         <Story />
-      </div>
-
-      <div ref={hubRef} style={{ height: "100vh" }}>
-        {/* HUB aquí */}
-      </div>
-
-      <div ref={presenceRef} style={{ height: "100vh" }}>
-        {/* GLOBAL PRESENCE aquí */}
+        <Hub />
+        <div style={{ height: "100vh" }}></div>
       </div>
 
       <Banner />
