@@ -1,0 +1,147 @@
+/* SECTION WRAPPER */
+.presence-section {
+  background: #ebeef0f9;
+  padding: 100px 0;
+  height: 100vh;
+  color: black;
+}
+
+/* LAYOUT */
+.presence-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--margin-desktop);
+  max-width: 1600px;
+  margin: 0 auto;
+  gap: 60px;
+}
+
+/* LEFT SIDE */
+.presence-left {
+  flex: 1;
+  max-width: 520px;
+}
+
+.presence-label {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+  letter-spacing: 0.08em;
+}
+
+.presence-title {
+  font-family: var(--font-display);
+  font-size: var(--headline-medium-size);
+  line-height: var(--headline-medium-line);
+  margin: 14px 0 26px;
+}
+
+.presence-text {
+  font-size: 17px;
+  line-height: 150%;
+  max-width: 500px;
+  margin-bottom: 36px;
+  opacity: 0.88;
+}
+
+/* RIGHT SIDE */
+.presence-right {
+  position: relative;
+  flex: 1;
+}
+
+.presence-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0px 10px 40px rgba(120, 120, 160, 0.3));
+}
+.marker {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 22px rgba(111, 66, 255, 0.35);
+  cursor: pointer;
+  transform-origin: center;
+}
+
+.marker::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: #5d2eff;
+  border-radius: 50%;
+}
+
+/* Tooltip estilo Figma */
+.marker-tooltip {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+
+  padding: 13px 20px;
+  background: #f3f4f6; /* gris clarito */
+  color: #000;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 100%;
+
+  border-radius: 8px;
+
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(18px);
+
+  opacity: 0;
+  pointer-events: none;
+
+  /* transition suave si no hay GSAP */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mobile: tooltip siempre visible */
+@media (max-width: 820px) {
+  .marker-tooltip {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+
+/* MARKER BASE */
+.marker {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 0 22px rgba(111, 66, 255, 0.35);
+  cursor: pointer;
+}
+
+.marker::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: #5d2eff;
+  border-radius: 50%;
+}
+
+/* POSICIONES → luego las ajustás vos */
+.m1 { top: 65%; left: 28%; }
+.m2 { top: 47%; left: 47%; }
+.m3 { top: 63%; left: 55%; }
+.m4 { top: 78%; left: 57%; }
+.m5 { top: 74%; left: 52%; }
+.m6 { top: 34%; left: 80%; }

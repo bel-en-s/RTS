@@ -1,3 +1,4 @@
+/* ===== SECTION ===== */
 .hub-section {
   position: relative;
   height: 100vh;
@@ -5,35 +6,125 @@
   overflow: hidden;
 }
 
+/* ===== HEADER ===== */
 .hub-fixed-header {
   position: absolute;
-  top: 15vh;
+  top: 12vh;
   left: var(--margin-desktop);
   z-index: 20;
 }
 
 .hub-subtitle {
   font-size: 14px;
-  font-weight: 600;
-  opacity: .7;
+  opacity: 0.7;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
 }
 
 .hub-title {
   font-family: var(--font-display);
-  font-size: 48px;
-  line-height: 110%;
-  max-width: 800px;
+  font-size: var(--headline-medium);
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: 0.04em;
+  max-width: 750px;
 }
 
+.gradient-text {
+  background: linear-gradient(90deg, #5b4bff 0%, #a371ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== STACK ===== */
 .hub-stack-container {
   position: absolute;
-  top: 38vh;   /* debajo del título */
+  top: 40vh;
   left: var(--margin-desktop);
   width: calc(100% - var(--margin-desktop) * 2);
 }
 
+/* ===== CARD WRAPPERS ===== */
 .hub-card-wrapper {
   position: absolute;
   width: 100%;
   transform-origin: top;
+}
+
+/* ===== CARD STYLING ===== */
+.hub-card {
+  background: white;
+  border-radius: 22px;
+  padding: 32px 36px;
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+  box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.07);
+  position: relative;
+  overflow: hidden;
+}
+
+.hub-card-icon img {
+  width: 42px;
+  height: 42px;
+}
+
+.hub-card-title {
+  font-size: var(--title-medium);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin-bottom: 12px;
+}
+
+.hub-card-desc {
+  color: var(--text-on-white);
+  font-size: var(--body-md-size);
+  line-height: 150%;
+  max-width: 520px;
+}
+
+/* faint background icon */
+.hub-card-bg {
+  position: absolute;
+  right: 32px;
+  bottom: 18px;
+  opacity: 0.08;
+}
+
+.hub-card-bg img {
+  width: 100px;
+  height: 100px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .hub-fixed-header {
+    left: var(--margin-mobile);
+    right: var(--margin-mobile);
+    top: 8vh;
+  }
+
+  .hub-title {
+    font-size: var(--headline-small-size);
+    line-height: var(--headline-small-line);
+  }
+
+  .hub-stack-container {
+    top: 38vh;
+    left: var(--margin-mobile);
+    width: calc(100% - var(--margin-mobile) * 2);
+  }
+
+  .hub-card {
+    flex-direction: column;
+    gap: 18px;
+    padding: 26px;
+  }
+
+  .hub-card-bg img {
+    width: 70px;
+    height: 70px;
+  }
 }

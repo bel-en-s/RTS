@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CardHub from "../UI/CardHub";
-import "./HUB.css";
+import "./Hub.css";
 
 import iconInnovation from "../../assets/hub/innovation.png";
 import iconAcademy from "../../assets/hub/academy.png";
@@ -31,16 +31,16 @@ export default function HUB() {
 
       ScrollTrigger.create({
         trigger: card,
-        start: `top+=${i * 100} center`,
-        end: `top+=${(i + 1) * 100} center`,
+        start: `top+=${i * 120} center`,
+        end: `top+=${(i + 1) * 120} center`,
         scrub: true,
         onUpdate: (self) => {
           const p = self.progress;
           gsap.set(card, {
-            y: p * -60,
-            scale: 1 - p * 0.08,
-            opacity: 1 - p * 0.5,
-            zIndex: 10 - i
+            y: p * -80,
+            scale: 1 - p * 0.07,
+            opacity: 1 - p * 0.45,
+            zIndex: 20 - i
           });
         }
       });
@@ -51,10 +51,12 @@ export default function HUB() {
 
   return (
     <section className="hub-section" ref={sectionRef}>
+
       <div className="hub-fixed-header">
         <h4 className="hub-subtitle">RTS HUB</h4>
+
         <h2 className="hub-title">
-          RTS HUB IS OUR LABORATORY
+          <span className="gradient-text">RTS HUB</span> IS OUR LABORATORY
           <br />
           OF IDEAS AND EXECUTION
         </h2>
@@ -66,20 +68,20 @@ export default function HUB() {
             title: "BELOW THE LINE",
             icon: iconBTL,
             description:
-              "Below-the-line powerhouse — a creative and experiential unit where ideas meet industry.",
+              "Below-the-line powerhouse — a creative and experiential unit where ideas meet industry."
           },
           {
             title: "ACADEMY",
             icon: iconAcademy,
             description:
-              "Dedicated to advancing technical skills and knowledge in industrial automation, OT/IT, and analytics.",
+              "Dedicated to advancing technical skills and knowledge in industrial automation, OT/IT convergence, and analytics."
           },
           {
             title: "INNOVATION LAB",
             icon: iconInnovation,
             description:
-              "More than a testing ground — it is a laboratory of ideas and execution where we develop new technologies.",
-          },
+              "More than a testing ground — it is a laboratory of ideas and execution where we develop new technologies."
+          }
         ].map((item, i) => (
           <div
             key={i}

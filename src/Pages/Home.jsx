@@ -8,6 +8,7 @@ import Story from "../Components/Story/Story";
 import Banner from "../Components/Banner/Banner";
 import Marquee from "../Components/Marquee/Marquee";
 import Hub from "../Components/Hub/Hub";
+import Location from "../Components/Location/Location";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,16 +89,16 @@ export default function Home({ onPhase, setNavMode }) {
 
   return (
     <>
-      {/* <Hero onPhase={onPhase} />
+      <Hero onPhase={onPhase} />
       <div className="hero-outro-spacer" />
 
       <HorizontalCarousel />
-      <Marquee /> */}
+      <Marquee />
 
       <div ref={whiteBlockRef}>
         <Story setNavMode={setNavMode} />
         <Hub />
-        <div style={{ height: "100vh" }} />
+        <Location/>
       </div>
 
       <Banner />
