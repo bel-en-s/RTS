@@ -70,13 +70,15 @@ export default function Story({ setNavMode }) {
         <h4 className="story-subtitle">OUR STORY</h4>
 
         <div className="story-panel">
-          <h2 className="story-title">
-            RTS WAS BORN IN THE <br /> WORLD OF OPERATIONAL <br /> TECHNOLOGY…
+          <h2 className="story-title headline-medium">
+            RTS WAS BORN IN THE <br /> WORLD OF OPERATIONAL <br /> TECHNOLOGY
           </h2>
           <p className="story-body">
-            — and evolved to become a unique blend
+           — and evolved to engineer 
             <br />
-            of industrial experience and innovation.
+            the future through curated 
+             <br />
+            industrial innovation.
           </p>
         </div>
 

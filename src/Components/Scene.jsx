@@ -100,7 +100,7 @@ export default function Scene({ scroll, phase }) {
     [2, 0, 0],
     [-1.3, 0.1, 3],
     [0.2, 0.15, 3],
-    [0.2, 0.15, 3],
+    [1.5, 0.2, 3],
   ];
 
   useFrame((state) => {

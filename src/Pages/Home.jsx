@@ -88,11 +88,11 @@ export default function Home({ onPhase, setNavMode }) {
 
   return (
     <>
-      <Hero onPhase={onPhase} />
+      {/* <Hero onPhase={onPhase} />
       <div className="hero-outro-spacer" />
 
       <HorizontalCarousel />
-      <Marquee />
+      <Marquee /> */}
 
       <div ref={whiteBlockRef}>
         <Story setNavMode={setNavMode} />

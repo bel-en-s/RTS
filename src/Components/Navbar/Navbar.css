@@ -1,80 +1,146 @@
+/* WRAPPER */
 .navbar-wrapper {
   position: fixed;
-  top: 1rem;
+  top: 14px;
   left: var(--margin-desktop);
   right: var(--margin-desktop);
   z-index: 200000000;
   pointer-events: none;
 }
 
+/* NAVBAR BASE */
 .navbar {
   pointer-events: auto;
   width: 100%;
-  padding: 0.55rem;
+  height: 58px;
+  padding: 0 18px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  border-radius: 16px;
-  backdrop-filter: blur(12px) saturate(180%);
-  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* --- MODO OSCURO (DEFAULT) --------------------------------------- */
+.navbar.dark {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: white;
 }
 
-.navbar-left {
-  display: flex;
-  align-items: center;
-  gap: 32px;
+/* --- MODO CLARO (STORY) ------------------------------------------ */
+.navbar.light {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: black;
 }
 
+/* LOGO */
 .logo {
   width: 44px;
-  height: 21px;
+  height: auto;
+  transition: filter 0.3s ease;
+}
+
+.navbar.dark .logo {
   filter: brightness(0) invert(1);
 }
 
+.navbar.light .logo {
+  filter: brightness(1) invert(0);
+}
+
+/* LEFT SIDE — LOGO + LINKS */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 42px;
+}
+
+/* LINKS */
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 28px;
-  font-size: 14px;
+  gap: 32px;
+}
+
+.nav-links li {
+  font-size: 15px;
   font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
+.nav-links li:hover {
+  opacity: 1;
+}
+
+/* BUTTON (desktop) */
 .nav-button {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 9px 14px;
-  color: white;
-  border-radius: 8px 2px 8px 8px;
-  height: 37px;
-  display: flex;
-  align-items: center;
-  transition: 0.3s ease;
+  padding: 10px 18px;
+
+  color: inherit;
+  border-radius: 10px;
+  height: 38px;
+
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.25s ease;
 }
 
+.navbar.light .nav-button {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.18);
+  color: black;
+}
+
+.nav-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* HAMBURGER BUTTON */
 .hamburger-btn {
   display: none;
   width: 42px;
   height: 42px;
-  background: #424146;
+
   border-radius: 12px;
+  border: none;
+
   align-items: center;
   justify-content: center;
   position: relative;
-  border: none;
+
+  transition: background 0.3s ease;
+}
+
+/* ICON COLORS */
+.navbar.dark .hamburger-btn {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.navbar.light .hamburger-btn {
+  background: rgba(0, 0, 0, 0.12);
 }
 
 .hamburger-btn svg {
-  stroke-width: 2px !important;
   position: absolute;
+  stroke-width: 2px;
 }
 
-/* DROPDOWN MOBILE */
+/* MOBILE MENU */
 .mobile-menu {
   position: fixed;
-  top: calc(1rem + 60px);
-
+  top: calc(14px + 60px);
   left: var(--margin-desktop);
   right: var(--margin-desktop);
 
@@ -82,30 +148,31 @@
 
   background: rgba(20, 20, 20, 0.6);
   border-radius: 18px;
+
   backdrop-filter: blur(25px) saturate(160%);
   -webkit-backdrop-filter: blur(25px) saturate(160%);
 
-  flex-direction: column;
-  gap: 22px;
-
-  z-index: 199999999;
   display: none;
+  flex-direction: column;
+  gap: 24px;
+
   opacity: 0;
+  z-index: 199999999;
 }
 
 .mobile-menu ul {
   list-style: none;
-  display: flex;
-  gap: 18px;
-  flex-direction: column;
-  text-align: left;
   padding: 0;
   margin: 0;
-  font-size: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  font-size: 20px;
 }
 
-/* RESPONSIVE ------------------------------------ */
-
+/* RESPONSIVE ------------------------------------------------------ */
 @media (max-width: 1024px) {
   .desktop-only {
     display: none;
@@ -115,6 +182,7 @@
   }
 }
 
+/* MOBILE PADDINGS */
 @media (max-width: 640px) {
   .navbar-wrapper {
     left: var(--margin-mobile);
@@ -126,61 +194,4 @@
     right: var(--margin-mobile);
     padding: 2.5rem var(--margin-mobile);
   }
-}
-
-
-/* MODO OSCURO (default) */
-.navbar.dark {
-  background-color: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px) saturate(180%);
-}
-
-.navbar.dark .hamburger-btn {
-  background: rgba(255,255,255,0.15);
-}
-
-.navbar.dark .hamburger-btn svg {
-  stroke: white;
-}
-
-/* MODO CLARO */
-.navbar.light .hamburger-btn {
-  background: rgba(0,0,0,0.12);
-}
-
-.navbar.light .hamburger-btn svg {
-  stroke: black;
-}
-
-.navbar.dark .logo {
-  filter: brightness(0) invert(1);
-}
-
-.navbar.dark .nav-links li,
-.navbar.dark .nav-button,
-.navbar.dark .hamburger-btn svg {
-  color: white;
-  stroke: white;
-}
-
-/* MODO CLARO (cuando Story está activo) */
-.navbar.light {
-  background-color: rgba(0,0,0,0.12);
-  backdrop-filter: blur(12px) saturate(180%);
-}
-
-.navbar.light .logo {
-  filter: brightness(1) invert(0); /* logo oscuro */
-}
-
-.navbar.light .nav-links li,
-.navbar.light .nav-button,
-.navbar.light .hamburger-btn svg {
-  color: black;
-  stroke: black;
-}
-
-.navbar.light .nav-button {
-  background: rgba(0,0,0,0.1);
-  border-color: rgba(0,0,0,0.2);
 }

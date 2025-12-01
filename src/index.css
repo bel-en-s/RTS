@@ -15,6 +15,7 @@
   --color-bg: #000000;
   --color-bg-light: #ffffff;
   --color-text-light: #000000;
+  --text-on-white: #8c8c8c;
 
   /* ====== RESPONSIVE MARGINS ====== */
   --margin-desktop: 5vw;
@@ -60,6 +61,14 @@
   --headline-small-weight: 700;
   --headline-small-line: 108%;
   --headline-small-space: 0.05em;
+
+   --headline-medium-size: 40px;
+  --headline-medium-weight: 700;
+  --headline-medium-line: 120%;
+  --headline-medium-space: 0.05em;
+
+  --title-small:22px;
+  --title-medium:26px;
 }
 
 #white-overlay {
@@ -90,6 +99,16 @@
   font-style: normal;
   font-display: swap;
 }
+
+.headline-medium {
+  font-size: var(--headline-medium-size);
+  font-weight: var(--headline-medium-weight);
+  line-height: var(--headline-medium-line);
+  letter-spacing: var(--headline-medium-space);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
 
 /* =========================================================
    RESET + BASE
