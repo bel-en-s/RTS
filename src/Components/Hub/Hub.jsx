@@ -1,5 +1,5 @@
 import CardHub from "../UI/CardHub";
-import "./HUB.css";
+import "./Hub.css";
 
 import iconInnovation from "../../assets/hub/innovation.png";
 import iconAcademy from "../../assets/hub/academy.png";
