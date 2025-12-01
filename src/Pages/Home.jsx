@@ -16,80 +16,88 @@ export default function Home({ onPhase, setNavMode }) {
 
   useEffect(() => {
     const whiteBlock = whiteBlockRef.current;
+    const root = document.documentElement; // :root
 
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: whiteBlock,
       start: "top center",
       end: "bottom center",
+      scrub: false,
 
       onEnter: () => {
-        gsap.to("body", {
-          backgroundColor: "#ebeef0",
-          color: "#000",
+        gsap.to(root, {
+          "--color-bg": "var(--color-bg-light)",   // #ffffff
+          "--color-text": "var(--color-text-light)", // #000000
           duration: 0.4,
           ease: "none",
         });
-         gsap.delayedCall(0.25, () => {
-    setNavMode("light");
-    window.dispatchEvent(new Event("navLight"));
-  });
 
-        window.dispatchEvent(new Event("navLight"));   // <—
+        gsap.delayedCall(0.25, () => {
+          setNavMode("light");
+          window.dispatchEvent(new Event("navLight"));
+        });
       },
 
       onEnterBack: () => {
-        gsap.to("body", {
-          backgroundColor: "#ebeef0",
-          color: "#000",
+        gsap.to(root, {
+          "--color-bg": "var(--color-bg-light)",
+          "--color-text": "var(--color-text-light)",
           duration: 0.4,
           ease: "none",
         });
-         gsap.delayedCall(0.25, () => {
-    setNavMode("light");
-    window.dispatchEvent(new Event("navLight"));
-  });
 
-        window.dispatchEvent(new Event("navLight"));   // <—
+        gsap.delayedCall(0.25, () => {
+          setNavMode("light");
+          window.dispatchEvent(new Event("navLight"));
+        });
       },
 
       onLeave: () => {
-        gsap.to("body", {
-          backgroundColor: "#000",
-          color: "#ebeef0",
+        gsap.to(root, {
+          "--color-bg": "#000000",
+          "--color-text": "#ffffff",
           duration: 0.4,
           ease: "none",
         });
-        setNavMode("dark");
 
-        window.dispatchEvent(new Event("navDark"));    // <—
+        gsap.delayedCall(0.25, () => {
+          setNavMode("dark");
+          window.dispatchEvent(new Event("navDark"));
+        });
       },
 
       onLeaveBack: () => {
-        gsap.to("body", {
-          backgroundColor: "#000",
-          color: "#ebeef0",
+        gsap.to(root, {
+          "--color-bg": "#000000",
+          "--color-text": "#ffffff",
           duration: 0.4,
           ease: "none",
         });
-        setNavMode("dark");
 
-        window.dispatchEvent(new Event("navDark"));    // <—
+        gsap.delayedCall(0.25, () => {
+          setNavMode("dark");
+          window.dispatchEvent(new Event("navDark"));
+        });
       },
     });
-  }, []);
+
+    return () => {
+      st.kill();
+    };
+  }, [setNavMode]);
 
   return (
     <>
       <Hero onPhase={onPhase} />
-      <div className="hero-outro-spacer"></div>
+      <div className="hero-outro-spacer" />
 
       <HorizontalCarousel />
       <Marquee />
 
       <div ref={whiteBlockRef}>
-        <Story />
+        <Story setNavMode={setNavMode} />
         <Hub />
-        <div style={{ height: "100vh" }}></div>
+        <div style={{ height: "100vh" }} />
       </div>
 
       <Banner />

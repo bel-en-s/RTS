@@ -100,46 +100,40 @@ export default function Scene({ scroll, phase }) {
     [2, 0, 0],
     [-1.3, 0.1, 3],
     [0.2, 0.15, 3],
+    [0.2, 0.15, 3],
   ];
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    const lerpFactor = 0.06;
+  const lerpFactor = 0.06;
 
-    const floorIndex = Math.floor(phase);
-    const ceilIndex = Math.min(floorIndex + 1, positionsPerPhase.length - 1);
+  const maxIndex = positionsPerPhase.length - 1;
 
-    const blend = phase - floorIndex;
-    const easedBlend = THREE.MathUtils.clamp(blend, 0, 1);
+  const floorIndex = Math.min(Math.floor(phase), maxIndex);
+  const ceilIndex = Math.min(floorIndex + 1, maxIndex);
 
-    meshes.forEach((ref, i) => {
-      const mesh = ref.current;
-      if (!mesh) return;
+  const blend = THREE.MathUtils.clamp(phase - Math.floor(phase), 0, 1);
 
-      mesh.material.uniforms.uTime.value = t + i * 1.1;
+  meshes.forEach((ref, i) => {
+    const mesh = ref.current;
+    if (!mesh) return;
 
-      const [ax, ay, az] = positionsPerPhase[floorIndex][i];
-      const [bx, by, bz] = positionsPerPhase[ceilIndex][i];
+    mesh.material.uniforms.uTime.value = t + i * 1.1;
 
-      const tx = ax + (bx - ax) * easedBlend;
-      const ty = ay + (by - ay) * easedBlend;
-      const tz = az + (bz - az) * easedBlend;
+    const A = positionsPerPhase[floorIndex] || positionsPerPhase[maxIndex];
+    const B = positionsPerPhase[ceilIndex] || positionsPerPhase[maxIndex];
 
-      mesh.position.x += (tx - mesh.position.x) * lerpFactor;
-      mesh.position.y += (ty - mesh.position.y) * lerpFactor;
-      mesh.position.z += (tz - mesh.position.z) * lerpFactor;
+    const [ax, ay, az] = A[i];
+    const [bx, by, bz] = B[i];
 
-      const blueShift = phase < 2 ? 0 : smoothstep(2, 3, phase);
+    const tx = ax + (bx - ax) * blend;
+    const ty = ay + (by - ay) * blend;
+    const tz = az + (bz - az) * blend;
 
-      const baseA = new THREE.Color("#5B25D4");
-      const baseB = new THREE.Color("#5212bf");
-
-      const targetA = baseA.clone().lerp(new THREE.Color("#4f70ff"), blueShift * 0.4);
-      const targetB = baseB.clone().lerp(new THREE.Color("#6a8aff"), blueShift * 0.5);
-
-      mesh.material.uniforms.uColorA.value.copy(targetA);
-      mesh.material.uniforms.uColorB.value.copy(targetB);
-    });
+    mesh.position.x += (tx - mesh.position.x) * lerpFactor;
+    mesh.position.y += (ty - mesh.position.y) * lerpFactor;
+    mesh.position.z += (tz - mesh.position.z) * lerpFactor;
+  });
 
     const focus = focusRef.current;
     if (focus) {

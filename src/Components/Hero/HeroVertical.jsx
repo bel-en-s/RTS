@@ -69,7 +69,7 @@ if (node && isDesktop) {
 
       gsap.set(steps, { autoAlpha: 0, y: 80 });
       gsap.set(steps[0], { autoAlpha: 1, y: 0 });
-      gsap.set(".heroV-cta", { autoAlpha: 0, y: 40 });
+      // gsap.set(".heroV-cta", { autoAlpha: 0, y: 40 });
 
       if (node && isDesktop) {
         // posición original del nodo expandido
@@ -112,19 +112,19 @@ if (node && isDesktop) {
         }
       });
 
-      tl.from(".heroV-cta", {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power3.out",
-      }, 0.5);
+      // tl.from(".heroV-cta", {
+      //   autoAlpha: 1,
+      //   y: 0,
+      //   duration: 0.6,
+      //   ease: "power3.out",
+      // }, 0.5);
 
-      tl.to(".heroV-cta", {
-        autoAlpha: 0,
-        y: -40,
-        duration: 0.25,
-        ease: "power2.inOut"
-      }, ">-=0.15");
+      // tl.to(".heroV-cta", {
+      //   autoAlpha: 0,
+      //   y: -40,
+      //   duration: 0.25,
+      //   ease: "power2.inOut"
+      // }, ">-=0.15");
 
 
 

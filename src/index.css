@@ -13,9 +13,11 @@
   /* ====== COLORS ====== */
   --color-text: #ffffff;
   --color-bg: #000000;
+  --color-bg-light: #ffffff;
+  --color-text-light: #000000;
 
   /* ====== RESPONSIVE MARGINS ====== */
-  --margin-desktop: 3.5vw;
+  --margin-desktop: 5vw;
   --margin-laptop: 5vw;
   --margin-tablet: 6vw;
   --margin-mobile: 7vw;
@@ -59,6 +61,16 @@
   --headline-small-line: 108%;
   --headline-small-space: 0.05em;
 }
+
+#white-overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
 
 /* =========================================================
    FONT-FACE DEFINITIONS
@@ -175,7 +187,7 @@ h1, h2, h3, h4, h5, h6 {
 ========================================================= */
 .main-container {
   width: 100%;
-  max-width: 1600px;
+  /* max-width: 1600px; */
   margin-inline: auto;
 }
 

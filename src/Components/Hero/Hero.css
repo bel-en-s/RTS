@@ -172,6 +172,7 @@
 .heroH-body {
   opacity: 0.85;
   line-height: 150%;
+  width: 600px;
 }
 .heroH-viewport {
   position: relative;

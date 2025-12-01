@@ -63,16 +63,19 @@
   align-self: flex-start;
   padding: 10px 22px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #000;
+  background: rgba(0, 0, 0, 0.92);
+  color: #ffffff;
   border: none;
   cursor: pointer;
   transition: 0.25s ease;
+  border: 1px solid white;
+
 }
 
 .card-hover-button:hover {
   background: #fff;
   transform: translateY(-2px);
+  color: black;
 }
 
 /* MOBILE */

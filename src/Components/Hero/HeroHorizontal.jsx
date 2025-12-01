@@ -14,6 +14,11 @@ export default function HeroHorizontal({ onPhase }) {
       const panels = gsap.utils.toArray(".heroH-panel");
       const total = panels.length;
 
+      const indicators = rootRef.current.querySelectorAll(".heroH-index span");
+      indicators.forEach((el) => {
+        el.dataset.label = el.textContent.trim();
+      });
+
       gsap.set(panels, {
         clipPath: "inset(0 100% 0 0)",
         autoAlpha: 0
@@ -29,13 +34,35 @@ export default function HeroHorizontal({ onPhase }) {
           trigger: rootRef.current,
           start: "top top",
           end: "+=" + total * window.innerWidth * 1.1,
-          scrub: 0.8,
+          scrub: 0.5,
           pin: true,
-          snap: 1 / (total - 1),
+          snap: {
+            snapTo: 1 / (total - 1),
+            duration: 0.6,
+            ease: "power2.out"
+          },
           anticipatePin: 1,
           onUpdate: (self) => {
-            const slide = Math.round(self.progress * (total - 1));
+            const raw = self.scroll();
+            const distance = self.end - self.start || 1;
+            let rawProgress = (raw - self.start) / distance;
+            rawProgress = Math.min(1, Math.max(0, rawProgress));
+
+            let slide = Math.round(rawProgress * (total - 1));
+            slide = Math.min(total - 1, Math.max(0, slide));
+
             onPhase?.(slide + 2);
+
+            indicators.forEach((el, idx) => {
+              const base = el.dataset.label || el.textContent.replace("—", "").trim();
+              if (idx === slide) {
+                el.classList.add("active");
+                el.textContent = "— " + base;
+              } else {
+                el.classList.remove("active");
+                el.textContent = base;
+              }
+            });
           }
         }
       });
@@ -46,7 +73,7 @@ export default function HeroHorizontal({ onPhase }) {
         tl.to(panels[i - 1], {
           clipPath: "inset(0 0% 0 100%)",
           autoAlpha: 0,
-          duration: 0.35,
+          duration: 0.3,
           ease: "power3.inOut"
         });
 
@@ -55,12 +82,16 @@ export default function HeroHorizontal({ onPhase }) {
           autoAlpha: 0
         });
 
-        tl.to(panels[i], {
-          clipPath: "inset(0 0% 0 0)",
-          autoAlpha: 1,
-          duration: 0.65,
-          ease: "power4.out"
-        }, ">-=0.15");
+        tl.to(
+          panels[i],
+          {
+            clipPath: "inset(0 0% 0 0)",
+            autoAlpha: 1,
+            duration: 0.7,
+            ease: "power4.out"
+          },
+          ">-=0.15"
+        );
       });
     }, rootRef);
 
@@ -83,8 +114,9 @@ export default function HeroHorizontal({ onPhase }) {
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">AUTOMATION & CONTROLS</h2>
             <p className="body-md heroH-body">
-              We specialize in developing, integrating, building, and analyzing
-              end-to-end systems to meet the unique automation needs of our clients.
+              We specialize in developing, integrating, building, <br />
+              and analyzing end-to-end systems to meet the
+              <br /> unique automation needs of our clients.
             </p>
             <ApproachButton url="/approach/automation" />
           </div>
@@ -95,9 +127,10 @@ export default function HeroHorizontal({ onPhase }) {
             <h2 className="display-xl heroH-title">DIGITAL SKILLS</h2>
             <p className="body-md heroH-body">
               In the RTS ecosystem, Digital Skills turns industrial data into
-              actionable intelligence. Through our POD Services framework, we merge
-              OT experience, process knowledge, and computer science to engineer the
-              digital core of industrial operations.
+              actionable <br />
+              intelligence. Through our POD Services framework, we merge OT <br />
+              experience, process knowledge, and computer science to engineer <br />
+              the digital core of industrial operations.
             </p>
             <ApproachButton url="/approach/digital" />
           </div>
@@ -107,7 +140,11 @@ export default function HeroHorizontal({ onPhase }) {
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
             <p className="body-md heroH-body">
-              Reliable, efficient and sustainable industrial energy solutions…
+              Our mission is to provide innovative, efficient, and reliable energy and{" "}
+              <br />
+              infrastructure solutions that enhance operational performance, ensure{" "}
+              <br />
+              sustainability, and drive industrial progress.
             </p>
             <ApproachButton url="/approach/energy" />
           </div>

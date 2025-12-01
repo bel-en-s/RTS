@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./Marquee.css";
 
 export default function Marquee() {
+  const topTrackRef = useRef(null);
+  const bottomTrackRef = useRef(null);
+
   const topLogos = [
     `${import.meta.env.BASE_URL}logos/logo-1.png`,
     `${import.meta.env.BASE_URL}logos/logo-2.png`,
@@ -19,14 +22,22 @@ export default function Marquee() {
   const repeatedTop = [...topLogos, ...topLogos];
   const repeatedBottom = [...bottomLogos, ...bottomLogos];
 
+  useEffect(() => {
+    const setMove = (track) => {
+      const width = track.scrollWidth / 2;
+      track.style.setProperty("--move", width + "px");
+    };
+
+    if (topTrackRef.current) setMove(topTrackRef.current);
+    if (bottomTrackRef.current) setMove(bottomTrackRef.current);
+  }, []);
+
   return (
     <div className="marquee-wrapper">
       <h2 className="marquee-title">TRUSTED BY INDUSTRY LEADERS</h2>
 
       <div className="marquee-container">
-        
-        {/* FILA ARRIBA */}
-        <div className="marquee-track marquee-left">
+        <div className="marquee-track marquee-left" ref={topTrackRef}>
           {repeatedTop.map((src, i) => (
             <div className="logo-box" key={`top-${i}`}>
               <img src={src} alt="" />
@@ -34,15 +45,13 @@ export default function Marquee() {
           ))}
         </div>
 
-        {/* FILA ABAJO */}
-        <div className="marquee-track marquee-right">
+        <div className="marquee-track marquee-right" ref={bottomTrackRef}>
           {repeatedBottom.map((src, i) => (
             <div className="logo-box" key={`bottom-${i}`}>
               <img src={src} alt="" />
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

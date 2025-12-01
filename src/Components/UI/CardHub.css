@@ -1,66 +1,43 @@
-.hub-card {
-  width: 100%;
-  padding: 32px;
-  border-radius: 20px;
-  background: #f7f8fc;
-  border: 1px solid #e1e3ec;
-
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
+.hub-section {
   position: relative;
-  overflow: hidden;
+  height: 250vh;
+  background: white;
+  color: black;
 }
 
-.hub-card-icon img {
-  width: 32px;
-  height: 32px;
+.hub-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--margin-desktop);
 }
 
-.hub-card-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #1b1b1b;
+.hub-header {
+  position: sticky;
+  top: 10vh;
+  z-index: 20;
 }
 
-.hub-card-desc {
-  font-size: 16px;
-  line-height: 150%;
-  opacity: 0.8;
-  color: #1b1b1b;
+.hub-subtitle {
+  font-size: 14px;
+  opacity: 0.7;
 }
 
-/* ICONO DE FONDO */
-.hub-card-bg {
+.hub-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 110%;
+  margin-top: 10px;
+}
+
+.hub-stack {
+  position: relative;
+  margin-top: 25vh;
+  height: 120vh;
+}
+
+.hub-card-wrapper {
   position: absolute;
-  right: 14px;
-  top: 14px;
-  opacity: 0.08;
-}
-
-.hub-card-bg img {
-  width: 120px;
-  height: auto;
-  pointer-events: none;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .hub-card {
-    padding: 24px;
-    gap: 18px;
-  }
-
-  .hub-card-title {
-    font-size: 18px;
-  }
-
-  .hub-card-desc {
-    font-size: 15px;
-  }
-
-  .hub-card-bg img {
-    width: 90px;
-  }
+  width: 100%;
+  top: 0;
 }

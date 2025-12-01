@@ -1,52 +1,48 @@
 .hub-section {
- 
-  padding: 10vh 0;
-  color: #000;
+  position: relative;
+  background: #ffffff;
+  color: #000000;
+  padding-top: 12vh;
+  padding-bottom: 40vh;
 }
 
 .hub-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--margin-desktop);
+  position: relative;
 }
 
-/* HEADER */
 .hub-header {
-  margin-bottom: 64px;
+  position: sticky;
+  top: 12vh;          /* queda fixeado mientras scrolleás las cards */
+  z-index: 20;
+  margin-bottom: 10vh;
 }
 
 .hub-subtitle {
   font-size: 14px;
   font-weight: 600;
-  opacity: 0.6;
-  margin-bottom: 12px;
+  opacity: 0.7;
 }
 
 .hub-title {
   font-family: var(--font-display);
-  font-size: 40px;
-  line-height: 115%;
+  font-size: 48px;
+  line-height: 110%;
+  max-width: 800px;
 }
 
-/* CARDS GRID */
-.hub-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+.hub-cards-stack {
+  position: relative;
+  width: 100%;
+  margin-top: 18vh;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .hub-container {
-    padding: 0 var(--margin-mobile);
-  }
-
-  .hub-title {
-    font-size: 28px;
-  }
-
-  .hub-section {
-    padding: 6vh 0;
-  }
+.hub-card-wrapper {
+  position: relative;
+  margin-bottom: 160px;
+  transform-origin: top;
+  z-index: 5;
 }

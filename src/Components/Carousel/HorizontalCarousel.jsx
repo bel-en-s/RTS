@@ -92,13 +92,13 @@ export default function HorizontalCarousel() {
           description="We enhance operational reliability and efficiency through OT/IT integration, ensuring safe, data-driven, and continuous performance across upstream, midstream, and downstream operations."
         />
 
-        <Card title="Power Generation" image={powerImage} />
+        <Card title="Power Generation" image={powerImage} description={"We help petrochemical plants achieve smarter, safer, and more efficient operations by digitalizing processes and connecting critical data from field to boardroom."} />
 
-        <Card title="Chemicals & Petrochemicals" image={pharmaImage} />
+        <Card title="Chemicals & Petrochemicals" image={pharmaImage} description={"We support sustainable pulp and paper production through automation, energy optimization, and process digitalization — driving efficiency, circularity, and lower environmental impact."} />
 
-        <Card title="Pulp & Paper" image={pulpImage} />
+        <Card title="Pulp & Paper" image={pulpImage} description={"We enable sustainable, efficient, and safe mining operations through advanced automation, digital monitoring, and environmental performance tracking that reduce impact and optimize resources."} />
 
-        <Card title="Metals & Mining" image={miningImage} />
+        <Card title="Metals & Mining" image={miningImage}  description={"An emerging universe with strict laws of motion—traceability, accuracy, and real-time compliance."}/>
 
         <Card title="Pharmaceuticals" image={pharmaImage} />
       </div>

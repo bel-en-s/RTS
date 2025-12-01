@@ -7,8 +7,8 @@
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-block: 10vh;
+  /* justify-content: center;
+  padding-block: 10vh; */
 
   color: white;
   text-align: center;
