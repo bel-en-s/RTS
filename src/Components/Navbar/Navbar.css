@@ -1,12 +1,16 @@
-/* WRAPPER */
 .navbar-wrapper {
   position: fixed;
-  top: 14px;
-  left: var(--margin-desktop);
-  right: var(--margin-desktop);
-  z-index: 200000000;
-  pointer-events: none;
+  top: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% - 2 * var(--margin-desktop));
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
 }
+
 
 /* NAVBAR BASE */
 .navbar {
@@ -34,7 +38,7 @@
 
 /* --- MODO CLARO (STORY) ------------------------------------------ */
 .navbar.light {
-  background: rgba(255, 255, 255, 0.55);
+  background: #e4e6e8;
   border: 1px solid rgba(0, 0, 0, 0.08);
   color: black;
 }
@@ -184,10 +188,18 @@
 
 /* MOBILE PADDINGS */
 @media (max-width: 640px) {
-  .navbar-wrapper {
-    left: var(--margin-mobile);
-    right: var(--margin-mobile);
-  }
+.navbar-wrapper {
+  position: fixed;
+  top: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: calc(100% - 2 * var(--margin-desktop));
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+}
 
   .mobile-menu {
     left: var(--margin-mobile);

@@ -14,32 +14,61 @@
   font-family: "Geist", sans-serif;
 }
 
+/* ========================================================= */
+/* CONTENEDOR PRINCIPAL – DEBE PERMITIR ALTO COMPLETO        */
+/* ========================================================= */
+
 .marquee-container {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 40px;
-  overflow: hidden;
+
+  /* 👇 Esto evita que la segunda fila se corte */
+  padding: 20px 0;
 }
 
-/* ===== TRACK ===== */
+/* ========================================================= */
+/* TRACKS – SIEMPRE MISMA ALTURA QUE LAS CARDS               */
+/* ========================================================= */
 
 .marquee-track {
   display: flex;
   gap: 40px;
-  min-width: max-content; /* <- CLAVE */
-  justify-content: flex-start;
+  min-width: max-content;
   align-items: center;
+
+  /* 👇 Altura fija igual a tamaño de las cards */
+  height: 110px;
+
+  animation: marquee linear infinite;
+  animation-duration: var(--speed, 18s);
 }
 
+/* Velocidad personalizada */
+.marquee-left {
+  --speed: 18s;
+}
+
+.marquee-right {
+  --speed: 22s;
+  animation-direction: reverse;
+}
+
+/* ========================================================= */
+/* LOGO CARDS                                                */
+/* ========================================================= */
+
 .logo-box {
-  width: 180px; /* en vez de min-width */
+  width: 180px;
   height: 110px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 16px;
+  background: #0c0c0c;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #0c0c0c;
 }
 
 .logo-box img {
@@ -47,32 +76,18 @@
   opacity: 0.9;
 }
 
-/* ===== ANIMACIONES ===== */
+/* ========================================================= */
+/* ANIMACIÓN EXACTA (usa el ancho REAL del track)            */
+/* ========================================================= */
 
-@keyframes marqueeLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); } /* 1/3 del track → perfecto */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-1 * var(--move))); }
 }
 
-@keyframes marqueeRight {
-  0% { transform: translateX(-33.333%); }
-  100% { transform: translateX(0); }
-}
-
-.marquee-left {
-  animation: marqueeLeft 16s linear infinite;
-}
-
-.marquee-right {
-  animation: marqueeRight 20s linear infinite;
-}
-
-
-/* ===== GRADIENT FADES LEFT & RIGHT ===== */
-
-.marquee-container {
-  position: relative;
-}
+/* ========================================================= */
+/* FADES LATERALES                                           */
+/* ========================================================= */
 
 .marquee-container::before,
 .marquee-container::after {
@@ -80,19 +95,17 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 150px; /* ajustás el fade */
-  z-index: 5;
+  width: 150px;
   pointer-events: none;
+  z-index: 10;
 }
 
-/* Fade izquierda → negro a transparente */
 .marquee-container::before {
   left: 0;
-  background: linear-gradient(to right, #000000 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(to right, #000 0%, transparent 100%);
 }
 
-/* Fade derecha → transparente a negro */
 .marquee-container::after {
   right: 0;
-  background: linear-gradient(to left, #000000 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(to left, #000 0%, transparent 100%);
 }

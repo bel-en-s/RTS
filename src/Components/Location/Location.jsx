@@ -66,7 +66,7 @@ export default function Location() {
       <div className="presence-container">
 
         <div className="presence-left">
-          <span className="presence-label">LOCATIONS</span>
+          <h4 className="">LOCATION</h4>
 
           <h2 className="presence-title">GLOBAL PRESENCE</h2>
 

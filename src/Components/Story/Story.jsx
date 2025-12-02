@@ -1,4 +1,3 @@
-// src/Components/Story/Story.jsx
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,87 +9,105 @@ export default function Story({ setNavMode }) {
   const rootRef = useRef(null);
 
   useEffect(() => {
-    const section = rootRef.current;
-    const panels = gsap.utils.toArray(section.querySelectorAll(".story-panel"));
+    const root = rootRef.current;
+    const p1 = root.querySelector(".story-panel.panel-1");
+    const p2 = root.querySelector(".story-panel.panel-2");
 
-    gsap.set(section, { backgroundColor: "#000000" });
-    gsap.set(panels, { autoAlpha: 0, y: 120 });
-    gsap.set(panels[0], { autoAlpha: 1, y: 0 });
+    gsap.set(root, { backgroundColor: "#000102" });
 
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top 50%",
-      end: "top 150%",
-      onEnter: () => {
-        gsap.set(section, { backgroundColor: "#000000" });
-        setNavMode("dark");
-      },
-      onEnterBack: () => {
-        gsap.set(section, { backgroundColor: "#000000" });
-        setNavMode("dark");
-      }
-    });
+   
+    gsap.set(p1, { opacity: 1, clipPath: "inset(0 0 0 0)", zIndex: 2 });
+    gsap.set(p2, { opacity: 0, clipPath: "inset(100% 0 0 0)", zIndex: 1 });
 
     ScrollTrigger.create({
-      trigger: section,
+      trigger: root,
       start: "top top",
-      end: "bottom top",
       onEnter: () => {
-        gsap.to(section, { backgroundColor: "#ebeef0", duration: 0.2 });
+        gsap.to(root, { backgroundColor: "#ebeef0", duration: 1 });
         setNavMode("light");
-      },
-      onEnterBack: () => {
-        gsap.to(section, { backgroundColor: "#ebeef0", duration: 0.2 });
-        setNavMode("light");
-      },
-      onLeaveBack: () => {
-        gsap.to(section, { backgroundColor: "#000000", duration: 0.4 });
-        setNavMode("dark");
       }
     });
+
 
     gsap.timeline({
       scrollTrigger: {
-        trigger: section,
+        trigger: root,
         start: "top top",
-        end: "+=400vh",
-        scrub: 0.2,
+        end: "+=900vh",
+        scrub: 1.8,
         pin: true
       }
     })
-    .to({}, { duration: 1.5 })
-    .to(panels[0], { y: -120, autoAlpha: 0, duration: 0.5 })
-    .to(panels[1], { y: 0, autoAlpha: 1, duration: 0.5 }, ">-=0.2");
+
+      .to({}, { duration: 8 }) // Primer panel bastante tiempo
+
+      .to(
+        p1,
+        {
+          opacity: 0,
+          clipPath: "inset(0 0 100% 0)",
+          duration: 8,
+          ease: "power3.inOut"
+        },
+        "cross"
+      )
+
+      .to(
+        p2,
+        {
+          opacity: 0.35,
+          clipPath: "inset(30% 0 0 0)",
+          duration: 4,
+          ease: "power3.out"
+        },
+        "cross"
+      )
+
+      .to(
+        p2,
+        {
+          opacity: 1,
+          clipPath: "inset(0 0 0 0)",
+          duration: 5,
+          ease: "power3.out"
+        },
+        "cross+=1"
+      )
+
+      .to({}, { duration: 4 });
 
   }, []);
 
   return (
     <section className="story-section" ref={rootRef}>
       <div className="story-wrapper">
-        <h4 className="story-subtitle">OUR STORY</h4>
+        
+        <h4 className="story-subtitle">OUR STORY</h4> {/* 🔥 Recuperado */}
 
-        <div className="story-panel">
+        {/* Paneles superpuestos */}
+        <div className="story-panel panel-1">
           <h2 className="story-title headline-medium">
             RTS WAS BORN IN THE <br /> WORLD OF OPERATIONAL <br /> TECHNOLOGY
           </h2>
+
           <p className="story-body">
-           — and evolved to engineer 
-            <br />
-            the future through curated 
-             <br />
+            — and evolved to engineer <br />
+            the future through curated <br />
             industrial innovation.
           </p>
         </div>
 
-        <div className="story-panel">
-          <h2 className="story-title">
+        <div className="story-panel panel-2">
+          <h2 className="story-title headline-medium">
             OUR STORY ISN’T ONE OF CHANGE, <br />
             BUT OF CONTINUOUS EVOLUTION
           </h2>
+
           <p className="story-body">
             — from control systems to intelligent ecosystems.
           </p>
         </div>
+
       </div>
     </section>
   );

@@ -14,35 +14,63 @@ export default function HUB() {
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
 
+  const cardData = [
+    {
+      title: "BELOW THE LINE",
+      icon: iconBTL,
+      description:
+        "Below-the-line powerhouse — a creative and experiential unit where ideas meet industry.",
+    },
+    {
+      title: "ACADEMY",
+      icon: iconAcademy,
+      description:
+        "Dedicated to advancing technical skills and knowledge in industrial automation, OT/IT convergence, and analytics.",
+    },
+    {
+      title: "INNOVATION LAB",
+      icon: iconInnovation,
+      description:
+        "More than a testing ground — it is a laboratory of ideas and execution where we develop new technologies.",
+    },
+  ];
+
   useEffect(() => {
     const section = sectionRef.current;
     const cards = cardsRef.current;
 
+    /** 📌 1) Pin largoooo para permitir las 3 animaciones */
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: "+=350vh",
+      end: "+=600vh", // ANTES ERA 350vh → ahora hay LUGAR para las 3 cards
       scrub: true,
-      pin: true
+      pin: true,
+      anticipatePin: 1,
     });
 
+    /** 📌 2) Stacking Awwwards */
     cards.forEach((card, i) => {
-      if (i === cards.length - 1) return;
+      if (i === 0) return; // la primera no se anima, es la base inicial
 
       ScrollTrigger.create({
-        trigger: card,
-        start: `top+=${i * 120} center`,
-        end: `top+=${(i + 1) * 120} center`,
+        trigger: cards[i],
+        start: "top center",
+        end: "top top-=200",
         scrub: true,
         onUpdate: (self) => {
-          const p = self.progress;
-          gsap.set(card, {
-            y: p * -80,
-            scale: 1 - p * 0.07,
-            opacity: 1 - p * 0.45,
-            zIndex: 20 - i
+          const progress = self.progress;
+
+          // card anterior (i - 1) se oculta detrás de la actual
+          gsap.to(cards[i - 1], {
+            y: -120 * progress,
+            scale: 1 - 0.08 * progress,
+            opacity: 1 - 0.5 * progress,
+            filter: `blur(${progress * 3}px)`,
+            zIndex: 30 - i,
+            duration: 0,
           });
-        }
+        },
       });
     });
 
@@ -51,7 +79,6 @@ export default function HUB() {
 
   return (
     <section className="hub-section" ref={sectionRef}>
-
       <div className="hub-fixed-header">
         <h4 className="hub-subtitle">RTS HUB</h4>
 
@@ -63,26 +90,7 @@ export default function HUB() {
       </div>
 
       <div className="hub-stack-container">
-        {[
-          {
-            title: "BELOW THE LINE",
-            icon: iconBTL,
-            description:
-              "Below-the-line powerhouse — a creative and experiential unit where ideas meet industry."
-          },
-          {
-            title: "ACADEMY",
-            icon: iconAcademy,
-            description:
-              "Dedicated to advancing technical skills and knowledge in industrial automation, OT/IT convergence, and analytics."
-          },
-          {
-            title: "INNOVATION LAB",
-            icon: iconInnovation,
-            description:
-              "More than a testing ground — it is a laboratory of ideas and execution where we develop new technologies."
-          }
-        ].map((item, i) => (
+        {cardData.map((item, i) => (
           <div
             key={i}
             ref={(el) => (cardsRef.current[i] = el)}

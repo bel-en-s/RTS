@@ -8,10 +8,10 @@ export default function Card({ title, description, image, children }) {
     <div className="card-component">
       <img src={image} alt={title} className="card-image" />
 
-      {/* TITLE ALWAYS VISIBLE */}
+ 
       <h3 className="card-floating-title title-sm">{title}</h3>
 
-      {/* HOVER CONTENT */}
+
       <div className="card-hover">
         <p className="card-hover-description body-sm">{description}</p>
 

@@ -24,12 +24,13 @@ export default function Marquee() {
 
   useEffect(() => {
     const setMove = (track) => {
+      if (!track) return;
       const width = track.scrollWidth / 2;
       track.style.setProperty("--move", width + "px");
     };
 
-    if (topTrackRef.current) setMove(topTrackRef.current);
-    if (bottomTrackRef.current) setMove(bottomTrackRef.current);
+    setMove(topTrackRef.current);
+    setMove(bottomTrackRef.current);
   }, []);
 
   return (

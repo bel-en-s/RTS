@@ -13,39 +13,47 @@ export default function HeroHorizontal({ onPhase }) {
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray(".heroH-panel");
       const total = panels.length;
+      const viewportWidth = window.innerWidth;
 
       const indicators = rootRef.current.querySelectorAll(".heroH-index span");
+
       indicators.forEach((el) => {
         el.dataset.label = el.textContent.trim();
       });
 
+      // Estado inicial
       gsap.set(panels, {
         clipPath: "inset(0 100% 0 0)",
-        autoAlpha: 0
+        autoAlpha: 0,
       });
 
       gsap.set(panels[0], {
         clipPath: "inset(0 0% 0 0)",
-        autoAlpha: 1
+        autoAlpha: 1,
       });
+
+      // 🔥 NUEVO: DURACIÓN DE SCROLL MÁS LARGA
+      const scrollLength = viewportWidth * total * 1.65;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
-          end: "+=" + total * window.innerWidth * 1.1,
-          scrub: 0.5,
+          end: "+=" + scrollLength, // más largo = más suave
+          scrub: 1.2,               // 🔥 suavidad real
           pin: true,
+          anticipatePin: 1,
           snap: {
             snapTo: 1 / (total - 1),
-            duration: 0.6,
-            ease: "power2.out"
+            duration: 0.8,
+            ease: "power2.out",
           },
-          anticipatePin: 1,
+
           onUpdate: (self) => {
             const raw = self.scroll();
             const distance = self.end - self.start || 1;
             let rawProgress = (raw - self.start) / distance;
+
             rawProgress = Math.min(1, Math.max(0, rawProgress));
 
             let slide = Math.round(rawProgress * (total - 1));
@@ -54,7 +62,8 @@ export default function HeroHorizontal({ onPhase }) {
             onPhase?.(slide + 2);
 
             indicators.forEach((el, idx) => {
-              const base = el.dataset.label || el.textContent.replace("—", "").trim();
+              const base = el.dataset.label || el.textContent.trim();
+
               if (idx === slide) {
                 el.classList.add("active");
                 el.textContent = "— " + base;
@@ -63,34 +72,38 @@ export default function HeroHorizontal({ onPhase }) {
                 el.textContent = base;
               }
             });
-          }
-        }
+          },
+        },
       });
 
+      // ✨ BARRIDO ENTRE PANELES — MÁS SUAVE Y CINEMÁTICO
       panels.forEach((panel, i) => {
         if (i === 0) return;
 
+        // Sale el anterior
         tl.to(panels[i - 1], {
           clipPath: "inset(0 0% 0 100%)",
           autoAlpha: 0,
-          duration: 0.3,
-          ease: "power3.inOut"
+          duration: 0.55,
+          ease: "power3.inOut",
         });
 
+        // Prepara el siguiente
         tl.set(panels[i], {
           clipPath: "inset(0 100% 0 0)",
-          autoAlpha: 0
+          autoAlpha: 0,
         });
 
+        // Entra el siguiente
         tl.to(
           panels[i],
           {
             clipPath: "inset(0 0% 0 0)",
             autoAlpha: 1,
-            duration: 0.7,
-            ease: "power4.out"
+            duration: 0.9,
+            ease: "power4.out",
           },
-          ">-=0.15"
+          ">-=0.25"
         );
       });
     }, rootRef);
