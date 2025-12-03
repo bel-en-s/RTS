@@ -1,88 +1,47 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CardHub from "../UI/CardHub";
 import "./Hub.css";
 
-import iconInnovation from "../../assets/hub/innovation.png";
-import iconAcademy from "../../assets/hub/academy.png";
-import iconBTL from "../../assets/hub/below.png";
+import iconInnovation from "../../assets/hub/icon1.png";
+import iconAcademy from "../../assets/hub/icon1.png";
+import iconBTL from "../../assets/hub/icon1.png";
 
-gsap.registerPlugin(ScrollTrigger);
+import imgInnovation from "../../assets/hub/innovation.png";
+import imgAcademy from "../../assets/hub/academy.png";
+import imgBTL from "../../assets/hub/below.png";
 
 export default function HUB() {
-  const sectionRef = useRef(null);
-  const cardsRef = useRef([]);
-
   const cardData = [
     {
       title: "BELOW THE LINE",
       icon: iconBTL,
+      image: imgBTL,
       description:
         "Below-the-line powerhouse — a creative and experiential unit where ideas meet industry.",
+        descriptionLight:"Through initiatives like Rocking the Industry and the Data-Driven LAB, we go beyond traditional services to spark interaction, collaboration, and thought leadership."
     },
     {
       title: "ACADEMY",
       icon: iconAcademy,
+      image: imgAcademy,
       description:
         "Dedicated to advancing technical skills and knowledge in industrial automation, OT/IT convergence, and analytics.",
-    },
+      descriptionLight:"It serves as a center of excellence both for our internal teams and for clients, helping professionals stay ahead in arapidly evolving industry."
+      },
     {
       title: "INNOVATION LAB",
       icon: iconInnovation,
+      image: imgInnovation,
       description:
-        "More than a testing ground — it is a laboratory of ideas and execution where we develop new technologies.",
-    },
+        "Is more than a testing ground — it is a laboratory of ideas and execution where we develop new technologies.",
+      descriptionLight:"Here, we develop new technologies, provide industrial tech consulting, and design pilot projects that bring innovation into real practice. It is where  concepts are tested, validated, and transformed into solutions that empower industries."
+      },
   ];
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const cards = cardsRef.current;
-
-    /** 📌 1) Pin largoooo para permitir las 3 animaciones */
-    ScrollTrigger.create({
-      trigger: section,
-      start: "top top",
-      end: "+=600vh", // ANTES ERA 350vh → ahora hay LUGAR para las 3 cards
-      scrub: true,
-      pin: true,
-      anticipatePin: 1,
-    });
-
-    /** 📌 2) Stacking Awwwards */
-    cards.forEach((card, i) => {
-      if (i === 0) return; // la primera no se anima, es la base inicial
-
-      ScrollTrigger.create({
-        trigger: cards[i],
-        start: "top center",
-        end: "top top-=200",
-        scrub: true,
-        onUpdate: (self) => {
-          const progress = self.progress;
-
-          // card anterior (i - 1) se oculta detrás de la actual
-          gsap.to(cards[i - 1], {
-            y: -120 * progress,
-            scale: 1 - 0.08 * progress,
-            opacity: 1 - 0.5 * progress,
-            filter: `blur(${progress * 3}px)`,
-            zIndex: 30 - i,
-            duration: 0,
-          });
-        },
-      });
-    });
-
-    ScrollTrigger.refresh();
-  }, []);
 
   return (
-    <section className="hub-section" ref={sectionRef}>
+    <section className="hub-section">
       <div className="hub-fixed-header">
-        <h4 className="hub-subtitle">RTS HUB</h4>
-
-        <h2 className="hub-title">
+        <h2 className="hub-title headline-medium">
           <span className="gradient-text">RTS HUB</span> IS OUR LABORATORY
           <br />
           OF IDEAS AND EXECUTION
@@ -91,12 +50,15 @@ export default function HUB() {
 
       <div className="hub-stack-container">
         {cardData.map((item, i) => (
-          <div
-            key={i}
-            ref={(el) => (cardsRef.current[i] = el)}
-            className="hub-card-wrapper"
-          >
-            <CardHub {...item} />
+          <div className="hub-card-wrapper" key={i}>
+          <CardHub 
+            title={item.title} 
+            icon={item.icon} 
+            image={item.image} 
+            description={item.description}
+            descriptionLight={item.descriptionLight}
+          />
+
           </div>
         ))}
       </div>

@@ -126,7 +126,7 @@ export default function HeroHorizontal({ onPhase }) {
         <section className="heroH-panel heroH-panel--first" data-phase="2">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">AUTOMATION & CONTROLS</h2>
-            <p className="body-md heroH-body">
+            <p className="body-md heroH-body heroH-body-mobile">
               We specialize in developing, integrating, building, <br />
               and analyzing end-to-end systems to meet the
               <br /> unique automation needs of our clients.
@@ -138,13 +138,24 @@ export default function HeroHorizontal({ onPhase }) {
         <section className="heroH-panel" data-phase="3">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">DIGITAL SKILLS</h2>
-            <p className="body-md heroH-body">
-              In the RTS ecosystem, Digital Skills turns industrial data into
-              actionable <br />
-              intelligence. Through our POD Services framework, we merge OT <br />
-              experience, process knowledge, and computer science to engineer <br />
-              the digital core of industrial operations.
+           <p className="body-md heroH-body heroH-body-desktop">
+              In the RTS ecosystem, Digital Skills turns industrial data into actionable
+              intelligence. <br />
+              Through our POD Services framework, we merge <br />
+              OT experience, process knowledge, and <br />
+              computer science to engineer the digital core of <br />
+              industrial operations.
             </p>
+
+            <p className="body-md heroH-body heroH-body-mobile">
+              In the RTS ecosystem, Digital Skills turns <br />
+              industrial data into actionable intelligence. <br />
+              Through our POD Services framework, we merge <br />
+              OT experience, process knowledge, and <br />
+              computer science to engineer the digital core of <br />
+              industrial operations.
+            </p>
+
             <ApproachButton url="/approach/digital" />
           </div>
         </section>
@@ -152,13 +163,21 @@ export default function HeroHorizontal({ onPhase }) {
         <section className="heroH-panel" data-phase="4">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
-            <p className="body-md heroH-body">
-              Our mission is to provide innovative, efficient, and reliable energy and{" "}
-              <br />
-              infrastructure solutions that enhance operational performance, ensure{" "}
-              <br />
-              sustainability, and drive industrial progress.
-            </p>
+            <p className="body-md heroH-body heroH-body-desktop">
+                Our mission is to provide innovative, efficient, <br />
+                and reliable energy and infrastructure solutions <br />
+                that enhance operational performance, ensure <br />
+                sustainability, and drive industrial progress.
+              </p>
+
+              {/* ===== MOBILE VERSION ===== */}
+              <p className="body-md heroH-body heroH-body-mobile">
+                Our mission is to provide innovative, efficient, <br />
+                and reliable energy and infrastructure
+                solutions  <br />that enhance operational
+                performance, ensure <br /> sustainability, 
+                and drive industrial progress.
+              </p>
             <ApproachButton url="/approach/energy" />
           </div>
         </section>

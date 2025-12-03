@@ -39,7 +39,7 @@ export default function Story({ setNavMode }) {
       }
     })
 
-      .to({}, { duration: 8 }) // Primer panel bastante tiempo
+      .to({}, { duration: 8 })
 
       .to(
         p1,
@@ -82,20 +82,27 @@ export default function Story({ setNavMode }) {
     <section className="story-section" ref={rootRef}>
       <div className="story-wrapper">
         
-        <h4 className="story-subtitle">OUR STORY</h4> {/* 🔥 Recuperado */}
+        <h4 className="story-subtitle">OUR STORY</h4> 
 
         {/* Paneles superpuestos */}
-        <div className="story-panel panel-1">
-          <h2 className="story-title headline-medium">
-            RTS WAS BORN IN THE <br /> WORLD OF OPERATIONAL <br /> TECHNOLOGY
-          </h2>
+<div className="story-panel panel-1">
+  <h2 className="story-title headline-medium">
+    RTS WAS BORN IN THE <br /> WORLD OF OPERATIONAL <br /> TECHNOLOGY
+  </h2>
 
-          <p className="story-body">
-            — and evolved to engineer <br />
-            the future through curated <br />
-            industrial innovation.
-          </p>
-        </div>
+  {/* DESKTOP VERSION (with <br/>) */}
+  <p className="story-body story-desktop">
+    — and evolved to <br />
+    engineer the future <br />
+    through curated <br />
+    industrial innovation.
+  </p>
+
+  {/* MOBILE VERSION (natural text wrap) */}
+  <p className="story-body story-mobile">
+    — and evolved to <br />engineer the future <br />through curated <br />industrial innovation.
+  </p>
+</div>
 
         <div className="story-panel panel-2">
           <h2 className="story-title headline-medium">
@@ -104,7 +111,7 @@ export default function Story({ setNavMode }) {
           </h2>
 
           <p className="story-body">
-            — from control systems to intelligent ecosystems.
+            — from control systems to<br /> intelligent ecosystems.
           </p>
         </div>
 

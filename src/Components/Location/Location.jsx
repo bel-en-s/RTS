@@ -8,8 +8,8 @@ export default function Location() {
   const timelinesRef = useRef([]);
 
   const markerData = [
-    { name: "HOUSTON" },
     { name: "BUENOS AIRES" },
+    { name: "HUSTON" },
     { name: "BAHÍA BLANCA" },
     { name: "TAMPICO" },
     { name: "MADRID" },
@@ -23,10 +23,8 @@ export default function Location() {
     markers.forEach((marker, i) => {
       const tooltip = marker.querySelector(".marker-tooltip");
 
-      // SKIP animaciones en mobile (tooltip always visible)
-      if (isMobile) return;
+      if (isMobile) return; // en mobile tooltip visible
 
-      // Creamos timeline por marker
       const tl = gsap.timeline({ paused: true });
 
       tl.to(marker, {
@@ -46,18 +44,10 @@ export default function Location() {
         "<0.05"
       );
 
-      // Guardamos timeline
       timelinesRef.current[i] = tl;
 
-      // Hover in
-      marker.addEventListener("mouseenter", () => {
-        timelinesRef.current[i].play();
-      });
-
-      // Hover out
-      marker.addEventListener("mouseleave", () => {
-        timelinesRef.current[i].reverse();
-      });
+      marker.addEventListener("mouseenter", () => timelinesRef.current[i].play());
+      marker.addEventListener("mouseleave", () => timelinesRef.current[i].reverse());
     });
   }, []);
 
@@ -65,8 +55,9 @@ export default function Location() {
     <section className="presence-section">
       <div className="presence-container">
 
+        {/* LEFT TEXT */}
         <div className="presence-left">
-          <h4 className="">LOCATION</h4>
+          <h4 className="presence-label">LOCATION</h4>
 
           <h2 className="presence-title">GLOBAL PRESENCE</h2>
 
@@ -77,6 +68,7 @@ export default function Location() {
             support every stage of your industrial automation journey.
           </p>
         </div>
+
 
         <div className="presence-right">
           <img src={mapImg} alt="Global map" className="presence-map" />

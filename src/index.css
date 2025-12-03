@@ -69,6 +69,21 @@
 
   --title-small:22px;
   --title-medium:26px;
+
+  --title-bold:800;
+   --title-size: 26px;
+  --title-weight: 800; 
+  --itle-line: 110%;
+  --title-space: -0.01em;
+}
+
+.title-body {
+  font-size: var(--title-size);
+  font-weight: var(--title-weight);
+  line-height: var(--title-line);
+  letter-spacing: var(--ctitle-space);
+  font-family: var(--font-base); /* GEIST */
+  text-transform: uppercase;
 }
 
 #white-overlay {
@@ -78,6 +93,15 @@
   pointer-events: none;
   z-index: 1;
   transition: background 0.3s ease;
+}
+
+.body-default {
+  font-family: "Geist", sans-serif;
+  font-weight: 400; /* Regular */
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0;
+  color: var(--text-on-white); /* opcional, te mantiene coherencia */
 }
 
 
@@ -172,6 +196,14 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--body-sm-weight);
   line-height: var(--body-sm-line);
   letter-spacing: var(--body-sm-space);
+}
+
+.title-body {
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: -2%;
+  font-weight: semibold;
+  font-family: Geist;
 }
 
 /* =========================================================

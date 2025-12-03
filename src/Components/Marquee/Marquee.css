@@ -14,55 +14,40 @@
   font-family: "Geist", sans-serif;
 }
 
-/* ========================================================= */
-/* CONTENEDOR PRINCIPAL – DEBE PERMITIR ALTO COMPLETO        */
-/* ========================================================= */
-
+/* CONTENEDOR */
 .marquee-container {
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 40px;
-
-  /* 👇 Esto evita que la segunda fila se corte */
   padding: 20px 0;
 }
 
-/* ========================================================= */
-/* TRACKS – SIEMPRE MISMA ALTURA QUE LAS CARDS               */
-/* ========================================================= */
-
+/* TRACK */
 .marquee-track {
   display: flex;
   gap: 40px;
   min-width: max-content;
+  height: 200px;
   align-items: center;
-
-  /* 👇 Altura fija igual a tamaño de las cards */
-  height: 110px;
 
   animation: marquee linear infinite;
   animation-duration: var(--speed, 18s);
 }
 
-/* Velocidad personalizada */
 .marquee-left {
-  --speed: 18s;
+  --speed: 28s;
 }
-
 .marquee-right {
-  --speed: 22s;
+  --speed: 32s;
   animation-direction: reverse;
 }
 
-/* ========================================================= */
-/* LOGO CARDS                                                */
-/* ========================================================= */
-
+/* LOGOS */
 .logo-box {
-  width: 180px;
-  height: 110px;
+  width: 280px;
+  height: 150px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 16px;
   background: #0c0c0c;
@@ -76,19 +61,13 @@
   opacity: 0.9;
 }
 
-/* ========================================================= */
-/* ANIMACIÓN EXACTA (usa el ancho REAL del track)            */
-/* ========================================================= */
-
+/* ANIMACIÓN */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(calc(-1 * var(--move))); }
 }
 
-/* ========================================================= */
-/* FADES LATERALES                                           */
-/* ========================================================= */
-
+/* Fades */
 .marquee-container::before,
 .marquee-container::after {
   content: "";
@@ -104,7 +83,6 @@
   left: 0;
   background: linear-gradient(to right, #000 0%, transparent 100%);
 }
-
 .marquee-container::after {
   right: 0;
   background: linear-gradient(to left, #000 0%, transparent 100%);
