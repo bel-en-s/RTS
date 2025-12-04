@@ -111,7 +111,7 @@ export default function Story({ setNavMode }) {
           </h2>
 
           <p className="story-body">
-            — from control systems to<br /> intelligent ecosystems.
+            — from control systems <br /> to intelligent ecosystems.
           </p>
         </div>
 

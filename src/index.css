@@ -101,7 +101,7 @@
   font-size: 16px;
   line-height: 140%;
   letter-spacing: 0;
-  color: var(--text-on-white); /* opcional, te mantiene coherencia */
+  color: var(--text-on-white);
 }
 
 

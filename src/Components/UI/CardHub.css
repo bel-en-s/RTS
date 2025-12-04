@@ -62,28 +62,25 @@
 }
 
 
-/* =========================================================
-   📱 MOBILE — layout como Figma
-========================================================= */
+
 
 @media (max-width: 1024px) {
   .hub-card {
-    grid-template-columns: 1fr;   /* UNA COLUMNA */
+    grid-template-columns: 1fr;  
     padding: 26px;
     gap: 20px;
   }
 
-  /* Ocultar imagen grande (center) */
+ 
   .hub-center {
     display: none;
   }
 
-  /* Icono + título arriba */
+  
   .hub-left {
     justify-content: flex-start;
   }
 
-  /* Textos ocupan todo el ancho */
   .hub-right-desc,
   .hub-right-desc-light {
     max-width: none;

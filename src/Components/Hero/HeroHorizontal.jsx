@@ -126,7 +126,7 @@ export default function HeroHorizontal({ onPhase }) {
         <section className="heroH-panel heroH-panel--first" data-phase="2">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">AUTOMATION & CONTROLS</h2>
-            <p className="body-md heroH-body heroH-body-mobile">
+            <p className="body-md heroH-body ">
               We specialize in developing, integrating, building, <br />
               and analyzing end-to-end systems to meet the
               <br /> unique automation needs of our clients.

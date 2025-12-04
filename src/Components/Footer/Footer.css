@@ -22,7 +22,7 @@
 }
 
 .footer-logo {
-  width: 80px;
+  width: 120px;
   height: auto;
 }
 
@@ -64,12 +64,10 @@
   cursor: pointer;
 }
 
-/* ============================================
-   FOOTER BOTTOM — PREMIUM AWWARDS STYLE
-============================================ */
+
 .footer-bottom {
   width: 100%;
-  background: #050306; /* negro profundo */
+  background: #050306; 
   padding-block: 1.4rem;
   color: #ffffff;
   font-size: 14px;
@@ -128,6 +126,14 @@
   .fb-right {
     display: none; /* se oculta en mobile */
   }
+
+  .footer-title {
+  font-family: var(--font-display);
+  font-size: var(--headline-small-size);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
 }
 
 
