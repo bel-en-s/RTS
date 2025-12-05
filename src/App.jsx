@@ -75,7 +75,7 @@ export default function App() {
       <FloatingNode phase={phase} />
 
       {/* CANVAS BACKGROUND */}
-      <Canvas
+      {/* <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
       >
@@ -86,7 +86,7 @@ export default function App() {
           <Fluid radius={0.08} force={0.8} swirl={0.8} curl={0.8} distortion={0.86} />
           <Vignette darkness={0.85} />
         </EffectComposer>
-      </Canvas>
+      </Canvas> */}
 
       <div id="white-overlay"></div>
 

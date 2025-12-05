@@ -54,8 +54,7 @@ if (node && isDesktop) {
     onEnterBack: expandNode,
     onLeave: collapseNode,
     onLeaveBack: (self) => {
-    // 🚧 FIX CRÍTICO:
-    // Si el usuario está en la parte visible del phase 0, NO colapsar.
+ 
     if (self.scroll() <= self.start + 5) {
       expandNode();
     } else {
@@ -97,9 +96,8 @@ if (node && isDesktop) {
         node.classList.add("collapsed");
       }
 
-      /** ======================
-       * TIMELINE MAESTRO (TU CÓDIGO)
-       =======================*/
+
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootRef.current,
