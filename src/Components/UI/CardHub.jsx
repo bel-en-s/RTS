@@ -9,13 +9,13 @@ export default function CardHub({
 }) {
   return (
     <div className="hub-card">
-      {/* LEFT — icon + title */}
+    
       <div className="hub-left">
         <img className="hub-left-icon" src={icon} alt={title} />
         <h3 className="hub-left-title">{title}</h3>
       </div>
 
-      {/* CENTER — illustration (hidden in mobile) */}
+   
       <div className="hub-center">
         <img src={image} alt="" />
       </div>

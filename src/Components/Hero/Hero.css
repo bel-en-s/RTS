@@ -254,6 +254,15 @@
     line-height: var(--headline-small-line) !important;
     letter-spacing: var(--headline-small-space) !important;
   }
+  .heroH-header {
+    position: absolute;
+    top: 20vh;
+    left: var(--margin-desktop);
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    z-index: 50;
+  }
   .heroH-inner {
   margin-top: 1vh;
 }
