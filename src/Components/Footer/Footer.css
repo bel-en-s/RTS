@@ -141,7 +141,7 @@
   display: none;
 }
 
-/* ========== RESPONSIVE ========== */
+
 @media (max-width: 768px) {
   .footer {
     padding: 3rem var(--margin-mobile);

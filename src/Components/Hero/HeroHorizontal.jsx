@@ -1,4 +1,3 @@
-// src/Components/Hero/HeroHorizontal.jsx
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,14 +13,12 @@ export default function HeroHorizontal({ onPhase }) {
       const panels = gsap.utils.toArray(".heroH-panel");
       const total = panels.length;
       const viewportWidth = window.innerWidth;
-
       const indicators = rootRef.current.querySelectorAll(".heroH-index span");
 
       indicators.forEach((el) => {
         el.dataset.label = el.textContent.trim();
       });
 
-      // Estado inicial
       gsap.set(panels, {
         clipPath: "inset(0 100% 0 0)",
         autoAlpha: 0,
@@ -32,15 +29,14 @@ export default function HeroHorizontal({ onPhase }) {
         autoAlpha: 1,
       });
 
-      // 🔥 NUEVO: DURACIÓN DE SCROLL MÁS LARGA
-      const scrollLength = viewportWidth * total * 1.65;
+      const scrollLength = viewportWidth * total * 2;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
-          end: "+=" + scrollLength, // más largo = más suave
-          scrub: 1.2,               // 🔥 suavidad real
+          end: "+=" + scrollLength,
+          scrub: 2,
           pin: true,
           anticipatePin: 1,
           snap: {
@@ -48,7 +44,6 @@ export default function HeroHorizontal({ onPhase }) {
             duration: 0.8,
             ease: "power2.out",
           },
-
           onUpdate: (self) => {
             const raw = self.scroll();
             const distance = self.end - self.start || 1;
@@ -76,31 +71,27 @@ export default function HeroHorizontal({ onPhase }) {
         },
       });
 
-      // ✨ BARRIDO ENTRE PANELES — MÁS SUAVE Y CINEMÁTICO
       panels.forEach((panel, i) => {
         if (i === 0) return;
 
-        // Sale el anterior
         tl.to(panels[i - 1], {
           clipPath: "inset(0 0% 0 100%)",
           autoAlpha: 0,
-          duration: 0.55,
+          duration: 1.5,
           ease: "power3.inOut",
         });
 
-        // Prepara el siguiente
         tl.set(panels[i], {
           clipPath: "inset(0 100% 0 0)",
           autoAlpha: 0,
         });
 
-        // Entra el siguiente
         tl.to(
           panels[i],
           {
             clipPath: "inset(0 0% 0 0)",
             autoAlpha: 1,
-            duration: 0.9,
+            duration: 1.5,
             ease: "power4.out",
           },
           ">-=0.25"
@@ -138,12 +129,12 @@ export default function HeroHorizontal({ onPhase }) {
         <section className="heroH-panel" data-phase="3">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">DIGITAL SKILLS</h2>
-           <p className="body-md heroH-body heroH-body-desktop">
-              In the RTS ecosystem, Digital Skills turns industrial data into actionable
-              intelligence. <br />
-              Through our POD Services framework, we merge <br />
-              OT experience, process knowledge, and <br />
-              computer science to engineer the digital core of <br />
+            <p className="body-md heroH-body heroH-body-desktop">
+              In the RTS ecosystem, Digital Skills turns industrial data into actionable<br />
+              intelligence.
+              Through our POD Services framework, we merge 
+              OT <br /> experience, process knowledge, and 
+              computer science to engineer <br />the digital core of
               industrial operations.
             </p>
 
@@ -164,20 +155,19 @@ export default function HeroHorizontal({ onPhase }) {
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
             <p className="body-md heroH-body heroH-body-desktop">
-                Our mission is to provide innovative, efficient, <br />
-                and reliable energy and infrastructure solutions <br />
-                that enhance operational performance, ensure <br />
-                sustainability, and drive industrial progress.
-              </p>
+              Our mission is to provide innovative, efficient, <br />
+              and reliable energy and infrastructure solutions <br />
+              that enhance operational performance, ensure <br />
+              sustainability, and drive industrial progress.
+            </p>
 
-              {/* ===== MOBILE VERSION ===== */}
-              <p className="body-md heroH-body heroH-body-mobile">
-                Our mission is to provide innovative, efficient, <br />
-                and reliable energy and infrastructure
-                solutions  <br />that enhance operational
-                performance, ensure <br /> sustainability, 
-                and drive industrial progress.
-              </p>
+            <p className="body-md heroH-body heroH-body-mobile">
+              Our mission is to provide innovative, efficient, <br />
+              and reliable energy and infrastructure
+              solutions <br />that enhance operational
+              performance, ensure <br /> sustainability,
+              and drive industrial progress.
+            </p>
             <ApproachButton url="/approach/energy" />
           </div>
         </section>

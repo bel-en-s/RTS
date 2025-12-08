@@ -1,6 +1,4 @@
-/* =========================================================
-   FLOATING NODE BASE (collapsed)
-   ========================================================= */
+
 .floating-node {
   translate: 0 0;
   transition: translate 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -34,9 +32,7 @@
 }
 
 
-/* =========================================================
-   OUTER CIRCLE (gray background circle)
-   ========================================================= */
+
 
 .fn-outer-circle {
   width: 100%;
@@ -53,10 +49,6 @@
 }
 
 
-/* =========================================================
-   RING (anillo hueco con gradiente)
-   ========================================================= */
-
 .fn-ring {
   width: 32px;
   height: 32px;
@@ -72,11 +64,18 @@
     #33d6ff
   );
 
-  mask: radial-gradient(
-    circle,
-    transparent calc(50% - var(--ring-width)),
-    black calc(50% - var(--ring-width) + 1px)
-  );
+  mask:
+  radial-gradient(circle, transparent calc(50% - var(--ring-width)), black calc(50% - var(--ring-width) + 1px)),
+  radial-gradient(circle, black 50%, transparent 51%);
+
+mask-composite: intersect;
+
+-webkit-mask:
+  radial-gradient(circle, transparent calc(50% - var(--ring-width)), black calc(50% - var(--ring-width) + 1px)),
+  radial-gradient(circle, black 50%, transparent 51%);
+
+-webkit-mask-composite: source-in;
+
 }
 
 
@@ -97,20 +96,18 @@
 }
 
 
-/* =========================================================
-   EXPANDED MODE — FIGMA EXACTO
-   ========================================================= */
+
 
 .floating-node.expanded {
-  width: auto;            /* hug contents */
-  height: 60px;           /* EXACTO FIGMA */
-  padding-left: 16px;     /* EXACTO FIGMA */
-  padding-right: 16px;    /* EXACTO FIGMA */
-  gap: 16px;              /* EXACTO FIGMA */
+  width: auto;            
+  height: 60px;           
+  padding-left: 16px;     
+  padding-right: 16px;   
+  gap: 16px;             
 
   border-radius: 999px;
 
-  /* fondo del Figma (gris #3C3C3C al 80%) */
+
   background: rgba(60, 60, 60, 0.8);
   backdrop-filter: blur(12px);
 
@@ -118,13 +115,12 @@
   align-items: center;
 }
 
-/* outer circle tamaño exacto en expanded */
+
 .floating-node.expanded .fn-outer-circle {
-  width: 48px;     /* FIGMA */
-  height: 48px;    /* FIGMA */
+  width: 48px;   
+  height: 48px;    
 }
 
-/* ring grueso igual al Figma */
 .floating-node.expanded .fn-ring {
   width: 48px;
   height: 48px;
@@ -139,14 +135,20 @@
     #33d6ff
   );
 
-  mask: radial-gradient(
-    circle,
-    transparent calc(50% - var(--ring-width)),
-    black calc(50% - var(--ring-width) + 1px)
-  );
+  mask:
+  radial-gradient(circle, transparent calc(50% - var(--ring-width)), black calc(50% - var(--ring-width) + 1px)),
+  radial-gradient(circle, black 50%, transparent 51%);
+
+mask-composite: intersect;
+
+-webkit-mask:
+  radial-gradient(circle, transparent calc(50% - var(--ring-width)), black calc(50% - var(--ring-width) + 1px)),
+  radial-gradient(circle, black 50%, transparent 51%);
+
+-webkit-mask-composite: source-in;
+
 }
 
-/* mostrar texto */
 .floating-node.expanded .fn-text {
   display: block;
   opacity: 1;
