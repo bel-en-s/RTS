@@ -6,6 +6,7 @@ import mapImg from "../../assets/map.png";
 export default function Location() {
   const markersRef = useRef([]);
   const timelinesRef = useRef([]);
+  const containerRef = useRef(null);
 
   const markerData = [
     { name: "BUENOS AIRES" },
@@ -20,10 +21,36 @@ export default function Location() {
     const isMobile = window.innerWidth < 820;
     const markers = markersRef.current;
 
+    gsap.from(".presence-map", {
+      autoAlpha: 0,
+      scale: 1.08,
+      filter: "blur(18px)",
+      duration: 1.6,
+      ease: "power3.out",
+    });
+
+    gsap.from(markers, {
+      autoAlpha: 0,
+      scale: 0.65,
+      duration: 1,
+      ease: "power3.out",
+      stagger: 0.08,
+      delay: 0.15,
+    });
+
+    gsap.from(".marker-tooltip", {
+      autoAlpha: 0,
+      y: 8,
+      duration: 0.8,
+      ease: "power2.out",
+      stagger: 0.05,
+      delay: 0.3,
+    });
+
     markers.forEach((marker, i) => {
       const tooltip = marker.querySelector(".marker-tooltip");
 
-      if (isMobile) return; // en mobile tooltip visible
+      if (isMobile) return;
 
       const tl = gsap.timeline({ paused: true });
 
@@ -52,10 +79,8 @@ export default function Location() {
   }, []);
 
   return (
-    <section className="presence-section">
+    <section className="presence-section" ref={containerRef}>
       <div className="presence-container">
-
-        {/* LEFT TEXT */}
         <div className="presence-left">
           <h4 className="presence-label">LOCATION</h4>
 
@@ -68,7 +93,6 @@ export default function Location() {
             support every stage of your industrial automation journey.
           </p>
         </div>
-
 
         <div className="presence-right">
           <img src={mapImg} alt="Global map" className="presence-map" />
@@ -83,7 +107,6 @@ export default function Location() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

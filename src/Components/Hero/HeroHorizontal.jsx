@@ -20,45 +20,45 @@ export default function HeroHorizontal({ onPhase }) {
       });
 
       gsap.set(panels, {
-        clipPath: "inset(0 100% 0 0)",
         autoAlpha: 0,
+        xPercent: 8,
+        filter: "blur(18px)",
+        clipPath: "inset(0 100% 0 0)",
       });
 
       gsap.set(panels[0], {
-        clipPath: "inset(0 0% 0 0)",
         autoAlpha: 1,
+        xPercent: 0,
+        filter: "blur(0px)",
+        clipPath: "inset(0 0% 0 0)",
       });
 
-      const scrollLength = viewportWidth * total * 2;
+      panels.forEach((panel) => {
+        const elements = panel.querySelectorAll(".heroH-title, .heroH-body, .approach-btn");
+        gsap.set(elements, {
+          opacity: 0,
+          xPercent: 14,
+          filter: "blur(14px)",
+        });
+      });
+
+      const scrollLength = viewportWidth * total * 1.45;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
           end: "+=" + scrollLength,
-          scrub: 2,
+          scrub: 1.4,
           pin: true,
           anticipatePin: 1,
-          snap: {
-            snapTo: 1 / (total - 1),
-            duration: 0.8,
-            ease: "power2.out",
-          },
           onUpdate: (self) => {
-            const raw = self.scroll();
-            const distance = self.end - self.start || 1;
-            let rawProgress = (raw - self.start) / distance;
-
-            rawProgress = Math.min(1, Math.max(0, rawProgress));
-
-            let slide = Math.round(rawProgress * (total - 1));
-            slide = Math.min(total - 1, Math.max(0, slide));
-
+            const raw = self.progress;
+            const slide = Math.round(raw * (total - 1));
             onPhase?.(slide + 2);
 
             indicators.forEach((el, idx) => {
-              const base = el.dataset.label || el.textContent.trim();
-
+              const base = el.dataset.label;
               if (idx === slide) {
                 el.classList.add("active");
                 el.textContent = "— " + base;
@@ -72,29 +72,60 @@ export default function HeroHorizontal({ onPhase }) {
       });
 
       panels.forEach((panel, i) => {
-        if (i === 0) return;
+        if (i === 0) {
+          tl.to(
+            panel.querySelectorAll(".heroH-title, .heroH-body, .approach-btn"),
+            {
+              opacity: 1,
+              xPercent: 0,
+              filter: "blur(0px)",
+              duration: 1.2,
+              stagger: 0.1,
+              ease: "power3.out",
+            }
+          );
+          return;
+        }
 
-        tl.to(panels[i - 1], {
-          clipPath: "inset(0 0% 0 100%)",
+        const prev = panels[i - 1];
+        const curr = panels[i];
+
+        tl.to(prev, {
           autoAlpha: 0,
-          duration: 1.5,
+          xPercent: -8,
+          filter: "blur(22px)",
+          clipPath: "inset(0 0% 0 100%)",
+          duration: 1.15,
           ease: "power3.inOut",
         });
 
-        tl.set(panels[i], {
-          clipPath: "inset(0 100% 0 0)",
+        tl.set(curr, {
           autoAlpha: 0,
+          xPercent: 12,
+          filter: "blur(22px)",
+          clipPath: "inset(0 100% 0 0)",
+        });
+
+        tl.to(curr, {
+          autoAlpha: 1,
+          xPercent: 0,
+          clipPath: "inset(0 0% 0 0)",
+          filter: "blur(0px)",
+          duration: 1.2,
+          ease: "power3.out",
         });
 
         tl.to(
-          panels[i],
+          curr.querySelectorAll(".heroH-title, .heroH-body, .approach-btn"),
           {
-            clipPath: "inset(0 0% 0 0)",
-            autoAlpha: 1,
-            duration: 1.5,
-            ease: "power4.out",
+            opacity: 1,
+            xPercent: 0,
+            filter: "blur(0px)",
+            duration: 1,
+            stagger: 0.1,
+            ease: "power3.out",
           },
-          ">-=0.25"
+          "-=0.8"
         );
       });
     }, rootRef);
@@ -117,12 +148,12 @@ export default function HeroHorizontal({ onPhase }) {
         <section className="heroH-panel heroH-panel--first" data-phase="2">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">AUTOMATION & CONTROLS</h2>
-            <p className="body-md heroH-body ">
+            <p className="body-md heroH-body">
               We specialize in developing, integrating, building, <br />
               and analyzing end-to-end systems to meet the
               <br /> unique automation needs of our clients.
             </p>
-            <ApproachButton url="/approach/automation" />
+            <ApproachButton url="/approach/automation" className="approach-btn" />
           </div>
         </section>
 
@@ -131,44 +162,26 @@ export default function HeroHorizontal({ onPhase }) {
             <h2 className="display-xl heroH-title">DIGITAL SKILLS</h2>
             <p className="body-md heroH-body heroH-body-desktop">
               In the RTS ecosystem, Digital Skills turns industrial data into actionable<br />
-              intelligence.
-              Through our POD Services framework, we merge 
-              OT <br /> experience, process knowledge, and 
-              computer science to engineer <br />the digital core of
-              industrial operations.
+              intelligence. Through our POD Services framework, we merge
+              OT <br /> experience, process knowledge, and computer science to engineer<br />
+              the digital core of industrial operations.
             </p>
 
-            <p className="body-md heroH-body heroH-body-mobile">
-              In the RTS ecosystem, Digital Skills turns <br />
-              industrial data into actionable intelligence. <br />
-              Through our POD Services framework, we merge <br />
-              OT experience, process knowledge, and <br />
-              computer science to engineer the digital core of <br />
-              industrial operations.
-            </p>
-
-            <ApproachButton url="/approach/digital" />
+            <ApproachButton url="/approach/digital" className="approach-btn" />
           </div>
         </section>
 
         <section className="heroH-panel" data-phase="4">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
-            <p className="body-md heroH-body heroH-body-desktop">
+            <p className="body-md heroH-body">
               Our mission is to provide innovative, efficient, <br />
               and reliable energy and infrastructure solutions <br />
               that enhance operational performance, ensure <br />
               sustainability, and drive industrial progress.
             </p>
 
-            <p className="body-md heroH-body heroH-body-mobile">
-              Our mission is to provide innovative, efficient, <br />
-              and reliable energy and infrastructure
-              solutions <br />that enhance operational
-              performance, ensure <br /> sustainability,
-              and drive industrial progress.
-            </p>
-            <ApproachButton url="/approach/energy" />
+            <ApproachButton url="/approach/energy" className="approach-btn" />
           </div>
         </section>
       </div>

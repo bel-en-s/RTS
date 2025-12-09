@@ -18,8 +18,19 @@ export default function Navbar({ navMode }) {
   useEffect(() => {
     gsap.fromTo(
       navRef.current,
-      { y: -50, autoAlpha: 0 },
-      { y: 0, autoAlpha: 1, duration: 1, ease: "power4.out" }
+      {
+        y: -60,
+        autoAlpha: 0,
+        filter: "blur(10px)",
+      },
+      {
+        y: 0,
+        autoAlpha: 1,
+        filter: "blur(0px)",
+        duration: 1.2,
+        ease: "power4.out",
+        delay: 0.2,
+      }
     );
 
     tlMenu.current = gsap.timeline({ paused: true });
@@ -77,7 +88,10 @@ export default function Navbar({ navMode }) {
   return (
     <>
       <div className="navbar-wrapper">
-<nav className={`navbar ${navMode === "light" ? "light" : "dark"}`} ref={navRef}>
+        <nav
+          className={`navbar ${navMode === "light" ? "light" : "dark"}`}
+          ref={navRef}
+        >
           <div className="navbar-left">
             <img src={logo} className="logo" alt="RTS" />
 

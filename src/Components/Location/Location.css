@@ -57,7 +57,10 @@
 .presence-right {
   position: relative;
   flex: 1.2;
+  display: flex;
+  align-items: center;  /* CENTRADO VERTICAL MODERNO */
 }
+
 
 
 .presence-map {
