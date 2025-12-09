@@ -1,3 +1,6 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CardHub from "../UI/CardHub";
 import "./Hub.css";
 
@@ -9,7 +12,11 @@ import imgInnovation from "../../assets/hub/innovation.png";
 import imgAcademy from "../../assets/hub/academy.png";
 import imgBTL from "../../assets/hub/below.png";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function HUB() {
+  const rootRef = useRef(null);
+
   const cardData = [
     {
       title: "BELOW THE LINE",
@@ -17,7 +24,8 @@ export default function HUB() {
       image: imgBTL,
       description:
         "Below-the-line powerhouse — a creative and experiential unit where ideas meet industry.",
-        descriptionLight:"Through initiatives like Rocking the Industry and the Data-Driven LAB, we go beyond traditional services to spark interaction, collaboration, and thought leadership."
+      descriptionLight:
+        "Through initiatives like Rocking the Industry and the Data-Driven LAB, we go beyond traditional services to spark interaction, collaboration, and thought leadership."
     },
     {
       title: "ACADEMY",
@@ -25,21 +33,76 @@ export default function HUB() {
       image: imgAcademy,
       description:
         "Dedicated to advancing technical skills and knowledge in industrial automation, OT/IT convergence, and analytics.",
-      descriptionLight:"It serves as a center of excellence both for our internal teams and for clients, helping professionals stay ahead in arapidly evolving industry."
-      },
+      descriptionLight:
+        "It serves as a center of excellence both for our internal teams and for clients, helping professionals stay ahead in a rapidly evolving industry."
+    },
     {
       title: "INNOVATION LAB",
       icon: iconInnovation,
       image: imgInnovation,
       description:
         "Is more than a testing ground — it is a laboratory of ideas and execution where we develop new technologies.",
-      descriptionLight:"Here, we develop new technologies, provide industrial tech consulting, and design pilot projects that bring innovation into real practice. It is where  concepts are tested, validated, and transformed into solutions that empower industries."
-      },
+      descriptionLight:
+        "Here, we develop new technologies, provide industrial tech consulting, and design pilot projects that bring innovation into real practice."
+    }
   ];
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const root = rootRef.current;
+      const header = root.querySelector(".hub-fixed-header");
+      const cards = gsap.utils.toArray(".hub-card-wrapper");
+
+      gsap.set(header, {
+        y: 20,
+        opacity: 0,
+        filter: "blur(12px)"
+      });
+
+      gsap.set(cards, {
+        yPercent: 0,
+        opacity: 1
+      });
+
+      const main = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "+=260%",
+          scrub: 1.2,
+          pin: true,
+          pinSpacing: true
+        }
+      });
+
+      main.to(header, {
+        y: "8vh",
+        opacity: 1,
+        filter: "blur(0px)",
+        ease: "power3.out",
+        duration: 0.6
+      });
+
+      cards.forEach((card, i) => {
+        gsap.set(card, { zIndex: i + 1 });
+
+        main.to(
+          card,
+          {
+            yPercent: -100 * i,
+            ease: "power2.out",
+            duration: 1
+          },
+          ">-0.1"
+        );
+      });
+    }, rootRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="hub-section">
+    <section className="hub-section" ref={rootRef}>
       <div className="hub-fixed-header">
         <h2 className="hub-title headline-medium">
           <span className="gradient-text">RTS HUB</span> IS OUR LABORATORY
@@ -51,14 +114,13 @@ export default function HUB() {
       <div className="hub-stack-container">
         {cardData.map((item, i) => (
           <div className="hub-card-wrapper" key={i}>
-          <CardHub 
-            title={item.title} 
-            icon={item.icon} 
-            image={item.image} 
-            description={item.description}
-            descriptionLight={item.descriptionLight}
-          />
-
+            <CardHub
+              title={item.title}
+              icon={item.icon}
+              image={item.image}
+              description={item.description}
+              descriptionLight={item.descriptionLight}
+            />
           </div>
         ))}
       </div>

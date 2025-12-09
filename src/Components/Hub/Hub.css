@@ -1,17 +1,15 @@
 .hub-section {
   position: relative;
   background: #ebeef0;
-  padding-top: 20vh;
-  padding-bottom: 20vh;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
 }
 
-
 .hub-fixed-header {
-  position: sticky;
-  top: 10vh;
-  left: var(--margin-desktop);
-  z-index: 10;
-  margin-bottom: 80px;
+  position: relative;
+  z-index: 20;
+  transform: translateY(0);
+  will-change: transform, opacity, filter;
 }
 
 .hub-title {
@@ -20,24 +18,21 @@
   margin-left: var(--margin-desktop);
 }
 
-/* Layout normal (NO stacking) */
 .hub-stack-container {
   position: relative;
+   padding-top: 10vh;
   width: calc(100% - var(--margin-desktop) * 2);
   margin-left: var(--margin-desktop);
-
   display: flex;
   flex-direction: column;
   gap: 60px;
 }
 
-/* Wrapper simple */
 .hub-card-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* MOBILE ✔ */
 @media (max-width: 768px) {
   .hub-fixed-header {
     left: var(--margin-mobile);
@@ -50,5 +45,3 @@
     gap: 40px;
   }
 }
-
-
