@@ -20,7 +20,7 @@ export default function Marquee() {
   ];
 
   const duplicatedTop = [...top, ...top, ...top];
-  const duplicatedBottom = [...bottom, ...bottom];
+  const duplicatedBottom = [...bottom, ...bottom, ...bottom];
 
   useEffect(() => {
     const setupTrack = (track) => {
@@ -68,7 +68,7 @@ export default function Marquee() {
 
   return (
     <div className="marquee-wrapper">
-      <h2 className="marquee-title">TRUSTED BY INDUSTRY LEADERS</h2>
+      <h2 className="marquee-title ">TRUSTED BY INDUSTRY LEADERS</h2>
 
       <div className="marquee-container">
         <div className="marquee-track marquee-left" ref={topTrackRef}>

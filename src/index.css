@@ -12,7 +12,7 @@
 
   /* ====== COLORS ====== */
   --color-text: #ffffff;
-  --color-bg: #000000;
+  --color-bg: #09070c;
   --color-bg-light: #ffffff;
   --color-text-light: #000000;
   --text-on-white: #8c8c8c;
@@ -77,14 +77,14 @@
   --title-space: -0.01em;
 }
 
-.title-body {
+/* .title-body {
   font-size: var(--title-size);
   font-weight: var(--title-weight);
   line-height: var(--title-line);
   letter-spacing: var(--ctitle-space);
-  font-family: var(--font-base); /* GEIST */
+  font-family: var(--font-base); 
   text-transform: uppercase;
-}
+} */
 
 #white-overlay {
   position: fixed;

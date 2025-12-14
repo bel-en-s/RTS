@@ -49,7 +49,7 @@ export default function HeroHorizontal({ onPhase }) {
           trigger: rootRef.current,
           start: "top top",
           end: "+=" + scrollLength,
-          scrub: 1.4,
+          scrub: 0.4,
           pin: true,
           anticipatePin: 1,
           onUpdate: (self) => {
@@ -79,7 +79,7 @@ export default function HeroHorizontal({ onPhase }) {
               opacity: 1,
               xPercent: 0,
               filter: "blur(0px)",
-              duration: 1.2,
+              duration: 0.5,
               stagger: 0.1,
               ease: "power3.out",
             }
@@ -95,7 +95,7 @@ export default function HeroHorizontal({ onPhase }) {
           xPercent: -8,
           filter: "blur(22px)",
           clipPath: "inset(0 0% 0 100%)",
-          duration: 1.15,
+          duration: 0.5,
           ease: "power3.inOut",
         });
 
@@ -132,7 +132,6 @@ export default function HeroHorizontal({ onPhase }) {
 
     return () => ctx.revert();
   }, [onPhase]);
-
   return (
     <section id="hero-horizontal" className="heroH" ref={rootRef}>
       <div className="heroH-header">
@@ -145,33 +144,51 @@ export default function HeroHorizontal({ onPhase }) {
       </div>
 
       <div className="heroH-viewport">
-        <section className="heroH-panel heroH-panel--first" data-phase="2">
+
+        <section className="heroH-panel heroH-panel--first">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">AUTOMATION & CONTROLS</h2>
             <p className="body-md heroH-body">
               We specialize in developing, integrating, building, <br />
-              and analyzing end-to-end systems to meet the
-              <br /> unique automation needs of our clients.
+              and analyzing end-to-end systems to meet the <br />
+              unique automation needs of our clients.
             </p>
             <ApproachButton url="/approach/automation" className="approach-btn" />
           </div>
         </section>
 
-        <section className="heroH-panel" data-phase="3">
+        <section className="heroH-panel">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">DIGITAL SKILLS</h2>
             <p className="body-md heroH-body heroH-body-desktop">
-              In the RTS ecosystem, Digital Skills turns industrial data into actionable<br />
-              intelligence. Through our POD Services framework, we merge
-              OT <br /> experience, process knowledge, and computer science to engineer<br />
-              the digital core of industrial operations.
-            </p>
+  In the RTS ecosystem, Digital Skills turns industrial data into actionable
+  <br />
+  intelligence. Through our POD Services framework, we merge OT
+  <br />
+  experience, process knowledge, and computer science to engineer
+  <br />
+  the digital core of industrial operations.
+</p>
+
+<p className="body-md heroH-body heroH-body-mobile">
+  In the RTS ecosystem, Digital Skills turns
+  <br />
+  industrial data into actionable intelligence.
+  <br />
+  Through our POD Services framework, we merge
+  <br />
+  OT experience, process knowledge, and
+  <br />
+  computer science to engineer the digital
+  <br />
+  core of industrial operations.
+</p>
 
             <ApproachButton url="/approach/digital" className="approach-btn" />
           </div>
         </section>
 
-        <section className="heroH-panel" data-phase="4">
+        <section className="heroH-panel">
           <div className="heroH-inner">
             <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
             <p className="body-md heroH-body">
@@ -180,10 +197,10 @@ export default function HeroHorizontal({ onPhase }) {
               that enhance operational performance, ensure <br />
               sustainability, and drive industrial progress.
             </p>
-
             <ApproachButton url="/approach/energy" className="approach-btn" />
           </div>
         </section>
+
       </div>
     </section>
   );

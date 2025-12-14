@@ -1,0 +1,67 @@
+.loader-root{
+  position: fixed;
+  inset: 0;
+  z-index: 9999999999999999999999999999999999999999999999999999999999;
+  pointer-events: all;
+}
+
+.loader-curtain {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  transform: translateY(0%);
+}
+
+.loader-content{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, calc(100vw - 56px));
+  text-align: center;
+  z-index: 2;
+  color: rgba(255,255,255,0.92);
+  font-family: inherit;
+  letter-spacing: 0.04em;
+}
+
+.loader-title{
+  font-size: 12px;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin-bottom: 14px;
+}
+
+.loader-meter{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loader-bar{
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.14);
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.loader-barFill{
+  height: 100%;
+  background: rgba(255,255,255,0.92);
+  width: 0%;
+  will-change: width;
+}
+
+.loader-pct{
+  font-size: 11px;
+  opacity: 0.85;
+  min-width: 38px;
+  text-align: right;
+}
+
+.loader-sub{
+  margin-top: 12px;
+  font-size: 11px;
+  opacity: 0.55;
+}

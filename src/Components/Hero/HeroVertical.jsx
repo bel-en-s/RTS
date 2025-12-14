@@ -22,7 +22,7 @@ export default function HeroVertical({ onPhase }) {
             right: "50%",
             xPercent: 50,
             ease: "power4.out",
-            duration: 0.6,
+            duration: 0.9,
             overwrite: true,
           });
         };
@@ -36,7 +36,7 @@ export default function HeroVertical({ onPhase }) {
             right: 32,
             xPercent: 0,
             ease: "power3.out",
-            duration: 0.45,
+            duration: 0.95,
             overwrite: true,
           });
         };
@@ -67,7 +67,12 @@ export default function HeroVertical({ onPhase }) {
       }
 
       if (node && !isDesktop) {
-        gsap.set(node, { position: "fixed", bottom: 32, right: 32, height: 60 });
+        gsap.set(node, {
+          position: "fixed",
+          bottom: 32,
+          right: 32,
+          height: 60,
+        });
         node.classList.add("collapsed");
       }
 
@@ -91,14 +96,59 @@ export default function HeroVertical({ onPhase }) {
         delay: 0.2,
       });
 
+      const subtexts = rootRef.current.querySelectorAll(
+        ".hv-subtext--desktop, .hv-subtext--mobile"
+      );
+
+      gsap.set(subtexts, {
+        opacity: 0,
+        y: 32,
+        filter: "blur(8px)",
+      });
+
+      gsap.to(subtexts, {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 1.1,
+        ease: "power3.out",
+        delay: 0.6,
+      });
+
+      const step2 = steps[1];
+      const step2Subtitle = step2.querySelector(".approach-subtitle-fixed");
+      const step2Titles = step2.querySelectorAll(
+        ".hv-title--desktop .line, .hv-title--mobile"
+      );
+      const step2Texts = step2.querySelectorAll(
+        ".hv-subtext--desktop, .hv-subtext--mobile"
+      );
+
+      gsap.set(step2Subtitle, {
+        autoAlpha: 0,
+        y: 24,
+        filter: "blur(8px)",
+      });
+
+      gsap.set(step2Titles, {
+        autoAlpha: 0,
+        yPercent: 40,
+        filter: "blur(12px)",
+      });
+
+      gsap.set(step2Texts, {
+        autoAlpha: 0,
+        y: 32,
+        filter: "blur(8px)",
+      });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: rootRef.current,
           start: "top top",
           end: "+=185%",
-          scrub: 0.5,
+          scrub: 0.12,
           pin: true,
-          pinSpacing: true,
           onUpdate: (self) => onPhase?.(self.progress),
         },
       });
@@ -107,7 +157,7 @@ export default function HeroVertical({ onPhase }) {
         autoAlpha: 0,
         y: -80,
         clipPath: "inset(0 0 100% 0)",
-        duration: 0.35,
+        duration: 0.25,
         ease: "power3.inOut",
       });
 
@@ -117,10 +167,43 @@ export default function HeroVertical({ onPhase }) {
           autoAlpha: 1,
           y: 0,
           clipPath: "inset(0 0 0 0)",
-          duration: 0.35,
+          duration: 0.25,
           ease: "power3.out",
         },
         ">-=0.1"
+      );
+
+      tl.to(step2Subtitle, {
+        autoAlpha: 1,
+        y: 0,
+        filter: "blur(0px)",
+        duration: 0.25,
+        ease: "power3.out",
+      });
+
+      tl.to(
+        step2Titles,
+        {
+          autoAlpha: 1,
+          yPercent: 0,
+          filter: "blur(0px)",
+          duration: 0.4,
+          ease: "power3.out",
+          stagger: 0.08,
+        },
+        ">+=0.05"
+      );
+
+      tl.to(
+        step2Texts,
+        {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.35,
+          ease: "power3.out",
+        },
+        ">+=0.05"
       );
     }, rootRef);
 

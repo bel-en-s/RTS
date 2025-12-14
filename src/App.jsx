@@ -7,6 +7,7 @@ import { Canvas } from "@react-three/fiber";
 import { EffectComposer, Noise, Vignette, Bloom } from "@react-three/postprocessing";
 import { Fluid } from "@whatisjery/react-fluid-distortion";
 
+import Loader from "./Components/Loader/Loader";
 import Navbar from "./Components/Navbar/Navbar";
 import FloatingNode from "./Components/UI/FloatingNode";
 import Home from "./Pages/Home";
@@ -21,16 +22,34 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   const [scroll, setScroll] = useState(0);
   const [phase, setPhase] = useState(0);
-  const lenisRef = useRef(null);
   const [navMode, setNavMode] = useState("dark");
 
+  const [isReady, setIsReady] = useState(false);
+  const [loaderDone, setLoaderDone] = useState(false);
+
+  const lenisRef = useRef(null);
+
+  /* --------------------------------------------------
+     ⏳ TIEMPO MÍNIMO DE LOADER (AWWWARDS FEEL)
+  -------------------------------------------------- */
   useEffect(() => {
+    const t = setTimeout(() => setIsReady(true), 1200);
+    return () => clearTimeout(t);
+  }, []);
+
+  /* --------------------------------------------------
+     🌀 LENIS + SCROLLTRIGGER (POST LOADER)
+  -------------------------------------------------- */
+  useEffect(() => {
+    if (!loaderDone) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       smoothWheel: true,
       wheelMultiplier: 0.7,
       easing: (t) => 1 - Math.pow(1 - t, 3),
     });
+
     lenisRef.current = lenis;
 
     function raf(time) {
@@ -54,30 +73,37 @@ export default function App() {
           top: 0,
           left: 0,
           width: window.innerWidth,
-          height: window.innerHeight
+          height: window.innerHeight,
         };
-      }
+      },
     });
 
     ScrollTrigger.defaults({ scroller: ".scroll-container" });
 
-    setTimeout(() => ScrollTrigger.refresh(), 100);
+    requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
       lenis.destroy();
       ScrollTrigger.killAll();
     };
-  }, []);
+  }, [loaderDone]);
 
   return (
     <>
-       <Navbar navMode={navMode} />
+      {!loaderDone && (
+        <Loader
+          isReady={isReady}
+          onDone={() => setLoaderDone(true)}
+        />
+      )}
+
+      <Navbar navMode={navMode} />
       <FloatingNode phase={phase} />
 
-      {/* CANVAS BACKGROUND */}
       <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
       >
         <Scene scroll={scroll} phase={phase} />
         <EffectComposer multisampling={0}>
@@ -86,9 +112,7 @@ export default function App() {
           <Fluid radius={0.08} force={0.8} swirl={0.8} curl={0.8} distortion={0.86} />
           <Vignette darkness={0.85} />
         </EffectComposer>
-      </Canvas> 
-
-      <div id="white-overlay"></div>
+      </Canvas>
 
       <div className="main-container">
         <div className="scroll-container" style={{ position: "relative", zIndex: 3 }}>
