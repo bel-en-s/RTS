@@ -45,7 +45,7 @@
 
   --headline-large:46px;
   --headline-medium:40px;
-  --headline-small:20px;
+  --headline-small:28px;
 
   --body-md-size: 18px;
   --body-md-weight: 400;
@@ -95,9 +95,14 @@
   transition: background 0.3s ease;
 }
 
+#hero {
+  visibility: hidden;
+}
+
+
 .body-default {
   font-family: "Geist", sans-serif;
-  font-weight: 400; /* Regular */
+  font-weight: 400; 
   font-size: 16px;
   line-height: 140%;
   letter-spacing: 0;
@@ -105,9 +110,6 @@
 }
 
 
-/* =========================================================
-   FONT-FACE DEFINITIONS
-========================================================= */
 @font-face {
   font-family: "Geist";
   src: url("/fonts/Geist-Regular.ttf") format("truetype");

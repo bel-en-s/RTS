@@ -119,3 +119,34 @@
     display: block;
   }
 }
+
+
+.heroH-index span {
+  font-weight: 400;
+  opacity: 0.35;
+  position: relative;
+  transition: none;
+}
+
+.heroH-index span::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 8px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  opacity: 0;
+}
+
+.heroH-index span.is-active {
+  font-weight: 600;
+  opacity: 1;
+}
+
+.heroH-index span.is-active::before {
+  transform: scaleX(1);
+  opacity: 1;
+}

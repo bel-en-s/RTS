@@ -29,17 +29,13 @@ export default function App() {
 
   const lenisRef = useRef(null);
 
-  /* --------------------------------------------------
-     ⏳ TIEMPO MÍNIMO DE LOADER (AWWWARDS FEEL)
-  -------------------------------------------------- */
+
   useEffect(() => {
     const t = setTimeout(() => setIsReady(true), 1200);
     return () => clearTimeout(t);
   }, []);
 
-  /* --------------------------------------------------
-     🌀 LENIS + SCROLLTRIGGER (POST LOADER)
-  -------------------------------------------------- */
+
   useEffect(() => {
     if (!loaderDone) return;
 
@@ -88,6 +84,19 @@ export default function App() {
     };
   }, [loaderDone]);
 
+useEffect(() => {
+  if (!loaderDone) return;
+
+  gsap.set("#hero", { visibility: "visible" });
+
+  // ✅ flag para casos donde Hero monte después
+  window.__heroEnter = true;
+
+  // 🔔 avisar al hero que ya puede animar
+  window.dispatchEvent(new Event("hero:enter"));
+}, [loaderDone]);
+
+
   return (
     <>
       {!loaderDone && (
@@ -100,7 +109,7 @@ export default function App() {
       <Navbar navMode={navMode} />
       <FloatingNode phase={phase} />
 
-      <Canvas
+      {/* <Canvas
         camera={{ position: [0, 0, 8], fov: 45 }}
         style={{ position: "fixed", inset: 0, zIndex: 0 }}
         gl={{ antialias: true, powerPreference: "high-performance" }}
@@ -112,7 +121,7 @@ export default function App() {
           <Fluid radius={0.08} force={0.8} swirl={0.8} curl={0.8} distortion={0.86} />
           <Vignette darkness={0.85} />
         </EffectComposer>
-      </Canvas>
+      </Canvas> */}
 
       <div className="main-container">
         <div className="scroll-container" style={{ position: "relative", zIndex: 3 }}>

@@ -51,7 +51,7 @@ export default function Banner() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: root,
-          start: "top 75%",
+          start: "top 85%",
         },
       });
 

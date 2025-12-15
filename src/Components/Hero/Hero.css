@@ -30,6 +30,10 @@
   z-index: 1;
 }
 
+.heroV-step[data-phase="2"] {
+  z-index: 1;
+}
+
 .hv-layout,
 .hv-layout-2 {
   position: relative;
@@ -41,7 +45,7 @@
   top: 10vh;
 }
 
-
+/* STEP 0 */
 .heroV-step[data-phase="0"] .hv-title {
   position: absolute;
   top: 18vh;
@@ -58,6 +62,7 @@
   line-height: 150%;
 }
 
+/* STEP 1 */
 .heroV-step[data-phase="1"] .hv-title {
   position: absolute;
   top: 15vh;
@@ -97,6 +102,10 @@
   display: none;
 }
 
+/* ============================================================
+   HERO VERTICAL — MOBILE
+============================================================ */
+
 @media (max-width: 768px) {
   .heroV-step .hv-title {
     left: var(--margin-mobile);
@@ -122,76 +131,67 @@
   .hv-subtext--mobile {
     display: block;
   }
+
   .heroV-step[data-phase="1"] .hv-subtext {
-
-  top: 35vh;
-
+    top: 35vh;
+  }
 }
-}
-
-
 
 /* ============================================================
-   HERO HORIZONTAL — MAIN
+   HERO HORIZONTAL — MAIN (STACKED PANELS FOR WIPE)
 ============================================================ */
 
 .heroH {
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
   position: relative;
-  background: transparent;
+  overflow: hidden;
 }
 
-.heroH-track {
-  display: flex;
-  height: 100%;
-  width: max-content;
-}
-
-.heroH-panel {
+/* Viewport: contenedor que stackea (no rail) */
+.heroH-viewport {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  position: relative;
-  color: white;
+  overflow: hidden;
+  display: block;
 }
 
+/* Paneles: uno arriba del otro */
+.heroH-panel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: white;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+/* cuando GSAP prende un panel, permitimos interacción */
+.heroH-panel[style*="visibility: inherit"],
+.heroH-panel[style*="opacity: 1"],
+.heroH-panel[style*="autoAlpha"] {
+  pointer-events: auto;
+}
+
+/* Content */
 .heroH-inner {
   max-width: 540px;
   padding-left: var(--margin-desktop);
   display: flex;
   flex-direction: column;
+  /* margin-top: 30vh; */
 }
 
-/* .heroH-title {
-  font-size: clamp(44px, 6vw, 72px);
-  font-weight: 700;
-  line-height: 100%;
-} */
-
+/* Body text */
 .heroH-body {
   opacity: 0.85;
   line-height: 150%;
   width: 600px;
 }
-.heroH-viewport {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.heroH-panel {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-
-
-}
-
 
 /* ============================================================
    HERO HORIZONTAL — HEADER
@@ -222,21 +222,43 @@
   font-size: 20px;
 }
 
-.heroH-index span {
+.heroH-index span{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 3.2ch;          /* mismo ancho siempre */
   opacity: 0.35;
-  transition: opacity 0.25s ease;
 }
 
-.heroH-index span.active {
+.heroH-index span::before{
+  content: "-";
+  opacity: 0;
+  transform: translateX(-8px);
+  margin-right: 10px;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.heroH-index span.active{
   opacity: 1;
   font-weight: 700;
 }
 
-.heroH-inner {
-  margin-top: 30vh;
+.heroH-index span.active::before{
+  opacity: 1;
+  transform: translateX(0);
 }
 
+/* Wipe performance */
+.heroH-inner {
+  will-change: clip-path, transform, filter, opacity;
+  -webkit-clip-path: inset(0 0% 0 0);
+  clip-path: inset(0 0% 0 0);
+}
 
+/* ============================================================
+   HERO HORIZONTAL — TITLES
+============================================================ */
 
 .heroH-title {
   font-size: var(--headline-large) !important;
@@ -246,43 +268,44 @@
   max-width: 14ch;
 }
 
-/* MOBILE — headline-small */
-@media (max-width: 768px) {
+/* ============================================================
+   HERO HORIZONTAL — TEXT VISIBILITY
+============================================================ */
+
+.heroH-body-desktop {
+  display: block;
+}
+
+.heroH-body-mobile {
+  display: none;
+}
+
+/* ============================================================
+   HERO HORIZONTAL — MOBILE
+============================================================ */
+
+@media (max-width: 820px) {
+  .heroH-inner {
+    margin-top: 10vh;
+    padding-left: var(--margin-mobile);
+  }
+
   .heroH-title {
     font-size: var(--headline-small) !important;
     font-weight: var(--headline-small-weight) !important;
     line-height: var(--headline-small-line) !important;
     letter-spacing: var(--headline-small-space) !important;
   }
+
   .heroH-header {
-    position: absolute;
-    top: 20vh;
-    left: var(--margin-desktop);
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    z-index: 50;
+    margin-top: 5vh;
+    left: var(--margin-mobile);
   }
-  .heroH-inner {
-  margin-top: 1vh;
-}
 
-}
-
-
-/* Desktop: solo mostrar la versión desktop */
-.heroH-body-desktop {
-  display: block;
-}
-.heroH-body-mobile {
-  display: none;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 820px) {
   .heroH-body-desktop {
     display: none;
   }
+
   .heroH-body-mobile {
     display: block;
     font-size: 14px;

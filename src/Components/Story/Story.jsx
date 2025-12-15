@@ -9,79 +9,95 @@ export default function Story({ setNavMode }) {
   const rootRef = useRef(null);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
+    const ctx = gsap.context(() => {
+      const root = rootRef.current;
+      if (!root) return;
 
-    const p1 = root.querySelector(".story-panel.panel-1");
-    const p2 = root.querySelector(".story-panel.panel-2");
+      const q = gsap.utils.selector(root);
 
-    // Estado inicial
-    gsap.set(root, { backgroundColor: "#000102" });
+      const p1 = q(".story-panel.panel-1");
+      const p2 = gsap.utils.toArray(q(".story-panel.panel-2")); // hay 2 (mobile/desktop)
 
-    gsap.set(p1, {
-      autoAlpha: 1,
-      y: 0,
-      filter: "blur(0px)",
-      zIndex: 2,
-    });
+      // Estado inicial
+      gsap.set(root, { backgroundColor: "#000102" });
 
-    gsap.set(p2, {
-      autoAlpha: 0,
-      y: 120,
-      filter: "blur(14px)",
-      zIndex: 1,
-    });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: root,
-        start: "top top",
-        end: "+=220%",
-        scrub: 0.6,
-        pin: true,
-        anticipatePin: 1,
-        onEnter: () => setNavMode?.("light"),
-        onEnterBack: () => setNavMode?.("light"),
-      },
-    });
-
-
-    tl.to(
-      root,
-      {
-        backgroundColor: "#ebeef0",
-        duration: 0.3,
-        ease: "none",
-      },
-      0
-    );
-
-    // Panel 1 OUT
-    tl.to(p1, {
-      autoAlpha: 0,
-      y: -80,
-      filter: "blur(12px)",
-      ease: "power3.inOut",
-      duration: 0.4,
-    });
-
-    // Panel 2 IN
-    tl.to(
-      p2,
-      {
+      gsap.set(p1, {
         autoAlpha: 1,
         y: 0,
         filter: "blur(0px)",
-        ease: "power3.out",
-        duration: 0.6,
-      },
-      ">-=0.25"
-    );
+        zIndex: 2,
+      });
 
-    return () => {
-      tl.kill();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
+      gsap.set(p2, {
+        autoAlpha: 0,
+        y: 120,
+        filter: "blur(14px)",
+        zIndex: 1,
+      });
+
+      // ✅ Fondo cambia ANTES (tuneá este start)
+      const bgST = ScrollTrigger.create({
+        trigger: root,
+        start: "top 75%", // antes de llegar a top (más alto = más temprano)
+        onEnter: () => {
+          gsap.to(root, {
+            backgroundColor: "#ebeef0",
+            duration: 0.5,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+          setNavMode?.("light");
+        },
+        onLeaveBack: () => {
+          gsap.to(root, {
+            backgroundColor: "#000102",
+            duration: 0.35,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+          setNavMode?.("dark");
+        },
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "+=220%",
+          scrub: 0.6,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+
+      tl.to(p1, {
+        autoAlpha: 0,
+        y: -80,
+        filter: "blur(12px)",
+        ease: "power3.inOut",
+        duration: 0.4,
+      });
+
+      tl.to(
+        p2,
+        {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+          ease: "power3.out",
+          duration: 0.6,
+        },
+        ">-=0.25"
+      );
+
+      return () => {
+        bgST.kill();
+        tl.scrollTrigger?.kill();
+        tl.kill();
+      };
+    }, rootRef);
+
+    return () => ctx.revert();
   }, [setNavMode]);
 
   return (
@@ -111,7 +127,20 @@ export default function Story({ setNavMode }) {
           </p>
         </div>
 
-        <div className="story-panel panel-2">
+        <div className="story-panel panel-2 story-mobile">
+          <h2 className="story-title headline-medium ">
+            OUR STORY ISN’T <br /> ONE OF CHANGE, <br />
+            BUT OF CONTINUOUS <br />
+            EVOLUTION
+          </h2>
+
+          <p className="story-body">
+            — from control systems <br />
+            to intelligent ecosystems.
+          </p>
+        </div>
+
+        <div className="story-panel panel-2 story-desktop">
           <h2 className="story-title headline-medium">
             OUR STORY ISN’T ONE OF CHANGE, <br />
             BUT OF CONTINUOUS EVOLUTION
