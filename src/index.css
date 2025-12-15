@@ -102,7 +102,7 @@
 
 .body-default {
   font-family: "Geist", sans-serif;
-  font-weight: 400; 
+  /* font-weight: 400;  */
   font-size: 16px;
   line-height: 140%;
   letter-spacing: 0;
@@ -129,10 +129,11 @@
 .headline-medium {
   font-size: var(--headline-medium-size);
   font-weight: var(--headline-medium-weight);
-  line-height: var(--headline-medium-line);
-  letter-spacing: var(--headline-medium-space);
+  line-height: var(--d-medium-line);
+  letter-spacing: 120%;
   font-family: var(--font-display);
   text-transform: uppercase;
+  
 }
 
 
@@ -172,7 +173,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: var(--display-md-size);
   font-weight: var(--display-md-weight);
   line-height: var(--display-md-line);
-  letter-spacing: var(--display-md-space);
+  letter-spacing: 140%;
 }
 
 .display-sm {
@@ -207,6 +208,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: semibold;
   font-family: Geist;
 }
+
+.subtitle-md {
+  font-family: var(--font-base);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 140%;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 
 /* =========================================================
    RESPONSIVE OVERRIDES

@@ -63,8 +63,8 @@
 
 .carousel-track {
   display: flex;
-  gap: 3rem;
-  padding: 0 10vw;
+  /* gap: 3rem; */
+  /* padding: 0 10vw; */
   height: 100%;
   align-items: center;
   position: absolute;
@@ -73,10 +73,10 @@
 }
 
 .card-component {
-  margin-top: 290px;
+  margin-top: 200px;
   flex: 0 0 auto;
-  width: 535x;
-  height: 409px;
+  /* width: 535x;
+  height: 409px; */
   min-height: 400px;
 }
 

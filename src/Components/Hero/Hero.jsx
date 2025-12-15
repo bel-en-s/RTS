@@ -497,8 +497,8 @@ export default function Hero({ onPhase }) {
             </h1>
 
             <p className="hv-subtext hv-subtext--desktop body-md">
-              — We merge decades of OT expertise with cutting-edge IT
-              innovation to empower industries with smarter, more
+              — We merge decades of OT expertise with cutting-edge  <br />IT
+              innovation to empower industries with smarter, more <br />
               efficient, and connected operations.
             </p>
 
@@ -510,7 +510,7 @@ export default function Hero({ onPhase }) {
           </div>
         </div>
 
-        {/* STEP 1 */}
+      
         <div className="heroV-step" data-phase="1">
           <div className="hv-layout-2">
             <h4 className="approach-subtitle-fixed">THE APPROACH</h4>
@@ -545,12 +545,12 @@ export default function Hero({ onPhase }) {
           </div>
         </div>
 
-        {/* STEP 2 */}
+  
         <div className="heroV-step" data-phase="2">
           <div className="heroH-header">
-            <h4 className="heroH-eyebrow">OUR DEPARTMENTS</h4>
-            <div className="heroH-index">
-              <span>01</span>
+            <h4 className="heroH-eyebrow subtitle-md">OUR DEPARTMENTS</h4>
+            <div className="heroH-index subtitle-md">
+              <span >01</span>
               <span>02</span>
               <span>03</span>
             </div>
@@ -604,11 +604,21 @@ export default function Hero({ onPhase }) {
             </section>
 
             <section className="heroH-panel">
-              <div className="heroH-inner">
+              <div className="heroH-inner heroH-body-mobile">
                 <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
-                <p className="body-md heroH-body">
+                <p className="body-md heroH-body ">
                   Our mission is to provide innovative, efficient, <br />
                   and reliable energy and infrastructure solutions <br />
+                  that enhance operational performance, ensure <br />
+                  sustainability, and drive industrial progress.
+                </p>
+                <ApproachButton url="/approach/energy" className="approach-btn" />
+              </div>
+               <div className="heroH-inner heroH-body-desktop">
+                <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
+                <p className="body-md heroH-body ">
+                  Our mission is to provide innovative, efficient,
+                  and reliable energy and  <br />infrastructure solutions 
                   that enhance operational performance, ensure <br />
                   sustainability, and drive industrial progress.
                 </p>

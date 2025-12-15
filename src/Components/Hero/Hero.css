@@ -55,7 +55,7 @@
 
 .heroV-step[data-phase="0"] .hv-subtext {
   position: absolute;
-  top: 50vh;
+  top: 55vh;
   right: 10vw;
   max-width: 700px;
   opacity: 0.9;
@@ -72,7 +72,7 @@
 
 .heroV-step[data-phase="1"] .hv-subtext {
   position: absolute;
-  top: 55vh;
+  top: 50vh;
   left: 25%;
   max-width: 420px;
   opacity: 0.9;
@@ -152,7 +152,7 @@
   overflow: hidden;
 }
 
-/* Viewport: contenedor que stackea (no rail) */
+
 .heroH-viewport {
   position: relative;
   width: 100vw;
@@ -161,7 +161,7 @@
   display: block;
 }
 
-/* Paneles: uno arriba del otro */
+
 .heroH-panel {
   position: absolute;
   inset: 0;
@@ -183,7 +183,7 @@
 
 /* Content */
 .heroH-inner {
-  max-width: 540px;
+  /* max-width: 540px; */
   padding-left: var(--margin-desktop);
   display: flex;
   flex-direction: column;
@@ -193,7 +193,7 @@
 /* Body text */
 .heroH-body {
   opacity: 0.85;
-  line-height: 150%;
+  line-height: 140%;
   width: 600px;
 }
 
@@ -203,7 +203,7 @@
 
 .heroH-header {
   position: absolute;
-  top: 30vh;
+  top: 20vh;
   left: var(--margin-desktop);
   display: flex;
   align-items: center;
@@ -231,9 +231,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  min-width: 3.2ch;          /* mismo ancho siempre */
-  opacity: 0.35;
+  min-width: 3.2ch;
+
+  opacity: 0.22;                          /* (1) MÁS grisado default */
+  color: rgba(255, 255, 255, 0.42);                 /* (2) gris real */
+  filter: blur(2px);                      /* (3) leve blur default */
+  transform: scale(1);
+
+  font-family: var(--font-base) !important;
+  font-size: 12px;
+
+  will-change: opacity, transform, filter; /* para animar smooth */
 }
+
 
 .heroH-index span::before{
   content: "-";
@@ -245,8 +255,11 @@
 
 .heroH-index span.active{
   opacity: 1;
+  color: rgba(255, 255, 255, 0.92);    /* highlight */
+  filter: blur(0px);
   font-weight: 700;
 }
+
 
 .heroH-index span.active::before{
   opacity: 1;
@@ -366,3 +379,12 @@
   .heroH-inner  { margin-top: 22svh; }
   .body-md .heroH-body { font-size: 14px;    }
 }
+
+@media (max-width: 820px) {
+  .heroH-body,
+  .heroH-body-mobile {
+    font-size: 16px !important; /* tu body-default */
+    line-height: 140%;
+  }
+}
+
