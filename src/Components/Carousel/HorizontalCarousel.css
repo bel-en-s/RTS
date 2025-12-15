@@ -45,7 +45,7 @@
 @media (max-width: 768px) {
   .carousel-title {
     left: var(--margin-mobile);
-    top: 12%;
+    /* top: 12%; */
     max-width: 90%;
     line-height: var(--headline-small-line);
     font-size: var(--headline-small-size);

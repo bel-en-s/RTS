@@ -150,3 +150,8 @@
   transform: scaleX(1);
   opacity: 1;
 }
+
+@media (max-width: 390px) {
+  .story-body {
+    font-size: 14px;
+  }
