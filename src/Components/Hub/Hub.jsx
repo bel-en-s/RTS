@@ -54,13 +54,13 @@ export default function HUB() {
       const cards = gsap.utils.toArray(".hub-card-wrapper");
 
       gsap.set(header, {
-        y: 40,
+        y: 20,
         opacity: 0,
         filter: "blur(12px)",
       });
 
       gsap.set(cards, {
-        y: 60,
+        y: 0,
         opacity: 0,
         filter: "blur(14px)",
       });
@@ -93,7 +93,7 @@ export default function HUB() {
         "-=0.4"
       );
 
-      const STACK_OFFSET = 82;
+      const STACK_OFFSET = 95;
 
       const main = gsap.timeline({
         scrollTrigger: {
