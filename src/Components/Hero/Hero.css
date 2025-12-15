@@ -1,6 +1,10 @@
 /* ============================================================
    HERO VERTICAL — PANELS
 ============================================================ */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 .heroV {
   height: 100vh;
@@ -304,15 +308,23 @@
 @media (max-width: 820px) {
   .heroH-inner {
     margin-top: 10vh;
-    padding-left: var(--margin-mobile);
+    /* padding-left: var(--margin-mobile); */
   }
 
+@media (max-width: 820px) {
   .heroH-title {
-    font-size: var(--headline-small) !important;
-    font-weight: var(--headline-small-weight) !important;
-    line-height: var(--headline-small-line) !important;
-    letter-spacing: var(--headline-small-space) !important;
+    font-size: var(--headline-small-size, 32px) !important;
+    font-weight: var(--headline-small-weight, 600) !important;
+    line-height: var(--headline-small-line, 1.1) !important;
+    letter-spacing: var(--headline-small-space, -0.02em) !important;
+    max-width: 18ch;
   }
+
+  .heroH-body {
+    width: auto;
+    max-width: min(520px, 86vw);
+  }
+}
 
   .heroH-header {
     margin-top: 5vh;
@@ -388,3 +400,16 @@
   }
 }
 
+/* Celus chicos: bajar 2px */
+@media (max-width: 390px) {
+  .heroH-title {
+    font-size: calc(clamp(26px, 8.4vw, 32px) - 2px) !important;
+  }
+
+  .heroH-body,
+  .heroH-body-mobile {
+    font-size: calc(16px - 2px) !important;
+    /* padding: 0; */
+    margin-bottom: 10px;
+  }
+}
