@@ -360,8 +360,9 @@
   }
 }
 
-/* Extra seguro para pantallas bajas (SE landscape / teclados / etc.) */
-@media (max-width: 390px) and (max-height: 700px) {
+
+@media (max-width: 390px) and (max-height: 700px) and (device-width: 414px) and (-webkit-device-pixel-ratio: 3) {
   .heroH-header { top: 9svh; }
   .heroH-inner  { margin-top: 22svh; }
+  .body-md .heroH-body { font-size: 14px;    }
 }
