@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Location.css";
@@ -21,7 +21,7 @@ export default function Location() {
     { name: "SANTIAGO DE CHILE" },
   ];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
@@ -37,15 +37,10 @@ export default function Location() {
         .map((m) => m.querySelector(".marker-tooltip"))
         .filter(Boolean);
 
-      const isMobile = window.innerWidth < 820;
-
-      const pinExtra = () =>
-        window.innerWidth < 820
-          ? window.innerHeight * 0.55
-          : window.innerHeight * 0.9;
+      const isMobile = () => window.innerWidth < 820;
 
       const setInitial = () => {
-        if (!isMobile) {
+        if (!isMobile()) {
           gsap.set(leftEls, { autoAlpha: 0, y: 22, filter: "blur(10px)" });
           gsap.set(map, { autoAlpha: 0, scale: 1.05, filter: "blur(10px)" });
           gsap.set(tooltips, { autoAlpha: 0, y: 10 });
@@ -62,7 +57,7 @@ export default function Location() {
       };
 
       const setFinal = () => {
-        if (!isMobile) {
+        if (!isMobile()) {
           gsap.set(leftEls, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
           gsap.set(map, { autoAlpha: 1, scale: 1, filter: "blur(0px)" });
           gsap.set(tooltips, { autoAlpha: 0, y: 10 });
@@ -79,34 +74,36 @@ export default function Location() {
 
       const reveal = gsap.timeline({ paused: true });
 
-      if (!isMobile) {
-        reveal.to(
-          leftEls,
-          {
-            autoAlpha: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.85,
-            stagger: 0.08,
-            ease: "power3.out",
-            overwrite: "auto",
-          },
-          0
-        );
+      reveal.add(() => {
+        if (isMobile()) return;
+      }, 0);
 
-        reveal.to(
-          map,
-          {
-            autoAlpha: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 0.95,
-            ease: "power3.out",
-            overwrite: "auto",
-          },
-          0.05
-        );
-      }
+      reveal.to(
+        leftEls,
+        {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.85,
+          stagger: 0.08,
+          ease: "power3.out",
+          overwrite: "auto",
+        },
+        0
+      );
+
+      reveal.to(
+        map,
+        {
+          autoAlpha: 1,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.95,
+          ease: "power3.out",
+          overwrite: "auto",
+        },
+        0.05
+      );
 
       reveal.to(
         markers,
@@ -118,33 +115,35 @@ export default function Location() {
           ease: "power2.out",
           overwrite: "auto",
         },
-        isMobile ? 0 : 0.25
+        0.25
       );
 
-      const st = ScrollTrigger.create({
+      const revealST = ScrollTrigger.create({
         trigger: root,
-        start: "top top",
-        end: () => `+=${pinExtra()}`,
-        pin: pinEl,
-        pinSpacing: true,
-        anticipatePin: 1,
+        start: "top 78%",
+        once: true,
         invalidateOnRefresh: true,
         onEnter: () => {
           if (playedRef.current) return;
           playedRef.current = true;
           reveal.play(0);
         },
-        onEnterBack: () => {
-          if (!playedRef.current) {
-            playedRef.current = true;
-            reveal.play(0);
-          }
-        },
+      });
+
+      const pinST = ScrollTrigger.create({
+        trigger: root,
+        start: () => (isMobile() ? "top top" : "top top+=90"),
+        end: () =>
+          isMobile() ? "top top" : `+=${Math.min(window.innerHeight * 0.45, 520)}`,
+        pin: !isMobile() ? pinEl : false,
+        pinSpacing: !isMobile(),
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
       });
 
       const cleanups = [];
 
-      if (!isMobile) {
+      const bindHover = () => {
         markers.forEach((marker) => {
           const tooltip = marker?.querySelector(".marker-tooltip");
           if (!marker || !tooltip) return;
@@ -189,10 +188,28 @@ export default function Location() {
             marker.removeEventListener("mouseleave", onLeave);
           });
         });
+      };
+
+      if (!isMobile()) bindHover();
+
+      const mm = ScrollTrigger.matchMedia({
+        "(max-width: 819px)": () => {
+          cleanups.forEach((fn) => fn());
+        },
+        "(min-width: 820px)": () => {
+          if (!cleanups.length) bindHover();
+        },
+      });
+
+      const img = map;
+      if (img && img.complete !== true) {
+        img.addEventListener("load", ScrollTrigger.refresh, { once: true });
       }
 
       return () => {
-        st.kill();
+        mm.kill();
+        revealST.kill();
+        pinST.kill();
         reveal.kill();
         cleanups.forEach((fn) => fn());
       };
