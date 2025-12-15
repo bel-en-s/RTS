@@ -1,11 +1,7 @@
 .horizontal-carousel {
-  height: 100vh;
+  height: 120vh;
   width: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.65),
-    rgba(0, 0, 0, 1)
-  );
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 1));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,6 +10,8 @@
   font-family: "Geist", sans-serif;
   overflow: hidden;
 
+  --carousel-top-safe: clamp(160px, 28vh, 320px);
+  --carousel-bottom-safe: clamp(34px, 6vh, 90px);
 
   -webkit-mask-image: linear-gradient(
     to bottom,
@@ -32,7 +30,6 @@
   );
 }
 
-/* Desktop (default) */
 .carousel-title {
   position: absolute;
   top: 20vh;
@@ -41,43 +38,18 @@
   z-index: 2;
 }
 
-/* Mobile override */
 @media (max-width: 768px) {
   .carousel-title {
     left: var(--margin-mobile);
     top: 12%;
     max-width: 90%;
-    line-height: var(--headline-small-line);
-    font-size: var(--headline-small-size);
-    letter-spacing: var(--headline-small-space);
   }
 }
-
 
 .gradient-text {
   background: linear-gradient(90deg, #1c56ff, #a463ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-
-.carousel-track {
-  display: flex;
-  /* gap: 3rem; */
-  /* padding: 0 10vw; */
-  height: 100%;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.card-component {
-  margin-top: 200px;
-  flex: 0 0 auto;
-  /* width: 535x;
-  height: 409px; */
-  min-height: 400px;
 }
 
 .carousel-subtitle-fixed {
@@ -91,9 +63,36 @@
   z-index: 3;
 }
 
-/* Ocultar en mobile */
 @media (max-width: 768px) {
   .carousel-subtitle-fixed {
     display: none;
   }
+}
+
+.carousel-pin {
+  height: 120vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding-top: var(--carousel-top-safe);
+}
+
+.carousel-track {
+  display: flex;
+  height: calc(100% - var(--carousel-bottom-safe));
+  margin-top: 18vh;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(var(--carousel-top-safe));
+}
+
+.card-component {
+  flex: 0 0 auto;
+
+  min-height: 400px;
+  margin-top: 0;
+  top: auto;
 }

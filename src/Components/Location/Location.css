@@ -57,14 +57,15 @@
 .presence-right {
   position: relative;
   flex: 1.2;
+      width: 200px;
   display: flex;
-  align-items: center;  /* CENTRADO VERTICAL MODERNO */
+  align-items: center;
 }
 
 
 
 .presence-map {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   display: block;
   filter: drop-shadow(0px 14px 48px rgba(120, 120, 160, 0.25));

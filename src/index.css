@@ -40,7 +40,7 @@
   --display-sm-space: -0.02em;
 
   /* ====== BODY TOKENS ====== */
-  --body-lg-size: 20px;
+  --body-lg-size: 18px;
   --body-lg-line: 140%;
 
   --headline-large:46px;
@@ -132,8 +132,17 @@
   line-height: var(--d-medium-line);
   letter-spacing: 120%;
   font-family: var(--font-display);
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   
+}
+
+.title-sm{
+  font-family: "Geist", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 110%;
+  letter-spacing: -0.02em;
+
 }
 
 
@@ -155,7 +164,7 @@ code, pre {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 2px;
 }
 
@@ -215,7 +224,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 140%;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 

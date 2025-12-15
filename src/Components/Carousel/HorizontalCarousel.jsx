@@ -23,19 +23,30 @@ export default function HorizontalCarousel() {
       const container = scrollContainerRef.current;
       if (!section || !container) return;
 
-      const getTotalWidth = () => container.scrollWidth - window.innerWidth;
+      const PIN_START_OFFSET_VH = -0.2;
+
+      const getTotalWidth = () => {
+        const total = container.scrollWidth - window.innerWidth;
+        return Math.max(0, total);
+      };
+
+      const getStart = () => {
+        const px = Math.round(window.innerHeight * PIN_START_OFFSET_VH);
+        return `top top+=${px}`;
+      };
+
       const PIN_BUFFER = window.innerHeight * 0.3;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: "top top",
-          end: () => `+=${getTotalWidth() + PIN_BUFFER * 2}`,
+          start: getStart,
+          end: () => `+=${Math.max(1, getTotalWidth() + PIN_BUFFER * 2)}`,
           scrub: 1.2,
           pin: true,
           anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+          invalidateOnRefresh: true
+        }
       });
 
       tl.to({}, { duration: 0.05 });
@@ -43,7 +54,7 @@ export default function HorizontalCarousel() {
       tl.to(container, {
         x: () => -getTotalWidth(),
         ease: "power2.inOut",
-        duration: 1,
+        duration: 1
       });
 
       tl.to({}, { duration: 0.2 });
@@ -58,28 +69,30 @@ export default function HorizontalCarousel() {
       const autoTl = gsap.timeline({
         repeat: -1,
         paused: true,
-        defaults: { ease: "power3.inOut" },
+        defaults: { ease: "power3.inOut" }
       });
 
       for (let i = 0; i < totalCards; i++) {
-        autoTl
-          .to(container, { x: () => -(i * cardWidth), duration: 1.6 })
-          .to({}, { duration: 1.4 });
+        autoTl.to(container, { x: () => -(i * cardWidth), duration: 1.6 }).to({}, { duration: 1.4 });
       }
 
       autoTl.to(container, { x: 0, duration: 1.6 });
 
       const autoST = ScrollTrigger.create({
         trigger: section,
-        start: "top top+=10%",
+        start: getStart,
         end: "bottom bottom",
         onEnter: () => autoTl.play(),
         onLeave: () => autoTl.pause(),
         onEnterBack: () => autoTl.play(),
-        onLeaveBack: () => autoTl.pause(),
+        onLeaveBack: () => autoTl.pause()
       });
 
+      const onLoad = () => ScrollTrigger.refresh();
+      window.addEventListener("load", onLoad);
+
       return () => {
+        window.removeEventListener("load", onLoad);
         autoST.kill();
         tl.scrollTrigger?.kill();
         tl.kill();
@@ -92,7 +105,7 @@ export default function HorizontalCarousel() {
 
   return (
     <section className="horizontal-carousel" ref={sectionRef}>
-      <h4 className="carousel-subtitle-fixed">INDUSTRIES</h4>
+      <h4 className="carousel-subtitle-fixed subtitle-md">INDUSTRIES</h4>
 
       <h1 className="carousel-title headline-md headline-mobile-small">
         WE NAVIGATE AND SERVE THE MOST COMPLEX{" "}
@@ -105,31 +118,26 @@ export default function HorizontalCarousel() {
           image={img0}
           description="We enhance operational reliability and efficiency through OT/IT integration, ensuring safe, data-driven, and continuous performance across upstream, midstream, and downstream operations."
         />
-
         <Card
           title="Power Generation"
           image={img1}
           description="We help power assets improve availability, safety, and performance through automation, monitoring, and optimized operations."
         />
-
         <Card
           title="Chemicals & Petrochemicals"
           image={img2}
           description="We enable smarter, safer, and more efficient operations by digitalizing processes and connecting critical data from field to boardroom."
         />
-
         <Card
           title="Pulp & Paper"
           image={img3}
           description="We support sustainable production through automation, energy optimization, and process digitalization — driving efficiency and lower environmental impact."
         />
-
         <Card
           title="Metals & Mining"
           image={img4}
           description="We enable efficient and safe mining operations through advanced automation, digital monitoring, and environmental performance tracking."
         />
-
         <Card
           title="Pharmaceuticals"
           image={img5}

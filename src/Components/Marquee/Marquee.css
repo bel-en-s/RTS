@@ -1,77 +1,77 @@
 .marquee-wrapper {
   width: 100%;
-  padding: 120px 0;
   background: #000;
   overflow: hidden;
+  padding: clamp(72px, 10vh, 120px) 0;
 }
 
 .marquee-title {
   text-align: center;
   color: #c2c2c2;
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  margin-bottom: 60px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  margin: 0 0 clamp(28px, 5vh, 60px);
   font-family: "Geist", sans-serif;
+  text-transform: uppercase;
 }
 
-/* CONTENEDOR */
 .marquee-container {
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 40px;
-  padding: 20px 0;
+  padding: 0;
 }
-
 
 .marquee-track {
   display: flex;
-  gap: 40px;
-  min-width: max-content;
-  height: 200px;
   align-items: center;
-
+  min-width: max-content;
+  height: 150px;
+  gap: 50px;
+  padding: 0 50px;
   animation: marquee linear infinite;
   animation-duration: var(--speed, 18s);
+  will-change: transform;
 }
 
 .marquee-left {
-  --speed: 28s;
+  --speed: 30s;
 }
+
 .marquee-right {
-  --speed: 32s;
+  --speed: 34s;
   animation-direction: reverse;
 }
 
-/* LOGOS */
 .logo-box {
-  width: 280px;
-  height: 150px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  width: 250px;
+  height: 125px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 16px;
-  background: #0c0c0c;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .logo-box img {
-  width: 100%;
-  height: 100%;
-  max-width: 100px;    
-  max-height: 40px;
+  display: block;
   object-fit: contain;
-  opacity: 1;
+  opacity: 0.95;
+  inline-size: 92px;
+  block-size: 34px;
 }
 
-/* ANIMACIÓN */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-1 * var(--move))); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--move)));
+  }
 }
 
-/* Fades */
 .marquee-container::before,
 .marquee-container::after {
   content: "";
@@ -87,23 +87,41 @@
   left: 0;
   background: linear-gradient(to right, #000 0%, transparent 100%);
 }
+
 .marquee-container::after {
   right: 0;
   background: linear-gradient(to left, #000 0%, transparent 100%);
 }
 
 @media (max-width: 768px) {
-  .marquee-track {
-    height: 150px;
+  .marquee-wrapper {
+    padding: 64px 0;
   }
+
+  .marquee-title {
+    margin-bottom: 28px;
+    font-size: 11px;
+    letter-spacing: 0.13em;
+  }
+
+  .marquee-container {
+    gap: 18px;
+  }
+
+  .marquee-track {
+    height: 140px;
+    gap: 18px;
+    padding: 0 18px;
+  }
+
   .logo-box {
-    width: 150px;
-    height: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 16px;
-    background: #0c0c0c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 160px;
+    height: 96px;
+    border-radius: 14px;
+  }
+
+  .logo-box img {
+    inline-size: 68px;
+    block-size: 26px;
   }
 }

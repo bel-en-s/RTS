@@ -35,22 +35,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="footer-column">
-            <h4 className="footer-heading">POLICY</h4>
-            <ul>
-              <li>Privacy Policy</li>
-              <li>Cookie Settings</li>
-            </ul>
-          </div>
-
-          <div className="footer-column">
-            <h4 className="footer-heading">SOCIAL</h4>
-            <ul>
-              <li>Linkedin</li>
-              <li>Youtube</li>
-              <li>Discord</li>
-            </ul>
-          </div>
+   
         </div>
       </div>
 

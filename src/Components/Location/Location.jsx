@@ -33,151 +33,48 @@ export default function Location() {
       const leftEls = q(".presence-left > *");
 
       const markers = markersRef.current.filter(Boolean);
-      const tooltips = markers
-        .map((m) => m.querySelector(".marker-tooltip"))
-        .filter(Boolean);
+      const tooltips = markers.map((m) => m.querySelector(".marker-tooltip")).filter(Boolean);
 
       const isMobile = () => window.innerWidth < 820;
 
-      const setInitial = () => {
-        if (!isMobile()) {
-          gsap.set(leftEls, { autoAlpha: 0, y: 22, filter: "blur(10px)" });
-          gsap.set(map, { autoAlpha: 0, scale: 1.05, filter: "blur(10px)" });
-          gsap.set(tooltips, { autoAlpha: 0, y: 10 });
-        } else {
-          gsap.set(map, { autoAlpha: 1, scale: 1, filter: "blur(0px)" });
-          gsap.set(tooltips, { autoAlpha: 1, y: 0 });
-        }
-
-        gsap.set(markers, {
-          autoAlpha: 0,
-          scale: 0.65,
-          transformOrigin: "50% 50%",
-        });
+      const setDesktopInitial = () => {
+        gsap.set(leftEls, { autoAlpha: 0, y: 18, filter: "blur(10px)" });
+        gsap.set(map, { autoAlpha: 0, scale: 1.03, filter: "blur(10px)" });
+        gsap.set(markers, { autoAlpha: 0, scale: 0.7, transformOrigin: "50% 50%" });
+        gsap.set(tooltips, { autoAlpha: 0, y: 10 });
       };
 
-      const setFinal = () => {
-        if (!isMobile()) {
-          gsap.set(leftEls, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
-          gsap.set(map, { autoAlpha: 1, scale: 1, filter: "blur(0px)" });
-          gsap.set(tooltips, { autoAlpha: 0, y: 10 });
-        } else {
-          gsap.set(map, { autoAlpha: 1, scale: 1, filter: "blur(0px)" });
-          gsap.set(tooltips, { autoAlpha: 1, y: 0 });
-        }
-
+      const setDesktopFinal = () => {
+        gsap.set(leftEls, { autoAlpha: 1, y: 0, filter: "none" });
+        gsap.set(map, { autoAlpha: 1, scale: 1, filter: "none" });
         gsap.set(markers, { autoAlpha: 1, scale: 1 });
+        gsap.set(tooltips, { autoAlpha: 0, y: 10 });
+        gsap.set([leftEls, map], { clearProps: "filter" });
       };
 
-      if (playedRef.current) setFinal();
-      else setInitial();
-
-      const reveal = gsap.timeline({ paused: true });
-
-      reveal.add(() => {
-        if (isMobile()) return;
-      }, 0);
-
-      reveal.to(
-        leftEls,
-        {
-          autoAlpha: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.85,
-          stagger: 0.08,
-          ease: "power3.out",
-          overwrite: "auto",
-        },
-        0
-      );
-
-      reveal.to(
-        map,
-        {
-          autoAlpha: 1,
-          scale: 1,
-          filter: "blur(0px)",
-          duration: 0.95,
-          ease: "power3.out",
-          overwrite: "auto",
-        },
-        0.05
-      );
-
-      reveal.to(
-        markers,
-        {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 0.22,
-          stagger: 0.06,
-          ease: "power2.out",
-          overwrite: "auto",
-        },
-        0.25
-      );
-
-      const revealST = ScrollTrigger.create({
-        trigger: root,
-        start: "top 78%",
-        once: true,
-        invalidateOnRefresh: true,
-        onEnter: () => {
-          if (playedRef.current) return;
-          playedRef.current = true;
-          reveal.play(0);
-        },
-      });
-
-      const pinST = ScrollTrigger.create({
-        trigger: root,
-        start: () => (isMobile() ? "top top" : "top top+=90"),
-        end: () =>
-          isMobile() ? "top top" : `+=${Math.min(window.innerHeight * 0.45, 520)}`,
-        pin: !isMobile() ? pinEl : false,
-        pinSpacing: !isMobile(),
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      });
-
-      const cleanups = [];
+      const setMobileFinal = () => {
+        gsap.set(leftEls, { autoAlpha: 1, y: 0, filter: "none" });
+        gsap.set(map, { autoAlpha: 1, scale: 1, filter: "none" });
+        gsap.set(markers, { autoAlpha: 1, scale: 1 });
+        gsap.set(tooltips, { autoAlpha: 1, y: 0 });
+        gsap.set([leftEls, map], { clearProps: "filter" });
+      };
 
       const bindHover = () => {
+        const cleanups = [];
+
         markers.forEach((marker) => {
           const tooltip = marker?.querySelector(".marker-tooltip");
           if (!marker || !tooltip) return;
 
           const onEnter = () => {
-            gsap.to(marker, {
-              scale: 1.25,
-              duration: 0.22,
-              ease: "power2.out",
-              overwrite: true,
-            });
-            gsap.to(tooltip, {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.22,
-              ease: "power2.out",
-              overwrite: true,
-            });
+            gsap.to(marker, { scale: 1.22, duration: 0.22, ease: "power2.out", overwrite: true });
+            gsap.to(tooltip, { autoAlpha: 1, y: 0, duration: 0.22, ease: "power2.out", overwrite: true });
           };
 
           const onLeave = () => {
-            gsap.to(marker, {
-              scale: 1,
-              duration: 0.22,
-              ease: "power2.out",
-              overwrite: true,
-            });
-            gsap.to(tooltip, {
-              autoAlpha: 0,
-              y: 10,
-              duration: 0.22,
-              ease: "power2.out",
-              overwrite: true,
-            });
+            gsap.to(marker, { scale: 1, duration: 0.22, ease: "power2.out", overwrite: true });
+            gsap.to(tooltip, { autoAlpha: 0, y: 10, duration: 0.22, ease: "power2.out", overwrite: true });
           };
 
           marker.addEventListener("mouseenter", onEnter);
@@ -188,30 +85,91 @@ export default function Location() {
             marker.removeEventListener("mouseleave", onLeave);
           });
         });
+
+        return () => cleanups.forEach((fn) => fn());
       };
 
-      if (!isMobile()) bindHover();
+      let revealTL = null;
+      let revealST = null;
+      let pinST = null;
+      let unbindHover = null;
 
-      const mm = ScrollTrigger.matchMedia({
-        "(max-width: 819px)": () => {
-          cleanups.forEach((fn) => fn());
-        },
-        "(min-width: 820px)": () => {
-          if (!cleanups.length) bindHover();
-        },
-      });
+      const buildDesktop = () => {
+        if (playedRef.current) setDesktopFinal();
+        else setDesktopInitial();
 
-      const img = map;
-      if (img && img.complete !== true) {
-        img.addEventListener("load", ScrollTrigger.refresh, { once: true });
+        revealTL = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+
+        revealTL
+          .to(leftEls, { autoAlpha: 1, y: 0, filter: "none", duration: 0.8, stagger: 0.08 }, 0)
+          .to(map, { autoAlpha: 1, scale: 1, filter: "none", duration: 0.9 }, 0.05)
+          .to(markers, { autoAlpha: 1, scale: 1, duration: 0.22, stagger: 0.06, ease: "power2.out" }, 0.22)
+          .set([leftEls, map], { clearProps: "filter" });
+
+        revealST = ScrollTrigger.create({
+          trigger: root,
+          start: "top 90%",
+          once: true,
+          onEnter: () => {
+            if (playedRef.current) return;
+            playedRef.current = true;
+            revealTL.play(0);
+          },
+        });
+
+       const PIN_OFFSET = 140;
+const PIN_LEN = () => Math.min(window.innerHeight * 0.35, 360);
+
+pinST = ScrollTrigger.create({
+  trigger: root,
+  start: `top top+=${PIN_OFFSET}`,
+  end: () => `+=${PIN_LEN()}`,
+  pin: isMobile() ? false : pinEl,
+  pinSpacing: false,
+  anticipatePin: 1,
+  invalidateOnRefresh: true,
+});
+
+        unbindHover = bindHover();
+      };
+
+      const buildMobile = () => {
+        setMobileFinal();
+      };
+
+      const killAll = () => {
+        unbindHover?.();
+        unbindHover = null;
+
+        revealST?.kill();
+        revealST = null;
+
+        pinST?.kill();
+        pinST = null;
+
+        revealTL?.kill();
+        revealTL = null;
+      };
+
+      const rebuild = () => {
+        killAll();
+        if (isMobile()) buildMobile();
+        else buildDesktop();
+        ScrollTrigger.refresh();
+      };
+
+      rebuild();
+
+      const onResize = () => rebuild();
+      window.addEventListener("resize", onResize);
+
+      if (map && map.complete !== true) {
+        map.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
       }
 
       return () => {
-        mm.kill();
-        revealST.kill();
-        pinST.kill();
-        reveal.kill();
-        cleanups.forEach((fn) => fn());
+        window.removeEventListener("resize", onResize);
+        killAll();
       };
     }, root);
 
@@ -220,7 +178,7 @@ export default function Location() {
 
   return (
     <section className="presence-section" ref={rootRef}>
-      <div className="presence-container">
+      {/* <div className="presence-container">
         <div className="presence-left">
           <h4 className="presence-label">LOCATION</h4>
           <h2 className="presence-title">GLOBAL PRESENCE</h2>
@@ -250,7 +208,7 @@ export default function Location() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

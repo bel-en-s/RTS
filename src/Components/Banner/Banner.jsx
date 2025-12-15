@@ -118,7 +118,7 @@ export default function Banner() {
       style={{ backgroundImage: `url(${bgBanner})` }}
     >
       <div className="banner-inner">
-        <h2 className="banner-title display-md">
+        <h2 className="banner-title headline-md">
           <span className="desktop">
             LET’S SPARK YOUR
             <br />

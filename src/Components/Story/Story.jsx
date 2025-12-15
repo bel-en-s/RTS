@@ -113,8 +113,8 @@ export default function Story({ setNavMode }) {
           </h2>
 
           <p className="story-body story-desktop">
-            — and evolved to <br />
-            engineer the future <br />
+            — and evolved to 
+            engineer <br />the future 
             through curated <br />
             industrial innovation.
           </p>
