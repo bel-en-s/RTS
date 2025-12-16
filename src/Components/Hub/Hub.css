@@ -11,6 +11,17 @@
   margin-top: 6vh;
   margin-left: var(--margin-desktop);
   will-change: transform, opacity, filter;
+  display: flex;
+  align-items: center;        /* centra verticalmente el botón */
+  justify-content: space-between;
+  gap: 24px;
+  margin-right: 10%;
+}
+
+.hub-fixed-header .approach-btn{
+  flex: 0 0 auto;             /* que no se estire */
+  align-self: center;   
+  width: 115px;      /* por si ApproachButton tiene algo raro */
 }
 
 .hub-title {
@@ -20,12 +31,12 @@
 
 .hub-stack-container {
   position: relative;
-  padding-top: 10vh;
+  /* padding-top: 10vh; */
   width: calc(100% - var(--margin-desktop) * 2);
   margin-left: var(--margin-desktop);
   display: flex;
   flex-direction: column;
-  gap: 80px;
+  gap: 30px;
 }
 
 .hub-card-wrapper {
@@ -55,4 +66,25 @@
     margin-left: var(--margin-mobile);
     gap: 60px;
   }
+}
+
+@media (max-width: 1200px) {
+  .hub-fixed-header .approach-btn {
+    display: none;
+  }
+}
+
+/* cuando se activa el pin: el contenedor queda en viewport y las cards se apilan */
+.hub-stack-container.is-stacking {
+  height: 100vh;
+  padding-top: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.hub-stack-container.is-stacking .hub-card-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
 }

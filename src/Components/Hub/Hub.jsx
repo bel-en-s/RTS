@@ -11,6 +11,7 @@ import iconBTL from "../../assets/hub/icon1.png";
 import imgInnovation from "../../assets/hub/innovation.png";
 import imgAcademy from "../../assets/hub/academy.png";
 import imgBTL from "../../assets/hub/below.png";
+import ApproachButton from "../UI/ApproachButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,7 +54,7 @@ export default function HUB() {
       const header = root.querySelector(".hub-fixed-header");
       const cards = gsap.utils.toArray(".hub-card-wrapper");
 
-      gsap.set(header, {
+      gsap.set(cards, {
         y: 20,
         opacity: 0,
         filter: "blur(12px)",
@@ -132,6 +133,7 @@ export default function HUB() {
           <br />
           OF IDEAS AND EXECUTION
         </h2>
+         <ApproachButton label="Learn more" href="#approach" />
       </div>
 
       <div className="hub-stack-container">
