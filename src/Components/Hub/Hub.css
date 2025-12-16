@@ -74,7 +74,6 @@
   }
 }
 
-/* cuando se activa el pin: el contenedor queda en viewport y las cards se apilan */
 .hub-stack-container.is-stacking {
   height: 100vh;
   padding-top: 0;

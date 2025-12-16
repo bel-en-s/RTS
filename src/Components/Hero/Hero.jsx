@@ -1,4 +1,3 @@
-// src/Components/Hero/Hero.jsx
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,6 +10,11 @@ export default function Hero({ onPhase }) {
   const rootRef = useRef(null);
   const heroTLRef = useRef(null);
   const introPlayedRef = useRef(false);
+  const onPhaseRef = useRef(onPhase);
+
+  useEffect(() => {
+    onPhaseRef.current = onPhase;
+  }, [onPhase]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -34,9 +38,6 @@ export default function Hero({ onPhase }) {
         ".hv-subtext--desktop, .hv-subtext--mobile"
       );
 
-      /* =====================================================
-         INTRO (por evento hero:enter) — estado inicial cinema
-      ===================================================== */
       gsap.set([step0Titles, step0Texts], {
         autoAlpha: 0,
         y: 46,
@@ -73,7 +74,6 @@ export default function Hero({ onPhase }) {
           0.25
         )
         .add(() => {
-          // clave: si ya existe el timeline scrub, reinvalidamos + refresh
           if (heroTLRef.current) heroTLRef.current.invalidate();
           ScrollTrigger.refresh();
         });
@@ -84,17 +84,12 @@ export default function Hero({ onPhase }) {
         introTL.play(0);
       };
 
-      // si el loader terminó antes que el Hero monte
       if (window.__heroEnter) requestAnimationFrame(playIntro);
 
-      // escuchamos el evento del App
       const onEnter = () => playIntro();
       window.addEventListener("hero:enter", onEnter);
       removeHeroEnter = () => window.removeEventListener("hero:enter", onEnter);
 
-      /* =====================================================
-         FLOATING NODE (CTA flotante)
-      ===================================================== */
       const node = document.querySelector(".floating-node");
       const isDesktop = window.innerWidth > 820;
 
@@ -140,15 +135,9 @@ export default function Hero({ onPhase }) {
         expandNode();
       }
 
-      /* =====================================================
-         GLOBAL SETUP
-      ===================================================== */
       gsap.set(steps, { position: "absolute", inset: 0, autoAlpha: 0 });
       gsap.set(step0, { autoAlpha: 1 });
 
-      /* =====================================================
-         STEP 1 — APPROACH (estado inicial oculto)
-      ===================================================== */
       const step1Subtitle = step1.querySelector(".approach-subtitle-fixed");
       const step1Titles = step1.querySelectorAll(
         ".hv-title--desktop .line, .hv-title--mobile"
@@ -163,14 +152,11 @@ export default function Hero({ onPhase }) {
         filter: "blur(8px)",
       });
 
-      /* =====================================================
-         STEP 2 — HORIZONTAL (setup)
-      ===================================================== */
       const eyebrow = step2.querySelector(".heroH-eyebrow");
       const indexSpans = step2.querySelectorAll(".heroH-index span");
 
       const panels = gsap.utils.toArray(step2.querySelectorAll(".heroH-panel"));
-      const inners = panels.map((p) => p.querySelector(".heroH-inner"));
+      const panelInners = panels.map((p) => Array.from(p.querySelectorAll(".heroH-inner")));
 
       indexSpans.forEach((s, i) => {
         const n = String(i + 1).padStart(2, "0");
@@ -196,28 +182,29 @@ export default function Hero({ onPhase }) {
       gsap.set(panels, { autoAlpha: 0 });
       gsap.set(panels[0], { autoAlpha: 1 });
 
-      gsap.set(inners, {
+      gsap.set(panelInners.flat(), {
         autoAlpha: 0,
         clipPath: "inset(0 100% 0 0)",
         WebkitClipPath: "inset(0 100% 0 0)",
       });
 
-      gsap.set(inners[0], {
+      gsap.set(panelInners[0], {
         autoAlpha: 1,
         clipPath: "inset(0 0% 0 0)",
         WebkitClipPath: "inset(0 0% 0 0)",
       });
 
       panels.forEach((panel, i) => {
-        const inner = panel.querySelector(".heroH-inner");
-        const title = inner.querySelector(".heroH-title");
-        const body = inner.querySelectorAll(".heroH-body");
-        const btn = inner.querySelector(".approach-btn");
-
-        gsap.set([title, ...body, btn], {
-          autoAlpha: i === 0 ? 1 : 0,
-          x: i === 0 ? 0 : 40,
-          filter: i === 0 ? "blur(0px)" : "blur(12px)",
+        const inners = Array.from(panel.querySelectorAll(".heroH-inner"));
+        inners.forEach((inner) => {
+          const title = inner.querySelector(".heroH-title");
+          const body = inner.querySelectorAll(".heroH-body");
+          const btn = inner.querySelector(".approach-btn");
+          gsap.set([title, ...body, btn].filter(Boolean), {
+            autoAlpha: i === 0 ? 1 : 0,
+            x: i === 0 ? 0 : 40,
+            filter: i === 0 ? "blur(0px)" : "blur(12px)",
+          });
         });
       });
 
@@ -230,12 +217,14 @@ export default function Hero({ onPhase }) {
       const CHILD_IN = 0.22;
       const CHILD_OUT = 0.18;
 
-      const wipeIn = (tl, panelEl, innerEl, at = "<") => {
+      const wipeIn = (tl, panelEl, innerEls, at = "<") => {
+        const inners = Array.isArray(innerEls) ? innerEls : [innerEls];
+
         tl.to(panelEl, { autoAlpha: 1, duration: 0.01 }, at);
-        tl.to(innerEl, { autoAlpha: 1, duration: 0.01 }, "<");
+        tl.to(inners, { autoAlpha: 1, duration: 0.01 }, "<");
 
         tl.fromTo(
-          innerEl,
+          inners,
           { clipPath: "inset(0 100% 0 0)", WebkitClipPath: "inset(0 100% 0 0)" },
           {
             clipPath: "inset(0 0% 0 0)",
@@ -246,8 +235,9 @@ export default function Hero({ onPhase }) {
           "<+=0.01"
         );
 
+        const kids = inners.flatMap((el) => Array.from(el.children));
         tl.fromTo(
-          innerEl.children,
+          kids,
           { autoAlpha: 0, x: 14, filter: "blur(12px)" },
           {
             autoAlpha: 1,
@@ -261,15 +251,18 @@ export default function Hero({ onPhase }) {
         );
       };
 
-      const wipeOut = (tl, panelEl, innerEl, at = "+=0") => {
-        tl.to(innerEl, { x: -8, duration: ANTICIPO, ease: "power2.out" }, at).to(
-          innerEl,
+      const wipeOut = (tl, panelEl, innerEls, at = "+=0") => {
+        const inners = Array.isArray(innerEls) ? innerEls : [innerEls];
+        const kids = inners.flatMap((el) => Array.from(el.children));
+
+        tl.to(inners, { x: -8, duration: ANTICIPO, ease: "power2.out" }, at).to(
+          inners,
           { x: 0, duration: 0.12, ease: "power2.out" },
           "<"
         );
 
         tl.to(
-          innerEl,
+          inners,
           {
             clipPath: "inset(0 0% 0 100%)",
             WebkitClipPath: "inset(0 0% 0 100%)",
@@ -280,7 +273,7 @@ export default function Hero({ onPhase }) {
         );
 
         tl.to(
-          innerEl.children,
+          kids,
           {
             autoAlpha: 0,
             x: -10,
@@ -295,9 +288,6 @@ export default function Hero({ onPhase }) {
         tl.to(panelEl, { autoAlpha: 0, duration: 0.01 }, "<+=0.12");
       };
 
-      /* =====================================================
-         MAIN TIMELINE
-      ===================================================== */
       let tl;
 
       tl = gsap.timeline({
@@ -308,7 +298,6 @@ export default function Hero({ onPhase }) {
           pin: true,
           anticipatePin: 1,
           scrub: 0.18,
-
           snap: {
             snapTo: (value) => {
               if (!tl || !tl.duration()) return value;
@@ -329,9 +318,8 @@ export default function Hero({ onPhase }) {
             ease: "power3.out",
             inertia: false,
           },
-
           onUpdate: (self) => {
-            onPhase?.(self.progress);
+            onPhaseRef.current?.(self.progress);
 
             if (!tl || !tl.duration()) return;
             const t = tl.time();
@@ -345,7 +333,6 @@ export default function Hero({ onPhase }) {
             let active = 0;
             if (t >= h2) active = 2;
             else if (t >= h1) active = 1;
-            else active = 0;
 
             setActiveIndex(active);
           },
@@ -354,9 +341,6 @@ export default function Hero({ onPhase }) {
 
       heroTLRef.current = tl;
 
-      /* =====================================================
-         STEP 0 → STEP 1
-      ===================================================== */
       tl.to({}, { duration: 0.1 });
 
       tl.to(step1, { autoAlpha: 1, duration: 0.01 }, "<");
@@ -394,14 +378,9 @@ export default function Hero({ onPhase }) {
         "<+=0.05"
       );
 
-      // ✅ FIX CLAVE: cuando volvés para atrás, SIEMPRE vuelve a visible
       tl.fromTo(
         [...step0Titles, ...step0Texts],
-        {
-          autoAlpha: 1,
-          y: 0,
-          filter: "blur(0px)",
-        },
+        { autoAlpha: 1, y: 0, filter: "blur(0px)" },
         {
           autoAlpha: 0,
           y: -8,
@@ -413,10 +392,7 @@ export default function Hero({ onPhase }) {
         "<"
       );
 
-      /* =====================================================
-         STEP 1 → STEP 2 (header)
-      ===================================================== */
-      tl.to([...step1Titles, ...step1Texts, step1Subtitle], {
+      tl.to([...step1Titles, ...step1Texts, step1Subtitle].filter(Boolean), {
         autoAlpha: 0,
         y: -10,
         filter: "blur(8px)",
@@ -448,40 +424,41 @@ export default function Hero({ onPhase }) {
 
       tl.to({}, { duration: 0.01, onStart: () => setActiveIndex(0) });
 
-      /* =====================================================
-         STEP 2 — PANEL 1
-      ===================================================== */
-      wipeIn(tl, panels[0], inners[0], "<+=0.1");
+      wipeIn(tl, panels[0], panelInners[0], "<+=0.1");
       tl.addLabel("H0");
       tl.to({}, { duration: HOLD_READ });
 
-      /* =====================================================
-         STEP 2 — PANEL 1 → 2
-      ===================================================== */
-      wipeOut(tl, panels[0], inners[0], "+=0");
-      wipeIn(tl, panels[1], inners[1], `<+=${GAP}`);
+      wipeOut(tl, panels[0], panelInners[0], "+=0");
+      wipeIn(tl, panels[1], panelInners[1], `<+=${GAP}`);
       tl.addLabel("H1");
       tl.to({}, { duration: HOLD_READ });
 
-      /* =====================================================
-         STEP 2 — PANEL 2 → 3
-      ===================================================== */
-      wipeOut(tl, panels[1], inners[1], "+=0");
-      wipeIn(tl, panels[2], inners[2], `<+=${GAP}`);
+      wipeOut(tl, panels[1], panelInners[1], "+=0");
+      wipeIn(tl, panels[2], panelInners[2], `<+=${GAP}`);
       tl.addLabel("H2");
       tl.to({}, { duration: HOLD_READ });
+
+tl.to([eyebrow, ...indexSpans], {
+  autoAlpha: 0,
+  y: -8,
+  filter: "blur(8px)",
+  duration: 0.35,
+  ease: "power2.inOut",
+});
+
+
+      // tl.to(step2, { autoAlpha: 0, duration: 0.01 }, "<");
     }, rootRef);
 
     return () => {
       removeHeroEnter?.();
       ctx.revert();
     };
-  }, [onPhase]);
+  }, []);
 
   return (
     <section id="hero" ref={rootRef}>
       <section id="heroV" className="heroV">
-        {/* STEP 0 */}
         <div className="heroV-step" data-phase="0">
           <div className="hv-layout">
             <h1 className="hv-title hv-title--desktop display-lg">
@@ -497,20 +474,19 @@ export default function Hero({ onPhase }) {
             </h1>
 
             <p className="hv-subtext hv-subtext--desktop body-md">
-              — We merge decades of OT expertise with cutting-edge  <br />IT
-              innovation to empower industries with smarter, more <br />
+              — We merge decades of OT expertise with cutting-edge <br />
+              IT innovation to empower industries with smarter, more <br />
               efficient, and connected operations.
             </p>
 
             <p className="hv-subtext hv-subtext--mobile body-md">
-              — We merge decades of OT expertise with cutting-edge IT
-              innovation to empower industries with smarter, more
-              efficient, and connected operations.
+              — We merge decades of OT expertise with cutting-edge IT innovation
+              to empower industries with smarter, more efficient, and connected
+              operations.
             </p>
           </div>
         </div>
 
-      
         <div className="heroV-step" data-phase="1">
           <div className="hv-layout-2">
             <h4 className="approach-subtitle-fixed">THE APPROACH</h4>
@@ -534,23 +510,22 @@ export default function Hero({ onPhase }) {
             </h2>
 
             <p className="hv-subtext hv-subtext--desktop body-md">
-              — Three departments working as one to shape, implement, and
-              evolve the technologies that move modern industry forward.
+              — Three departments working as one to shape, implement, and evolve
+              the technologies that move modern industry forward.
             </p>
 
             <p className="hv-subtext hv-subtext--mobile body-md">
-              — Three departments working as one to shape, implement, and
-              evolve the technologies that move modern industry forward.
+              — Three departments working as one to shape, implement, and evolve
+              the technologies that move modern industry forward.
             </p>
           </div>
         </div>
 
-  
         <div className="heroV-step" data-phase="2">
           <div className="heroH-header">
             <h4 className="heroH-eyebrow subtitle-md">OUR DEPARTMENTS</h4>
             <div className="heroH-index subtitle-md">
-              <span >01</span>
+              <span>01</span>
               <span>02</span>
               <span>03</span>
             </div>
@@ -567,7 +542,7 @@ export default function Hero({ onPhase }) {
                   unique automation needs of our clients.
                 </p>
 
-                <ApproachButton url="/approach/automation" className="approach-btn" />
+                <ApproachButton href="/approach/automation" className="approach-btn" />
               </div>
             </section>
 
@@ -599,30 +574,32 @@ export default function Hero({ onPhase }) {
                   core of industrial operations.
                 </p>
 
-                <ApproachButton url="/approach/digital" className="approach-btn" />
+                <ApproachButton href="/approach/digital" className="approach-btn" />
               </div>
             </section>
 
             <section className="heroH-panel">
               <div className="heroH-inner heroH-body-mobile">
                 <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
-                <p className="body-md heroH-body ">
+                <p className="body-md heroH-body">
                   Our mission is to provide innovative, efficient, <br />
                   and reliable energy and infrastructure solutions <br />
                   that enhance operational performance, ensure <br />
                   sustainability, and drive industrial progress.
                 </p>
-                <ApproachButton url="/approach/energy" className="approach-btn" />
+                <ApproachButton href="/approach/energy" className="approach-btn" />
               </div>
-               <div className="heroH-inner heroH-body-desktop">
+
+              <div className="heroH-inner heroH-body-desktop">
                 <h2 className="display-xl heroH-title">ENERGY & INFRASTRUCTURE</h2>
-                <p className="body-md heroH-body ">
-                  Our mission is to provide innovative, efficient,
-                  and reliable energy and  <br />infrastructure solutions 
-                  that enhance operational performance, ensure <br />
+                <p className="body-md heroH-body">
+                  Our mission is to provide innovative, efficient, and reliable energy and
+                  <br />
+                  infrastructure solutions that enhance operational performance, ensure
+                  <br />
                   sustainability, and drive industrial progress.
                 </p>
-                <ApproachButton url="/approach/energy" className="approach-btn" />
+                <ApproachButton href="/approach/energy" className="approach-btn" />
               </div>
             </section>
           </div>

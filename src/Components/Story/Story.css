@@ -95,9 +95,10 @@
 
   .story-body {
     font-size: var(--title-small);
-    line-height: 150%;
-    margin-top: 30vh;      
-    margin-left: 28vw;    
+    line-height: 110%;
+    letter-spacing: -2%;
+    margin-top: 25vh;      
+    margin-left: 20vw;    
     max-width: 85%;
   }
 }
