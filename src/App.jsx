@@ -1,18 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-import { Canvas } from "@react-three/fiber";
-import { EffectComposer, Noise, Vignette, Bloom } from "@react-three/postprocessing";
-import { Fluid } from "@whatisjery/react-fluid-distortion";
 
 import Loader from "./Components/Loader/Loader";
 import Navbar from "./Components/Navbar/Navbar";
 import FloatingNode from "./Components/UI/FloatingNode";
 import Home from "./Pages/Home";
 import Footer from "./Components/Footer/Footer";
-import Scene from "./Components/Scene";
+import AutomationControls from "./Pages/AutomationControls";
 
 import "./App.css";
 import "./index.css";
@@ -20,6 +17,8 @@ import "./index.css";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const location = useLocation();
+
   const [scroll, setScroll] = useState(0);
   const [phase, setPhase] = useState(0);
   const [navMode, setNavMode] = useState("dark");
@@ -28,13 +27,12 @@ export default function App() {
   const [loaderDone, setLoaderDone] = useState(false);
 
   const lenisRef = useRef(null);
-
+  const rafIdRef = useRef(0);
 
   useEffect(() => {
     const t = setTimeout(() => setIsReady(true), 1200);
     return () => clearTimeout(t);
   }, []);
-
 
   useEffect(() => {
     if (!loaderDone) return;
@@ -48,11 +46,11 @@ export default function App() {
 
     lenisRef.current = lenis;
 
-    function raf(time) {
+    const raf = (time) => {
       lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+      rafIdRef.current = requestAnimationFrame(raf);
+    };
+    rafIdRef.current = requestAnimationFrame(raf);
 
     lenis.on("scroll", ({ scroll }) => setScroll(scroll));
 
@@ -79,53 +77,77 @@ export default function App() {
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
+      cancelAnimationFrame(rafIdRef.current);
+      gsap.ticker.remove(ScrollTrigger.update);
+      ScrollTrigger.getAll().forEach((st) => st.kill());
       lenis.destroy();
-      ScrollTrigger.killAll();
+      lenisRef.current = null;
     };
   }, [loaderDone]);
 
-useEffect(() => {
-  if (!loaderDone) return;
+  // ✅ En cada navegación: mato triggers del Home + fuerzo fondo/estado + scroll top
+  useEffect(() => {
+    if (!loaderDone) return;
 
-  gsap.set("#hero", { visibility: "visible" });
+    const isHome = location.pathname === "/";
 
-  // ✅ flag para casos donde Hero monte después
-  window.__heroEnter = true;
+    // 1) Evitar que triggers “viejos” sigan tocando navMode/fondo
+    ScrollTrigger.getAll().forEach((st) => st.kill());
 
-  // 🔔 avisar al hero que ya puede animar
-  window.dispatchEvent(new Event("hero:enter"));
-}, [loaderDone]);
+    // 2) Forzar look en páginas internas
+    if (!isHome) {
+      setNavMode("dark");
+      document.documentElement.style.backgroundColor = "#000102";
+      document.body.style.backgroundColor = "#000102";
+    } else {
+      // Home maneja navMode con su lógica (Story, etc.)
+      document.documentElement.style.backgroundColor = "";
+      document.body.style.backgroundColor = "";
+    }
 
+    // 3) Scroll top + refresh
+    lenisRef.current?.scrollTo(0, { immediate: true });
+
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [location.pathname, loaderDone]);
+
+  // Hero gate después del loader (si lo necesitás)
+  useEffect(() => {
+    if (!loaderDone) return;
+    gsap.set("#hero", { visibility: "visible" });
+    window.__heroEnter = true;
+    window.dispatchEvent(new Event("hero:enter"));
+  }, [loaderDone]);
 
   return (
     <>
       {!loaderDone && (
-        <Loader
-          isReady={isReady}
-          onDone={() => setLoaderDone(true)}
-        />
+        <Loader isReady={isReady} onDone={() => setLoaderDone(true)} />
       )}
 
-      <Navbar navMode={navMode} />
+      {/* ✅ show={loaderDone} si querés que la navbar “entre” después del loader */}
+      <Navbar navMode={navMode} show={loaderDone} />
       <FloatingNode phase={phase} />
-
-      {/* <Canvas
-        camera={{ position: [0, 0, 8], fov: 45 }}
-        style={{ position: "fixed", inset: 0, zIndex: 0 }}
-        gl={{ antialias: true, powerPreference: "high-performance" }}
-      >
-        <Scene scroll={scroll} phase={phase} />
-        <EffectComposer multisampling={0}>
-          <Noise opacity={0.2} />
-          <Bloom intensity={0.8} luminanceThreshold={0.2} />
-          <Fluid radius={0.08} force={0.8} swirl={0.8} curl={0.8} distortion={0.86} />
-          <Vignette darkness={0.85} />
-        </EffectComposer>
-      </Canvas> */}
 
       <div className="main-container">
         <div className="scroll-container" style={{ position: "relative", zIndex: 3 }}>
-          <Home onPhase={setPhase} setNavMode={setNavMode} />
+          <Routes>
+            <Route
+              path="/"
+              element={<Home onPhase={setPhase} setNavMode={setNavMode} />}
+            />
+            <Route
+              path="/automation-controls"
+              element={<AutomationControls setNavMode={setNavMode} />}
+            />
+            <Route
+              path="*"
+              element={<Home onPhase={setPhase} setNavMode={setNavMode} />}
+            />
+          </Routes>
+
           <Footer />
         </div>
       </div>
