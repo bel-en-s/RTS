@@ -9,7 +9,6 @@ import Banner from "../Components/Banner/Banner";
 import Marquee from "../Components/Marquee/Marquee";
 import Hub from "../Components/Hub/Hub";
 import Location from "../Components/Location/Location";
-import Footer from "../Components/Footer/Footer";   
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -103,8 +102,6 @@ export default function Home({ onPhase, setNavMode }) {
       </div>
 
       <Banner />
-
-      <Footer />
     </>
   );
 }
