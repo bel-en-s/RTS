@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,6 +14,8 @@ import FloatingNode from "./Components/UI/FloatingNode";
 import Home from "./Pages/Home";
 import Footer from "./Components/Footer/Footer";
 import Scene from "./Components/Scene";
+import AutomationControls from "./Pages/AutomationControls";
+import Transition from "./Components/Transition/Transition";
 
 import "./App.css";
 import "./index.css";
@@ -20,6 +23,9 @@ import "./index.css";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const location = useLocation();
+  const transitionRef = useRef(null); // Referencia vital para la transición
+
   const [scroll, setScroll] = useState(0);
   const [phase, setPhase] = useState(0);
   const [navMode, setNavMode] = useState("dark");
@@ -28,13 +34,13 @@ export default function App() {
   const [loaderDone, setLoaderDone] = useState(false);
 
   const lenisRef = useRef(null);
-
+  const rafIdRef = useRef(0);
+  const stTickRef = useRef(null);
 
   useEffect(() => {
     const t = setTimeout(() => setIsReady(true), 1200);
     return () => clearTimeout(t);
   }, []);
-
 
   useEffect(() => {
     if (!loaderDone) return;
@@ -48,15 +54,17 @@ export default function App() {
 
     lenisRef.current = lenis;
 
-    function raf(time) {
+    const raf = (time) => {
       lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+      rafIdRef.current = requestAnimationFrame(raf);
+    };
+    rafIdRef.current = requestAnimationFrame(raf);
 
     lenis.on("scroll", ({ scroll }) => setScroll(scroll));
 
-    gsap.ticker.add(ScrollTrigger.update);
+    const onTick = () => ScrollTrigger.update();
+    stTickRef.current = onTick;
+    gsap.ticker.add(onTick);
 
     ScrollTrigger.scrollerProxy(".scroll-container", {
       scrollTop(value) {
@@ -75,60 +83,70 @@ export default function App() {
     });
 
     ScrollTrigger.defaults({ scroller: ".scroll-container" });
-
     requestAnimationFrame(() => ScrollTrigger.refresh());
 
     return () => {
+      cancelAnimationFrame(rafIdRef.current);
+      if (stTickRef.current) gsap.ticker.remove(stTickRef.current);
       lenis.destroy();
-      ScrollTrigger.killAll();
+      lenisRef.current = null;
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, [loaderDone]);
 
-useEffect(() => {
-  if (!loaderDone) return;
+  useEffect(() => {
+    if (!loaderDone) return;
+    gsap.set("#hero", { visibility: "visible" });
+    window.__heroEnter = true;
+    window.dispatchEvent(new Event("hero:enter"));
+  }, [loaderDone]);
 
-  gsap.set("#hero", { visibility: "visible" });
-
-  // ✅ flag para casos donde Hero monte después
-  window.__heroEnter = true;
-
-  // 🔔 avisar al hero que ya puede animar
-  window.dispatchEvent(new Event("hero:enter"));
-}, [loaderDone]);
-
+  useEffect(() => {
+    if (!loaderDone) return;
+    const isHome = location.pathname === "/";
+    if (!isHome) {
+      setNavMode("dark");
+      document.documentElement.style.backgroundColor = "#000102";
+      document.body.style.backgroundColor = "#000102";
+    } else {
+      document.documentElement.style.backgroundColor = "";
+      document.body.style.backgroundColor = "";
+    }
+  }, [location.pathname, loaderDone]);
 
   return (
     <>
       {!loaderDone && (
-        <Loader
-          isReady={isReady}
-          onDone={() => setLoaderDone(true)}
-        />
+        <Loader isReady={isReady} onDone={() => setLoaderDone(true)} />
       )}
 
-      <Navbar navMode={navMode} />
-      <FloatingNode phase={phase} />
+      <Transition ref={transitionRef} enabled={loaderDone} lenisRef={lenisRef}>
+        <Navbar navMode={navMode} />
+        <FloatingNode phase={phase} />
 
-      {/* <Canvas
-        camera={{ position: [0, 0, 8], fov: 45 }}
-        style={{ position: "fixed", inset: 0, zIndex: 0 }}
-        gl={{ antialias: true, powerPreference: "high-performance" }}
-      >
-        <Scene scroll={scroll} phase={phase} />
-        <EffectComposer multisampling={0}>
-          <Noise opacity={0.2} />
-          <Bloom intensity={0.8} luminanceThreshold={0.2} />
-          <Fluid radius={0.08} force={0.8} swirl={0.8} curl={0.8} distortion={0.86} />
-          <Vignette darkness={0.85} />
-        </EffectComposer>
-      </Canvas> */}
-
-      <div className="main-container">
-        <div className="scroll-container" style={{ position: "relative", zIndex: 3 }}>
-          <Home onPhase={setPhase} setNavMode={setNavMode} />
-          <Footer />
+        <div className="main-container">
+          <div
+            className="scroll-container"
+            style={{ position: "relative", zIndex: 3 }}
+          >
+            <Routes>
+              <Route
+                path="/"
+                element={<Home onPhase={setPhase} setNavMode={setNavMode} />}
+              />
+              <Route
+                path="/automation-controls"
+                element={<AutomationControls setNavMode={setNavMode} />}
+              />
+              <Route
+                path="*"
+                element={<Home onPhase={setPhase} setNavMode={setNavMode} />}
+              />
+            </Routes>
+            <Footer />
+          </div>
         </div>
-      </div>
+      </Transition>
     </>
   );
 }

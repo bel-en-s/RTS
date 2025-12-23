@@ -1,0 +1,10 @@
+.route-curtain{
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 999999;
+    pointer-events: none;
+    transform: translateY(-100%);
+    opacity: 1;
+    will-change: transform;
+  }
