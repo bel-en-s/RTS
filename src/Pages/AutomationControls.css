@@ -1,0 +1,6 @@
+.layout-automation{
+    height: 100vh;
+    margin-left: 50px;
+     left: var(--margin-desktop);
+     padding-top: 25vh;
+}
