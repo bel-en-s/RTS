@@ -1,0 +1,103 @@
+.automation-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .accItem {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 18px;
+    padding: 13px 15px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .accItem.is-open {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  }
+  
+  /* Header clickable */
+  .accHead {
+    display: block;
+  }
+  
+  .accToggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .accTitle {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Icon button */
+  .accIconBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.08);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  
+  /* hover: fondo blanco */
+  .accToggle:hover .accIconBtn {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.92);
+  }
+  
+  /* open: fondo blanco fijo */
+  .accItem.is-open .accIconBtn {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.92);
+  }
+  
+  .accIcon {
+    font-size: 22px;
+    line-height: 1;
+    transform: translateY(-1px);
+    will-change: transform;
+  }
+  
+  /* cuando el botón está blanco, el símbolo oscuro */
+  .accItem.is-open .accIcon,
+  .accToggle:hover .accIcon {
+    color: rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Panel animado */
+  .accPanel {
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .accInner {
+    padding-top: 12px;
+    will-change: transform, opacity;
+  }
+  
+  .accBody {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+    opacity: 0.85;
+    max-width: 56ch;
+  }
+  

@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Menu, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import { useTransition } from "../Transition/Transition";
+import { useTransition } from "../../Transition/Transition";
 import "./Navbar.css";
-import logo from "../../assets/logo-rts.svg";
+import logo from "../../../assets/logo-rts.svg";
 
 export default function Navbar({ navMode }) {
   const { go } = useTransition();

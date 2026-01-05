@@ -9,7 +9,7 @@ import { EffectComposer, Noise, Vignette, Bloom } from "@react-three/postprocess
 import { Fluid } from "@whatisjery/react-fluid-distortion";
 
 import Loader from "./Components/Loader/Loader";
-import Navbar from "./Components/Navbar/Navbar";
+import Navbar from "./Components/UI/Navbar/Navbar";
 import FloatingNode from "./Components/UI/FloatingNode";
 import Home from "./Pages/Home";
 import Footer from "./Components/Footer/Footer";

@@ -1,29 +1,23 @@
-/* ==========================================================================
-   Belén Seoane Palmieri
-========================================================================== */
+
 
 /* =========================================================
    ROOT VARIABLES
 ========================================================= */
 :root {
-  /* ====== FONT FAMILIES ====== */
   --font-base: "Geist", sans-serif;
   --font-display: "Neue Power Ultra", sans-serif;
 
-  /* ====== COLORS ====== */
   --color-text: #ffffff;
   --color-bg: #09070c;
   --color-bg-light: #ffffff;
   --color-text-light: #000000;
   --text-on-white: #8c8c8c;
 
-  /* ====== RESPONSIVE MARGINS ====== */
   --margin-desktop: 5vw;
   --margin-laptop: 5vw;
   --margin-tablet: 6vw;
   --margin-mobile: 7vw;
 
-  /* ====== DISPLAY TOKENS (DESKTOP) ====== */
   --display-lg-size: 84px;
   --display-lg-weight: 800;
   --display-lg-line: 100%;
@@ -116,6 +110,20 @@
   line-height: 140%;
   letter-spacing: 0;
  
+}
+
+.title-large{
+  font-family: "Geist", sans-serif;
+  font-size:30px;
+ line-height:110%;
+  font-weight: 600;
+}
+
+
+.title-medium{
+ font-size:26px;
+ line-height:120%;
+  font-weight: 600;
 }
 
 
@@ -236,6 +244,14 @@ h1, h2, h3, h4, h5, h6 {
   /* text-transform: uppercase; */
 }
 
+.highlight-violet{
+  display: inline-block;
+  color: #6a5cff; /* fallback */
+  background: linear-gradient(90deg, #6a5cff 0%, #2e86ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 /* =========================================================
    RESPONSIVE OVERRIDES

@@ -2,155 +2,189 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Banner.css";
-import Button from "../UI/ApproachButton";
-import bgBanner from "../../assets/Banner.jpeg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Banner() {
+function Multiline({ text }) {
+  if (!text) return null;
+  const lines = String(text).split("\n");
+  return (
+    <>
+      {lines.map((line, i) => (
+        <span key={i}>
+          {line}
+          {i !== lines.length - 1 && <br />}
+        </span>
+      ))}
+    </>
+  );
+}
+
+function ActionButton({ label, href, onClick, variant = "primary", download }) {
+  const className = `banner-cta banner-cta--${variant}`;
+
+  if (href) {
+    return (
+      <a
+        className={className}
+        href={href}
+        download={download ? true : undefined}
+      >
+        {label}
+      </a>
+    );
+  }
+
+  return (
+    <button className={className} type="button" onClick={onClick}>
+      {label}
+    </button>
+  );
+}
+
+/**
+ * Banner reutilizable
+ *
+ * Props:
+ * - variant: "image" | "glow"
+ * - backgroundImage: import de imagen (string)
+ * - titleDesktop / titleMobile: string con \n
+ * - bodyDesktop / bodyMobile: string con \n (opcional)
+ * - buttons: [{ label, href?, onClick?, variant?: "primary"|"outline"|"ghost", download?: boolean }]
+ * - start: ScrollTrigger start (opcional)
+ * - titleClassName: clase tipográfica (ej: "headline-medium")
+ * - actionsDirection: "row" | "column"
+ */
+export default function Banner({
+  variant = "image",
+  backgroundImage,
+
+  titleDesktop,
+  titleMobile,
+  bodyDesktop,
+  bodyMobile,
+
+  buttons = [],
+  start = "top 85%",
+
+  titleClassName = "headline-md",
+  actionsDirection = "row",
+}) {
   const rootRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const root = rootRef.current;
+      if (!root) return;
+
       const inner = root.querySelector(".banner-inner");
       const title = root.querySelector(".banner-title");
       const body = root.querySelector(".banner-body");
-      const button = root.querySelector(".banner-button");
+      const actions = root.querySelector(".banner-actions");
 
-      gsap.set(root, {
-        filter: "blur(0px)",
-      });
+      gsap.set(root, { scale: 1.05 });
+      if (inner) gsap.set(inner, { opacity: 0 });
 
-      gsap.set(inner, {
-        opacity: 0,
-      });
-
-      gsap.set(title, {
-        opacity: 0,
-        y: 40,
-        filter: "blur(14px)",
-      });
-
-      gsap.set(body, {
-        opacity: 0,
-        y: 32,
-        filter: "blur(10px)",
-      });
-
-      gsap.set(button, {
-        opacity: 0,
-        y: 24,
-        filter: "blur(8px)",
-      });
-
-      gsap.set(root, {
-        scale: 1.05,
-      });
+      if (title) gsap.set(title, { opacity: 0, y: 40, filter: "blur(14px)" });
+      if (body) gsap.set(body, { opacity: 0, y: 32, filter: "blur(10px)" });
+      if (actions)
+        gsap.set(actions, { opacity: 0, y: 24, filter: "blur(8px)" });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: root,
-          start: "top 85%",
+          start,
+          once: true,
         },
       });
 
-      tl.to(root, {
-        scale: 1,
-        duration: 1.4,
-        ease: "power3.out",
-      });
+      tl.to(root, { scale: 1, duration: 1.4, ease: "power3.out" });
 
-      tl.to(
-        inner,
-        {
-          opacity: 1,
-          duration: 0.2,
-          ease: "none",
-        },
-        "-=1.1"
-      );
+      if (inner) tl.to(inner, { opacity: 1, duration: 0.2 }, "-=1.1");
 
-      tl.to(
-        title,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.9,
-          ease: "power3.out",
-        },
-        "-=1"
-      );
+      if (title)
+        tl.to(
+          title,
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.9,
+            ease: "power3.out",
+          },
+          "-=1"
+        );
 
-      tl.to(
-        body,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.8,
-          ease: "power3.out",
-        },
-        "-=0.6"
-      );
+      if (body)
+        tl.to(
+          body,
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.8,
+            ease: "power3.out",
+          },
+          "-=0.6"
+        );
 
-      tl.to(
-        button,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 0.7,
-          ease: "power3.out",
-        },
-        "-=0.45"
-      );
+      if (actions)
+        tl.to(
+          actions,
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.7,
+            ease: "power3.out",
+          },
+          "-=0.45"
+        );
     }, rootRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [start]);
+
+  const isGlow = variant === "glow";
 
   return (
-    <section
-      className="banner"
-      ref={rootRef}
-      style={{ backgroundImage: `url(${bgBanner})` }}
-    >
+    <section className={`banner ${isGlow ? "banner--glow" : "banner--image"}`} ref={rootRef}>
+      {backgroundImage && (
+        <div
+          className="banner-bg"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+          aria-hidden="true"
+        />
+      )}
+
       <div className="banner-inner">
-        <h2 className="banner-title headline-md">
+        <h2 className={`banner-title ${titleClassName}`}>
           <span className="desktop">
-            LET’S SPARK YOUR
-            <br />
-            INDUSTRIAL BRILLANCE
+            <Multiline text={titleDesktop} />
           </span>
-          <span className="mobile display-md">
-            LET’S SPARK
-            <br />
-            YOUR INDUSTRIAL
-            <br />
-            BRILLANCE
+          <span className="mobile">
+            <Multiline text={titleMobile ?? titleDesktop} />
           </span>
         </h2>
 
-        <p className="banner-body body-lg">
-          <span className="desktop">
-            Every challenge is an opportunity. Share yours, and
-            <br />
-            let’s explore how to bring your vision to life.
-          </span>
-          <span className="mobile body-lg">
-            Every challenge is an opportunity. Share yours,
-            <br />
-            and let’s explore how to
-            <br />
-            bring your vision to life.
-          </span>
-        </p>
+        {(bodyDesktop || bodyMobile) && (
+          <p className="banner-body body-lg">
+            <span className="desktop">
+              <Multiline text={bodyDesktop} />
+            </span>
+            <span className="mobile">
+              <Multiline text={bodyMobile ?? bodyDesktop} />
+            </span>
+          </p>
+        )}
 
-        <div className="banner-button">
-          <Button label="Book a meeting now" />
-        </div>
+        {buttons?.length > 0 && (
+          <div className="banner-actions" data-direction={actionsDirection}>
+            {buttons.map((b, idx) => (
+              <ActionButton key={idx} {...b} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

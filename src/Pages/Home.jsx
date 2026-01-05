@@ -10,6 +10,8 @@ import Marquee from "../Components/Marquee/Marquee";
 import Hub from "../Components/Hub/Hub";
 import Location from "../Components/Location/Location";
 
+import bannerImg from "../assets/Banner.jpeg";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home({ onPhase, setNavMode }) {

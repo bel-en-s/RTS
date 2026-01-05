@@ -1,0 +1,234 @@
+/* ==========================================================
+   BannerText.css (Clean / 1 panel / no GSAP)
+   - Layout 100vh
+   - Imagen full-bleed
+   - Contenido inferior centrado
+   - Responsive 2 cols -> 1 col
+========================================================== */
+
+/* --------------------------
+   Root / sizing
+-------------------------- */
+
+.bt-root {
+    /* Tokens simples (ajustables) */
+    --bt-container: 1200px;
+    --bt-padX: clamp(16px, 4vw, 60px);
+    --bt-padTop: clamp(26px, 4vw, 60px);
+  
+    /* Alto de la imagen dentro del hero */
+    --bt-bleedH: clamp(220px, 42vh, 560px);
+  
+    /* Spacing bottom */
+    --bt-bottomPadY: clamp(18px, 3vw, 34px);
+  
+    /* 100vh robusto (mobile friendly) */
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+  
+    width: 100%;
+  }
+  
+  /* El banner ocupa todo el alto */
+  .bannerText.bt-banner {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--bt-padTop);
+  }
+  
+  /* Contenedor ancho común */
+  .bannerText__inner,
+  .bannerText__bottomInner {
+    width: min(var(--bt-container), calc(100% - 2 * var(--bt-padX)));
+    margin: 0 auto;
+  }
+  
+  /* --------------------------
+     Title
+  -------------------------- */
+  
+  .bannerText__title {
+    text-align: center;
+    margin: 0 0 clamp(12px, 2vw, 22px);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    font-size: clamp(22px, 3.4vw, 46px);
+  }
+  
+  /* Highlight (gradiente azul) */
+  .bannerText__highlight {
+    display: inline-block;
+    font-weight: 700;
+    background: linear-gradient(90deg, #4aa3ff 0%, #1b5cff 45%, #00d2ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 18px rgba(74, 163, 255, 0.22);
+  }
+  
+  /* --------------------------
+     Full-bleed image
+  -------------------------- */
+  
+  .bannerText__bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  
+    flex: 0 0 var(--bt-bleedH);
+    height: var(--bt-bleedH);
+    overflow: hidden;
+  }
+  
+  /* Imagen */
+  .bannerText__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.02);
+  }
+  
+  /* --------------------------
+     Bottom block (fills remaining height)
+  -------------------------- */
+  
+  .bannerText__bottom {
+    flex: 1;
+    display: flex;
+    padding: var(--bt-bottomPadY) 0;
+  }
+  
+  /* Centrado vertical del contenido inferior */
+  .bannerText__bottomInner {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Grid principal: izquierda / derecha */
+  .bannerText__grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.45fr;
+    gap: clamp(18px, 3vw, 48px);
+    align-items: center; /* ✅ centro vertical */
+  }
+  
+  /* --------------------------
+     Left column
+  -------------------------- */
+  
+  .bannerText__kicker {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  
+  .bannerText__h3 {
+    margin: 0;
+    font-size: clamp(24px, 3.1vw, 46px);
+    line-height: 1.06;
+    letter-spacing: 0.02em;
+    white-space: pre-line; /* respeta \n */
+  }
+  
+  /* --------------------------
+     Right column
+  -------------------------- */
+  
+  .bannerText__p {
+    margin: 0 0 18px;
+    max-width: 64ch;
+    line-height: 1.55;
+    opacity: 0.82;
+  }
+  
+  /* Listas en 2 columnas */
+  .bannerText__lists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(14px, 2.2vw, 34px);
+  }
+  
+  .bannerText__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+  
+  .bannerText__li {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+  
+  .bannerText__liText {
+    line-height: 1.35;
+    opacity: 0.92;
+    font-size: 14px;
+  }
+  
+  /* Check circular (CSS puro) */
+  .bannerText__check {
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    border: 2px solid rgba(140, 255, 180, 0.9);
+    position: relative;
+    margin-top: 1px;
+    box-shadow: 0 0 18px rgba(90, 255, 160, 0.12);
+  }
+  
+  .bannerText__check::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border-right: 2px solid rgba(140, 255, 180, 0.95);
+    border-bottom: 2px solid rgba(140, 255, 180, 0.95);
+    transform: rotate(40deg);
+  }
+  
+  /* --------------------------
+     Responsive
+  -------------------------- */
+  
+  @media (max-width: 860px) {
+    .bannerText.bt-banner {
+      padding-top: clamp(20px, 5vw, 28px);
+    }
+  
+    /* en mobile, que la imagen no se coma todo */
+    .bt-root {
+      --bt-bleedH: clamp(220px, 38vh, 420px);
+    }
+  
+    .bannerText__grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  
+    .bannerText__lists {
+      grid-template-columns: 1fr;
+    }
+  
+    .bannerText__p {
+      max-width: 100%;
+    }
+  
+    /* en mobile suele sentirse mejor que el bottom no esté “full center” */
+    .bannerText__bottomInner {
+      align-items: flex-start;
+    }
+  }
+  
