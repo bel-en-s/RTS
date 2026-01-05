@@ -1,28 +1,10 @@
-/* ==========================================================
-   BannerText.css (Clean / 1 panel / no GSAP)
-   - Layout 100vh
-   - Imagen full-bleed
-   - Contenido inferior centrado
-   - Responsive 2 cols -> 1 col
-========================================================== */
-
-/* --------------------------
-   Root / sizing
--------------------------- */
-
 .bt-root {
-    /* Tokens simples (ajustables) */
     --bt-container: 1200px;
     --bt-padX: clamp(16px, 4vw, 60px);
     --bt-padTop: clamp(26px, 4vw, 60px);
-  
-    /* Alto de la imagen dentro del hero */
     --bt-bleedH: clamp(220px, 42vh, 560px);
-  
-    /* Spacing bottom */
     --bt-bottomPadY: clamp(18px, 3vw, 34px);
   
-    /* 100vh robusto (mobile friendly) */
     min-height: 100vh;
     min-height: 100svh;
     min-height: 100dvh;
@@ -30,7 +12,6 @@
     width: 100%;
   }
   
-  /* El banner ocupa todo el alto */
   .bannerText.bt-banner {
     min-height: 100%;
     display: flex;
@@ -38,16 +19,11 @@
     padding-top: var(--bt-padTop);
   }
   
-  /* Contenedor ancho común */
   .bannerText__inner,
   .bannerText__bottomInner {
     width: min(var(--bt-container), calc(100% - 2 * var(--bt-padX)));
     margin: 0 auto;
   }
-  
-  /* --------------------------
-     Title
-  -------------------------- */
   
   .bannerText__title {
     text-align: center;
@@ -57,7 +33,6 @@
     font-size: clamp(22px, 3.4vw, 46px);
   }
   
-  /* Highlight (gradiente azul) */
   .bannerText__highlight {
     display: inline-block;
     font-weight: 700;
@@ -68,10 +43,6 @@
     text-shadow: 0 0 18px rgba(74, 163, 255, 0.22);
   }
   
-  /* --------------------------
-     Full-bleed image
-  -------------------------- */
-  
   .bannerText__bleed {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -79,10 +50,11 @@
   
     flex: 0 0 var(--bt-bleedH);
     height: var(--bt-bleedH);
+  
+    position: relative;
     overflow: hidden;
   }
   
-  /* Imagen */
   .bannerText__img {
     width: 100%;
     height: 100%;
@@ -92,34 +64,27 @@
     transform: scale(1.02);
   }
   
-  /* --------------------------
-     Bottom block (fills remaining height)
-  -------------------------- */
-  
   .bannerText__bottom {
     flex: 1;
     display: flex;
     padding: var(--bt-bottomPadY) 0;
   }
   
-  /* Centrado vertical del contenido inferior */
+  /* ✅ CLAVE: esto hace que el overlay del panel B se posicione bien */
   .bannerText__bottomInner {
     display: flex;
     align-items: center;
+    position: relative; /* <-- IMPORTANTÍSIMO */
   }
   
-  /* Grid principal: izquierda / derecha */
+  /* Grid principal */
   .bannerText__grid {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1.45fr;
     gap: clamp(18px, 3vw, 48px);
-    align-items: center; /* ✅ centro vertical */
+    align-items: center;
   }
-  
-  /* --------------------------
-     Left column
-  -------------------------- */
   
   .bannerText__kicker {
     margin: 0 0 10px;
@@ -134,12 +99,8 @@
     font-size: clamp(24px, 3.1vw, 46px);
     line-height: 1.06;
     letter-spacing: 0.02em;
-    white-space: pre-line; /* respeta \n */
+    white-space: pre-line;
   }
-  
-  /* --------------------------
-     Right column
-  -------------------------- */
   
   .bannerText__p {
     margin: 0 0 18px;
@@ -148,7 +109,11 @@
     opacity: 0.82;
   }
   
-  /* Listas en 2 columnas */
+  .bt-preline {
+    white-space: pre-line;
+  }
+  
+  /* Listas */
   .bannerText__lists {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -176,7 +141,6 @@
     font-size: 14px;
   }
   
-  /* Check circular (CSS puro) */
   .bannerText__check {
     width: 18px;
     height: 18px;
@@ -199,16 +163,45 @@
     transform: rotate(40deg);
   }
   
-  /* --------------------------
-     Responsive
-  -------------------------- */
+  /* =========================
+     GSAP: wipe + overlays
+  ========================= */
   
+  /* overlay del wipe (clip-path animado) */
+  .bt-wipe {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    will-change: clip-path;
+  
+    clip-path: inset(100% 0% 0% 0%);
+    -webkit-clip-path: inset(100% 0% 0% 0%);
+  }
+  
+  /* si querés, por claridad */
+  .bannerText__img--base {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* ✅ overlays de contenido */
+  .bt-content {
+    width: 100%;
+  }
+  
+  .bt-content--b {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  
+  /* Responsive */
   @media (max-width: 860px) {
     .bannerText.bt-banner {
       padding-top: clamp(20px, 5vw, 28px);
     }
   
-    /* en mobile, que la imagen no se coma todo */
     .bt-root {
       --bt-bleedH: clamp(220px, 38vh, 420px);
     }
@@ -226,7 +219,6 @@
       max-width: 100%;
     }
   
-    /* en mobile suele sentirse mejor que el bottom no esté “full center” */
     .bannerText__bottomInner {
       align-items: flex-start;
     }
