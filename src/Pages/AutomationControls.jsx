@@ -34,26 +34,26 @@ const items = [
     id: "p2",
     title: "Control System Design & Integration",
     body:
-      "We design robust architectures, panel layouts, IO strategies, and integration plans—ensuring reliable operation across the entire control stack.",
+      "We provide expert guidance to help clients select, design, and integrate control systems that align with best industry practices. Our expertise covers all DCS and PLC platforms, robust system architectures, and network communications based on industry-standard protocols.",
   },
   {
     id: "p3",
     title: "System Migration & Virtualization",
     body:
-      "We modernize legacy systems, migrate platforms safely, and implement virtualization strategies to improve resiliency, maintainability, and scalability.",
+      "We deliver migration strategies and virtualization solutions that extend system lifecycles, reduce risks, and optimize performance.",
   },
   {
     id: "p4",
     title: "HMI Design & Virtualization",
     body:
-      "We craft clean, operator-friendly HMIs and deploy virtualization solutions for consistent access, easier maintenance, and standardized operations.",
+      "We design and implement high-performance HMI solutions tailored to the specific needs of each industry and process environment.",
   },
 ];
 
 const tableRows = [
   {
     c1: "Experion Architecture\n& Control System",
-    c2: "We build, expand, and sustain control architectures across the entire Honeywell Experion ecosystem.",
+    c2: "We provide expert guidance to help clients select, design, and ",
     c3: "From system design to logic configuration and safety integration, RTS engineers ensure seamless performance across PKS, TPS, and ControlEdge environments.",
     c4: ["Experion PKS", "TPS", "Control Edge", "Safety Manager"],
   },
@@ -143,7 +143,7 @@ export default function AutomationControls({ setNavMode }) {
 
   return (
     <main className="automation-page">
-      {/* HERO */}
+    
       <section className="layout-automation">
         <div className="automation-hero">
           <h1 className="display-lg">
@@ -165,16 +165,23 @@ export default function AutomationControls({ setNavMode }) {
         </div>
       </section>
 
-      {/* EXPERTISE */}
+
       <section className="automation-expertiseSection">
         <div className="automation-expertiseLeft">
-          <p className="title-medium">
+          <p className="title-medium desktop">
             Devoted to maintaining, innovating,
             <br /> and enhancing industrial control <br />
             systems, we engineer projects across <br /> various industries.
           </p>
 
+            <p className="title-medium mobile">
+            Devoted to maintaining, innovating,
+           and enhancing  <br /> industrial control 
+            systems,<br /> we engineer projects across <br /> various industries.
+          </p>
+
           <ApproachButton label="Book a meeting now" />
+      
         </div>
 
         <div className="automation-expertiseRight">
@@ -197,7 +204,7 @@ export default function AutomationControls({ setNavMode }) {
           <div className="honeywellElite__inner">
      
             <div className="honeywellElite__left">
-              <h2 className="honeywellElite__title">
+              <h2 className="honeywellElite__title headline-medium">
                 <span className="highlight-violet">HONEYWELL</span>
                 <br />
                 ELITE TEAM
@@ -217,7 +224,7 @@ export default function AutomationControls({ setNavMode }) {
 
     
             <div className="honeywellElite__right">
-              <p className="honeywellElite__lead">
+              <p className="honeywellElite__lead title-medium">
                 This team ensures that every customer using Honeywell technologies benefits from
                 world-class expertise and global support.
               </p>

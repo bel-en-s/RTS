@@ -28,10 +28,11 @@
   .subtitle-hero--mobile{ display: none; }
   
 
-.automation-expertiseSection {
-  padding: clamp(52px, 10vh, 120px) var(--margin-desktop);
+.automation-expertiseSection{
+  padding: clamp(52px, 10vh, 180px) var(--margin-desktop);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
   gap: clamp(22px, 5vw, 80px);
   align-items: start;
 }
@@ -175,6 +176,9 @@
   .engineeringCard {
     min-height: unset;
   }
+  .automation-expertiseRight {
+    margin-top: 80px;
+}
 }
 
 
@@ -240,8 +244,7 @@
     height: auto;
     display: block;
     border-radius: 22px;
-    /* un toque “premium” sin ensuciar */
-    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.10);
+
   }
   
   .honeywellElite__right {

@@ -198,6 +198,10 @@
   
   /* Responsive */
   @media (max-width: 860px) {
+      .bannerText__title {
+display: none;
+  }
+  
     .bannerText.bt-banner {
       padding-top: clamp(20px, 5vw, 28px);
     }

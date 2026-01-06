@@ -106,7 +106,7 @@ export default function Home({ onPhase, setNavMode }) {
      <Banner
         variant="image"
         backgroundImage={bannerImg}
-        titleClassName="display-md"
+        titleClassName="display-medium"
         titleDesktop={"LET'S SPARK YOUR\nINDUSTRIAL BRILLIANCE"}
         titleMobile={"LET'S SPARK\nYOUR INDUSTRIAL\nBRILLIANCE"}
         bodyDesktop={
@@ -118,7 +118,7 @@ export default function Home({ onPhase, setNavMode }) {
         buttons={[
           { label: "Book a meeting now", href: "#book", variant: "primary" },
         ]}
-        start="top top"  // importante si está arriba (hero)
+        start="top top"
       />
 
     </>

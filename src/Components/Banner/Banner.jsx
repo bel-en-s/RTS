@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -42,19 +43,6 @@ function ActionButton({ label, href, onClick, variant = "primary", download }) {
   );
 }
 
-/**
- * Banner reutilizable
- *
- * Props:
- * - variant: "image" | "glow"
- * - backgroundImage: import de imagen (string)
- * - titleDesktop / titleMobile: string con \n
- * - bodyDesktop / bodyMobile: string con \n (opcional)
- * - buttons: [{ label, href?, onClick?, variant?: "primary"|"outline"|"ghost", download?: boolean }]
- * - start: ScrollTrigger start (opcional)
- * - titleClassName: clase tipográfica (ej: "headline-medium")
- * - actionsDirection: "row" | "column"
- */
 export default function Banner({
   variant = "image",
   backgroundImage,
@@ -67,7 +55,12 @@ export default function Banner({
   buttons = [],
   start = "top 85%",
 
-  titleClassName = "headline-md",
+  titleClassName = "headline-medium",
+  titleMobileClassName = "headline-small",
+
+  bodyClassName = "body-lg",
+  bodyMobileClassName = "body-lg",
+
   actionsDirection = "row",
 }) {
   const rootRef = useRef(null);
@@ -148,7 +141,10 @@ export default function Banner({
   const isGlow = variant === "glow";
 
   return (
-    <section className={`banner ${isGlow ? "banner--glow" : "banner--image"}`} ref={rootRef}>
+    <section
+      className={`banner ${isGlow ? "banner--glow" : "banner--image"}`}
+      ref={rootRef}
+    >
       {backgroundImage && (
         <div
           className="banner-bg"
@@ -158,21 +154,23 @@ export default function Banner({
       )}
 
       <div className="banner-inner">
-        <h2 className={`banner-title ${titleClassName}`}>
-          <span className="desktop">
+        <h2 className="banner-title">
+          <span className={`banner-titleDesktop desktop ${titleClassName}`}>
             <Multiline text={titleDesktop} />
           </span>
-          <span className="mobile">
+
+          <span className={`banner-titleMobile mobile ${titleMobileClassName}`}>
             <Multiline text={titleMobile ?? titleDesktop} />
           </span>
         </h2>
 
         {(bodyDesktop || bodyMobile) && (
-          <p className="banner-body body-lg">
-            <span className="desktop">
+          <p className="banner-body">
+            <span className={`banner-bodyDesktop desktop ${bodyClassName}`}>
               <Multiline text={bodyDesktop} />
             </span>
-            <span className="mobile">
+
+            <span className={`banner-bodyMobile mobile ${bodyMobileClassName}`}>
               <Multiline text={bodyMobile ?? bodyDesktop} />
             </span>
           </p>
@@ -189,3 +187,4 @@ export default function Banner({
     </section>
   );
 }
+
