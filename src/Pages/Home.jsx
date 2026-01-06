@@ -103,7 +103,24 @@ export default function Home({ onPhase, setNavMode }) {
         <Location/>
       </div>
 
-      <Banner />
+     <Banner
+        variant="image"
+        backgroundImage={bannerImg}
+        titleClassName="display-md"
+        titleDesktop={"LET'S SPARK YOUR\nINDUSTRIAL BRILLIANCE"}
+        titleMobile={"LET'S SPARK\nYOUR INDUSTRIAL\nBRILLIANCE"}
+        bodyDesktop={
+          "Every challenge is an opportunity. Share yours, and\nlet’s explore how to bring your vision to life."
+        }
+        bodyMobile={
+          "Every challenge is an opportunity.\nShare yours, and let’s explore how to\nbring your vision to life."
+        }
+        buttons={[
+          { label: "Book a meeting now", href: "#book", variant: "primary" },
+        ]}
+        start="top top"  // importante si está arriba (hero)
+      />
+
     </>
   );
 }

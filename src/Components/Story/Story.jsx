@@ -106,20 +106,26 @@ export default function Story({ setNavMode }) {
         <h4 className="story-subtitle">OUR STORY</h4>
 
         <div className="story-panel panel-1">
-          <h2 className="story-title headline-medium">
+          <h2 className="story-title desktop headline-medium">
             RTS WAS BORN IN THE <br />
             WORLD OF OPERATIONAL <br />
             TECHNOLOGY
           </h2>
 
-          <p className="story-body story-desktop">
+           <h2 className="story-title mobile headline-small">
+            RTS WAS BORN IN THE <br />
+            WORLD OF OPERATIONAL <br />
+            TECHNOLOGY
+          </h2>
+
+          <p className="story-body desktop">
             — and evolved to 
             engineer <br />the future 
             through curated <br />
             industrial innovation.
           </p>
 
-          <p className="story-body story-mobile">
+          <p className="story-body mobile">
             — and evolved to <br />
             engineer the future <br />
             through curated <br />
@@ -128,7 +134,13 @@ export default function Story({ setNavMode }) {
         </div>
 
         <div className="story-panel panel-2 story-mobile">
-          <h2 className="story-title headline-medium ">
+          <h2 className="story-title headline-medium desktop">
+            OUR STORY ISN’T <br /> ONE OF CHANGE, <br />
+            BUT OF CONTINUOUS <br />
+            EVOLUTION
+          </h2>
+
+           <h2 className="story-title headline-small mobile ">
             OUR STORY ISN’T <br /> ONE OF CHANGE, <br />
             BUT OF CONTINUOUS <br />
             EVOLUTION

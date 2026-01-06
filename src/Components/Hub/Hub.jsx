@@ -128,7 +128,13 @@ export default function HUB() {
   return (
     <section className="hub-section" id="hub" ref={rootRef}>
       <div className="hub-fixed-header">
-        <h2 className="hub-title headline-medium">
+        <h2 className="hub-title headline-medium desktop">
+          <span className="gradient-text">RTS HUB</span> IS OUR LABORATORY
+          <br />
+          OF IDEAS AND EXECUTION
+        </h2>
+
+        <h2 className="hub-title headline-small mobile">
           <span className="gradient-text">RTS HUB</span> IS OUR LABORATORY
           <br />
           OF IDEAS AND EXECUTION

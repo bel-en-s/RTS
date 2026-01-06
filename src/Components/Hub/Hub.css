@@ -56,7 +56,7 @@
   }
 
   .hub-fixed-header {
-    margin-top: 4vh;
+    margin-top: 0vh;
     left: var(--margin-mobile);
     right: var(--margin-mobile);
   }

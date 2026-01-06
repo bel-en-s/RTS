@@ -1,8 +1,6 @@
 
 
-/* =========================================================
-   ROOT VARIABLES
-========================================================= */
+
 :root {
   --font-base: "Geist", sans-serif;
   --font-display: "Neue Power Ultra", sans-serif;
@@ -70,6 +68,19 @@
   --itle-line: 110%;
   --title-space: -0.01em;
 }
+
+/* =========================================================
+   RESPONSIVE VISIBILITY (GLOBAL)
+========================================================= */
+
+.desktop { display: block !important; }
+.mobile  { display: none !important; }
+
+@media (max-width: 820px) {
+  .desktop { display: none !important; }
+  .mobile  { display: block !important; }
+}
+
 
 /* .title-body {
   font-size: var(--title-size);
