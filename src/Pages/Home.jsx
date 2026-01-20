@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import Molecule from '../Components/molecule/Molecule'
 import Hero from "../Components/Hero/Hero";
 import HorizontalCarousel from "../Components/Carousel/HorizontalCarousel";
 import Story from "../Components/Story/Story";
@@ -91,6 +91,17 @@ export default function Home({ onPhase, setNavMode }) {
 
   return (
     <>
+      <div className="canvas-container" style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100vh",
+        zIndex: -1,
+        backgroundColor: "#000000ff"
+      }}>
+        <Molecule />
+      </div>
       <Hero onPhase={onPhase} />
       <div className="hero-outro-spacer" />
 
@@ -100,10 +111,10 @@ export default function Home({ onPhase, setNavMode }) {
       <div ref={whiteBlockRef}>
         <Story setNavMode={setNavMode} />
         <Hub />
-        <Location/>
+        <Location />
       </div>
 
-     <Banner
+      <Banner
         variant="image"
         backgroundImage={bannerImg}
         titleClassName="display-medium"
