@@ -122,6 +122,22 @@ export default function App() {
 
       <Transition ref={transitionRef} enabled={loaderDone} lenisRef={lenisRef}>
         <Navbar navMode={navMode} />
+          <Canvas
+        camera={{ position: [0, 0, 8], fov: 45 }}
+        style={{ position: "fixed", inset: 0, zIndex: 0 }}
+      >
+        {/* <LenisRaf /> */}
+
+    
+        <Scene scroll={scroll} phase={phase} />
+
+        <EffectComposer multisampling={0}>
+          <Noise opacity={0.2} />
+          <Bloom intensity={0.8} luminanceThreshold={0.2} />
+          <Fluid radius={0.08} force={0.8} swirl={0.8} fluidColor="#000" blend={0} curl={0.8} distortion={0.86} />
+          <Vignette darkness={0.85} />
+        </EffectComposer>
+      </Canvas>
         <FloatingNode phase={phase} />
 
         <div className="main-container">
