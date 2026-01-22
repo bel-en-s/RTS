@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
+      - working
       - WORKING
   workflow_dispatch:
 
